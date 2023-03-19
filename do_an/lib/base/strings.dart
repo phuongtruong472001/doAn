@@ -63,4 +63,9 @@ class AppString {
   static const String overview = "Tổng quan";
   static const String transactionBook = "Sổ giao dịch";
   static const String planning = "Lập kế hoạch";
+  static const String myWallet = "Ví của tôi";
+  static const String viewAll = "Xem tất cả";
+  static const String viewReport = "Xem báo cáo";
+  static const String spendingReport = "Báo cáo chi tiêu";
+
 }
