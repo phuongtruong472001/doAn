@@ -28,6 +28,8 @@ class AppString {
   static const String thisWeek = "Tuần này";
   static const String lastWeek = 'Tuần trước';
   static const String thisMonth = 'Tháng này';
+  static const String lastMonth = 'Tháng trước';
+  static const String future = 'Tương lai';
   static const String thisYear = "Năm nay";
   static const String wholeYear = "Cả năm";
   static const String optional = "Tùy chọn";
@@ -67,5 +69,9 @@ class AppString {
   static const String viewAll = "Xem tất cả";
   static const String viewReport = "Xem báo cáo";
   static const String spendingReport = "Báo cáo chi tiêu";
+
+  //transaction
+  static const String balance = "Số dư";
+  static const String total = "Tổng cộng ";
 
 }

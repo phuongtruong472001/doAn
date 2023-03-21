@@ -11,12 +11,11 @@ class CardBase extends StatelessWidget {
   bool getShadow;
 
   CardBase(
-    this.child, {
-    super.key,
+    this.child, {Key? key, 
     this.backgroundColor,
     this.borderRadius,
     this.getShadow = true,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

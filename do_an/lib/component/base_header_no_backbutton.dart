@@ -4,13 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class BaseHeaderNoBackButton extends StatelessWidget {
-  const BaseHeaderNoBackButton({
-    super.key,
+  const BaseHeaderNoBackButton({Key? key, 
+    
     required this.content,
     this.icon,
     this.title,
     this.function,
-  });
+  }) : super(key: key);
   final String content;
   final IconData? icon;
   final String? title;

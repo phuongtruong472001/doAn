@@ -3,17 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../base/colors.dart';
-import '../base/dimen.dart';
 
 class SpaceBetweenLetter extends StatelessWidget {
   final String title;
   final String subTitle;
 
   const SpaceBetweenLetter({
-    super.key,
+    Key? key,
     required this.title,
     required this.subTitle,
-  });
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Row(

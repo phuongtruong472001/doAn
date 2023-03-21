@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 
-class BottomNavigationBarHomeController extends GetxController {
-  RxInt indexTab = 1.obs;
+class TracsactionController extends GetxController {
+  RxInt indexTab = 0.obs;
   @override
   void onInit() {
     super.onInit();

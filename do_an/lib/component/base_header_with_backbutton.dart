@@ -1,7 +1,4 @@
-import 'package:do_an/base/strings.dart';
-import 'package:do_an/component/show_popup.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 class BaseHeaderWithBackButton extends StatelessWidget {
   final String content;
@@ -13,13 +10,13 @@ class BaseHeaderWithBackButton extends StatelessWidget {
   final Function? function;
 
   const BaseHeaderWithBackButton(
-      {super.key,
+      {Key? key, 
       required this.content,
       required this.child,
       this.title,
       this.exitTitle,
       this.notCheck,
-      this.function});
+      this.function}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
