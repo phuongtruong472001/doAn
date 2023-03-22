@@ -7,8 +7,8 @@ import '../base/colors.dart';
 class ItemCard extends StatelessWidget {
   ItemCard(
     this.icon,
-    this.content, {Key? key, 
-    
+    this.content, {
+    Key? key,
     this.title,
     this.subTitle,
     this.color,

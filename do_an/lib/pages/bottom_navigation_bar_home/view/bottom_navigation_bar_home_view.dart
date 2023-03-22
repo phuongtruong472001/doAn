@@ -3,6 +3,8 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:do_an/base/colors.dart';
 import 'package:do_an/base/icons.dart';
 import 'package:do_an/base/strings.dart';
+import 'package:do_an/pages/notification/view/notification_view.dart';
+import 'package:do_an/pages/profile/view/profile_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -38,8 +40,8 @@ class BottomNavigationBarHomePage
     const pages = <Widget>[
       HomePage(),
       TracsactionPage(),
-      HomePage(),
-      HomePage(),
+      NotificationPage(),
+      ProfilePage(),
     ];
     buildBody(int value) {
       return pages[value];
@@ -49,18 +51,12 @@ class BottomNavigationBarHomePage
       () => Scaffold(
         body: buildBody(controller.indexTab.value),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        floatingActionButton: Ink(
-          decoration: const ShapeDecoration(
-            color: Colors.blue,
-            shape: CircleBorder(),
-          ),
-          child: IconButton(
-            onPressed: () {},
-            icon: const Icon(
-              Icons.add,
-              color: kPrimaryLightColor,
-            ),
-          ),
+        floatingActionButton: FloatingActionButton.small(
+          onPressed: () {
+            // Add your onPressed code here!
+          },
+          backgroundColor: kPrimaryColor,
+          child: Icon(Icons.add),
         ),
         bottomNavigationBar: AnimatedBottomNavigationBar.builder(
           itemCount: 4,

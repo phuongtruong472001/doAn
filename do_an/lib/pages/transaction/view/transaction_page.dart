@@ -1,11 +1,11 @@
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:contained_tab_bar_view_with_custom_page_navigator/contained_tab_bar_view_with_custom_page_navigator.dart';
+import 'package:do_an/base/colors.dart';
 import 'package:do_an/base/dimen.dart';
 import 'package:do_an/base/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../controller/bottom_navigation_bar_home_controller.dart';
+import '../controller/transaction_controller.dart';
 
 const int AN_UONG = 0;
 // ignore: constant_identifier_names
@@ -18,97 +18,105 @@ class TracsactionPage extends GetView<TracsactionController> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        //mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Container(
-              decoration: const BoxDecoration(
-                color: Colors.white,
-              ),
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const SizedBox(
-                        width: 40,
-                      ),
-                      Column(
-                        children: [
-                          Column(
-                            children:  const[
-                              AutoSizeText(AppString.balance),
-                              Text(
-                                '-8,700,000 đ',
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              )
-                            ],
-                          ),
-                          Container(
-                            padding: const EdgeInsets.all(5),
-                            decoration: BoxDecoration(
-                                color: const Color.fromARGB(255, 200, 200, 200),
-                                borderRadius: BorderRadius.circular(5)),
-                            child: Row(
+    Get.put(TracsactionController());
+    return DefaultTabController(
+      initialIndex: 1,
+      length: 3,
+      child: SingleChildScrollView(
+        child: Column(
+          //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Container(
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                ),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const SizedBox(
+                          width: 40,
+                        ),
+                        Column(
+                          children: [
+                            Column(
                               children: const [
-                                Icon(Icons.public),
-                                AutoSizeText(AppString.total,
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold)),
-                                Icon(Icons.arrow_drop_down)
+                                AutoSizeText(AppString.balance),
+                                Text(
+                                  '-8,700,000 đ',
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                )
                               ],
                             ),
-                          )
-                        ],
-                      ),
-                      Container(
-                        alignment: Alignment.topRight,
-                        child: Row(children: [
-                          Container(
-                              margin: const EdgeInsets.all(5),
-                              child: const Icon(Icons.search)),
-                          Container(
-                              margin: const EdgeInsets.all(5),
-                              child: const Icon(Icons.more_vert)),
-                        ]),
-                      )
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      ContainedTabBarView(
-                        tabs: const[
+                            Container(
+                              padding: const EdgeInsets.all(5),
+                              decoration: BoxDecoration(
+                                  color:
+                                      const Color.fromARGB(255, 200, 200, 200),
+                                  borderRadius: BorderRadius.circular(5)),
+                              child: Row(
+                                children: const [
+                                  Icon(
+                                    Icons.public,
+                                    color: kPrimaryColor,
+                                  ),
+                                  AutoSizeText(
+                                    AppString.total,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Icon(
+                                    Icons.arrow_drop_down,
+                                  )
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
+                        Container(
+                          alignment: Alignment.topRight,
+                          child: Row(children: [
+                            Container(
+                                margin: const EdgeInsets.all(5),
+                                child: const Icon(Icons.search)),
+                            Container(
+                                margin: const EdgeInsets.all(5),
+                                child: const Icon(Icons.more_vert)),
+                          ]),
+                        )
+                      ],
+                    ),
+                    SizedBox(
+                      height: 50,
+                      child: TabBar(
+                        tabs: const [
                           AutoSizeText(AppString.lastMonth),
                           AutoSizeText(AppString.thisMonth),
                           AutoSizeText(AppString.future),
                         ],
-                        views: [
-                          Container(color: Colors.red),
-                          Container(color: Colors.green),
-                          Container(color: Colors.blue)
-                        ],
-                        onChange: (index) => print(index),
+                        onTap: (value) => controller.onTapped(value),
+                        labelColor: kPrimaryColor,
+                        unselectedLabelColor: kSecondaryColor,
                       ),
-                      
-                    ],
-                  )
-                ],
-              )),
-          Container(
-            decoration: const BoxDecoration(color: Colors.white),
-            child: Column(children: [
-              moneyOfDate('Thứ năm', 16, 3, 2023, '-7,700,000'),
-              spending(AN_UONG, 'với a Tài & 2 người khác', '500,000'),
-              spending(AN_UONG, '', '5,000,000'),
-              spending(LUONG, '', '8,000,000'),
-              spending(TRA_NO, 'Trả nợ cho ai đó', '10,000,000'),
-              spending(AN_UONG, '', '200,000')
-            ]),
-          ),
-        ],
-      ).paddingAll(defaultPadding),
+                    )
+                  ],
+                )),
+            Container(
+              decoration: const BoxDecoration(color: Colors.white),
+              child: Column(children: [
+                moneyOfDate('Thứ năm', 16, 3, 2023, '-7,700,000'),
+                spending(AN_UONG, 'với a Tài & 2 người khác', '500,000'),
+                spending(AN_UONG, '', '5,000,000'),
+                spending(LUONG, '', '8,000,000'),
+                spending(TRA_NO, 'Trả nợ cho ai đó', '10,000,000'),
+                spending(AN_UONG, '', '200,000')
+              ]),
+            ),
+          ],
+        ).paddingAll(defaultPadding),
+      ),
     );
   }
 

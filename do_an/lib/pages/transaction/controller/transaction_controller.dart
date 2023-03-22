@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 
 class TracsactionController extends GetxController {
-  RxInt indexTab = 0.obs;
+  RxInt indexTabbar = 0.obs;
   @override
   void onInit() {
     super.onInit();
@@ -16,6 +16,6 @@ class TracsactionController extends GetxController {
   }
 
   void onTapped(int index) {
-    indexTab.value = index;
+    indexTabbar.value = index;
   }
 }
