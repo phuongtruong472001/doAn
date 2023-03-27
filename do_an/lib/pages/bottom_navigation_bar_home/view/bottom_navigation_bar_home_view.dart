@@ -5,6 +5,7 @@ import 'package:do_an/base/icons.dart';
 import 'package:do_an/base/strings.dart';
 import 'package:do_an/pages/notification/view/notification_view.dart';
 import 'package:do_an/pages/profile/view/profile_view.dart';
+import 'package:do_an/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -53,10 +54,10 @@ class BottomNavigationBarHomePage
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         floatingActionButton: FloatingActionButton.small(
           onPressed: () {
-            // Add your onPressed code here!
+            Get.toNamed(AppRoutes.createTransaction);
           },
           backgroundColor: kPrimaryColor,
-          child: Icon(Icons.add),
+          child: const Icon(Icons.add),
         ),
         bottomNavigationBar: AnimatedBottomNavigationBar.builder(
           itemCount: 4,
