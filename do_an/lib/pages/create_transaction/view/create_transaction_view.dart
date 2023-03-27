@@ -1,4 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:do_an/base/dimen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -21,15 +22,44 @@ class CreateTransactionPage extends GetView<CreateTransactionController> {
         child: Column(
           children: [
             InputTextWithLabel(
-      buildInputText: InputTextModel(
-                controller: controller.descriptionController,
-                currentNode: controller.descriptionNode,
-                hintText: CustomerDetailString.hintCusDescription,
-                iconNextTextInputAction: TextInputAction.done,
-                submitFunc: (v) => controller.importCustomer(),
+              buildInputText: BuildInputText(
+                InputTextModel(
+                  controller: controller.valueController.value,
+                  //currentNode: controller.descriptionNode,
+                  hintText: "Nhập số tiền",
+                  iconNextTextInputAction: TextInputAction.done,
+                  submitFunc: (v) => {},
+                ),
               ),
-      label: "",)
+              label: "Số tiền",
+            ),
+            InputTextWithLabel(
+              buildInputText: BuildInputText(
+                InputTextModel(
+                  controller: controller.categoryController.value,
+                  // currentNode: controller.descriptionNode,
+                  hintText: "Chọn Nhóm",
+                  iconNextTextInputAction: TextInputAction.done,
+                  submitFunc: (v) => {},
+                ),
+              ),
+              label: "",
+            ),
+            InputTextWithLabel(
+              buildInputText: BuildInputText(
+                InputTextModel(
+                  controller: controller.noteController.value,
+                  //currentNode: controller.descriptionNode,
+                  hintText: "",
+                  iconNextTextInputAction: TextInputAction.done,
+                  submitFunc: (v) => {},
+                ),
+              ),
+              label: "",
+            )
           ],
+        ).paddingSymmetric(
+          horizontal: defaultPadding,
         ),
       ),
     );
