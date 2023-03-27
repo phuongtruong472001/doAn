@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
+import '../Enum/input_formatter_enum.dart';
 import '../base/dimen.dart';
 
 class InputTextWithLabel extends StatelessWidget {
@@ -40,7 +41,7 @@ class InputTextWithLabel extends StatelessWidget {
                 Flexible(
                   child: AutoSizeText(
                     label,
-                    style: textStyle ?? Get.textTheme.bodyText2,
+                    style: textStyle ?? Get.textTheme.bodyText1,
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -98,10 +99,10 @@ class _BuildInputTextState extends State<BuildInputText> {
       //     FilteringTextInputFormatter.allow(RegExp(r'[0-9-]')),
       //     MaskedInputFormatter('##########-###')
       //   ];
-      // case InputFormatterEnum.textOnly:
-      //   return [
-      //     FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9-_\.]')),
-      //   ];
+      case InputFormatterEnum.textOnly:
+        return [
+          FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9-_\.]')),
+        ];
       // case InputFormatterEnum.currency:
       //   return [
       //     NumericTextFormatter(),
@@ -130,9 +131,7 @@ class _BuildInputTextState extends State<BuildInputText> {
       //   ];
       default:
         return [
-          FilteringTextInputFormatter.allow(RegExp(r'[0-9-]')),
-          // LengthLimitingTextFieldFormatterFixed(
-          //     widget.inputTextFormModel.maxLengthInputForm)
+          FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9-_\.]')),
         ];
     }
   }
@@ -223,8 +222,7 @@ class _BuildInputTextState extends State<BuildInputText> {
             fillColor:
                 widget.inputTextFormModel.fillColor ?? kPrimaryLightColor,
             hintStyle: TextStyle(
-              fontSize:
-                  widget.inputTextFormModel.hintTextSize ?? sizeTextMedium,
+              fontSize: widget.inputTextFormModel.hintTextSize ?? sizeTextSmall,
               color: widget.inputTextFormModel.hintTextColor ?? kSecondaryColor,
             ),
             hintText: widget.inputTextFormModel.hintText,
