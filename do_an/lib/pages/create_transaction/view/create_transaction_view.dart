@@ -4,7 +4,7 @@ import 'package:do_an/base/dimen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../Enum/input_formatter_enum.dart';
+import '../../../enum/input_formatter_enum.dart';
 import '../../../component/base_input_with_label.dart';
 import '../../../component/input_text_form_field_model.dart';
 import '../controller/create_transaction_controller.dart';
@@ -61,16 +61,26 @@ class CreateTransactionPage extends GetView<CreateTransactionController> {
                 ),
                 label: "Ghi chú",
               ),
-              Card(
-                child: ListTile(
-                  leading: const Icon(Icons.book),
-                  trailing: AutoSizeText(
-                    "Chọn danh mục",
-                    style:
-                        Get.textTheme.bodyText2!.copyWith(color: kPrimaryColor),
+              GestureDetector(
+                onTap: () => controller.chooseCategory(),
+                child: Card(
+                  child: Obx(
+                    () => ListTile(
+                      leading: const Icon(Icons.book),
+                      trailing: AutoSizeText(
+                        "Chọn danh mục",
+                        style: Get.textTheme.bodyText2!
+                            .copyWith(color: kPrimaryColor),
+                      ),
+                      title: AutoSizeText(
+                          controller.transaction.value.categoryId == 0
+                              ? ""
+                              : controller.transaction.value.categoryId
+                                  .toString()),
+                    ),
                   ),
-                ),
-              ).paddingSymmetric(vertical: paddingSmall),
+                ).paddingSymmetric(vertical: paddingSmall),
+              ),
               Card(
                 child: ListTile(
                   leading: const Icon(Icons.date_range),

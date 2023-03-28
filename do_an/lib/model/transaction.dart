@@ -10,13 +10,13 @@ class Transaction {
   DateTime? executionTime;
   int? fundID;
   Transaction({
-    this.id,
-    this.value,
-    this.desciption,
-    this.eventId,
-    this.categoryId,
+    this.id=0,
+    this.value=0,
+    this.desciption="",
+    this.eventId=0,
+    this.categoryId=0,
     this.executionTime,
-    this.fundID,
+    this.fundID=0,
   });
 
   Map<String, dynamic> toMap() {

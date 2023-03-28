@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
-import '../Enum/input_formatter_enum.dart';
+import '../enum/input_formatter_enum.dart';
 import '../base/dimen.dart';
 
 class InputTextWithLabel extends StatelessWidget {
