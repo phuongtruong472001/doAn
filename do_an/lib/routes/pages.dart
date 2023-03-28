@@ -4,6 +4,8 @@ import 'package:do_an/pages/bottom_navigation_bar_home/binding/bottom_navigation
 import 'package:do_an/pages/bottom_navigation_bar_home/view/bottom_navigation_bar_home_view.dart';
 import 'package:do_an/pages/create_transaction/binding/create_transaction_binding.dart';
 import 'package:do_an/pages/create_transaction/view/create_transaction_view.dart';
+import 'package:do_an/pages/detail_transaction/binding/detail_transaction_binding.dart';
+import 'package:do_an/pages/detail_transaction/view/detail_transaction_view.dart';
 import 'package:do_an/pages/home/binding/home_binding.dart';
 import 'package:do_an/pages/home/view/home_view.dart';
 import 'package:get/get.dart';
@@ -26,6 +28,11 @@ class RoutePage {
       name: AppRoutes.createTransaction,
       page: () => const CreateTransactionPage(),
       binding: CreateTransactionBinding(),
+    ),
+    GetPage(
+      name: AppRoutes.detailTransaction,
+      page: () => const DetailTransactionPage(),
+      binding: DetailTransactionBinding(),
     ),
   ];
 }

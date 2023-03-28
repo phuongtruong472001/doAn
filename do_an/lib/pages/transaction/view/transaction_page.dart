@@ -5,6 +5,7 @@ import 'package:do_an/base/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../routes/routes.dart';
 import '../controller/transaction_controller.dart';
 
 const int AN_UONG = 0;
@@ -19,6 +20,12 @@ class TracsactionPage extends GetView<TracsactionController> {
   @override
   Widget build(BuildContext context) {
     Get.put(TracsactionController());
+    var listItem = [
+      spending(AN_UONG, '', '5,000,000'),
+      spending(LUONG, '', '8,000,000'),
+      spending(TRA_NO, 'Trả nợ cho ai đó', '10,000,000'),
+      spending(AN_UONG, '', '200,000')
+    ];
     return DefaultTabController(
       initialIndex: 1,
       length: 3,
@@ -103,16 +110,10 @@ class TracsactionPage extends GetView<TracsactionController> {
                     )
                   ],
                 )),
-            Container(
-              decoration: const BoxDecoration(color: Colors.white),
-              child: Column(children: [
-                moneyOfDate('Thứ năm', 16, 3, 2023, '-7,700,000'),
-                spending(AN_UONG, 'với a Tài & 2 người khác', '500,000'),
-                spending(AN_UONG, '', '5,000,000'),
-                spending(LUONG, '', '8,000,000'),
-                spending(TRA_NO, 'Trả nợ cho ai đó', '10,000,000'),
-                spending(AN_UONG, '', '200,000')
-              ]),
+            ListView.builder(
+              itemBuilder: (context, index) => listItem[index],
+              itemCount: listItem.length,
+              shrinkWrap: true,
             ),
           ],
         ).paddingAll(defaultPadding),
@@ -178,59 +179,62 @@ class TracsactionPage extends GetView<TracsactionController> {
   }
 
   Widget spending(int status, String content, String money) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Row(
-          children: [
-            Container(
-                alignment: Alignment.bottomRight,
-                margin: const EdgeInsets.all(10),
-                height: 40,
-                width: 40,
-                decoration: const BoxDecoration(
-                    color: Colors.blue,
-                    // image: DecorationImage(
-                    //     image: AssetImage(
-                    //         'assets/${status == AN_UONG ? "anuong.jpg" : status == LUONG ? "luong.jpg" : "trano.jpg"}')),
-                    shape: BoxShape.circle),
-                child: Container(
-                  height: 15,
-                  width: 15,
-                  decoration: BoxDecoration(
-                      border: Border.all(color: Colors.white, width: 2.0),
-                      color: Colors.red,
-                      // image: const DecorationImage(
-                      //     image: AssetImage('assets/status.jpg')),
+    return GestureDetector(
+      onTap: () => Get.toNamed(AppRoutes.detailTransaction),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Row(
+            children: [
+              Container(
+                  alignment: Alignment.bottomRight,
+                  margin: const EdgeInsets.all(10),
+                  height: 40,
+                  width: 40,
+                  decoration: const BoxDecoration(
+                      color: Colors.blue,
+                      // image: DecorationImage(
+                      //     image: AssetImage(
+                      //         'assets/${status == AN_UONG ? "anuong.jpg" : status == LUONG ? "luong.jpg" : "trano.jpg"}')),
                       shape: BoxShape.circle),
-                )),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  status == AN_UONG
-                      ? "Ăn uống"
-                      : status == LUONG
-                          ? "Lương"
-                          : "Trả nợ",
-                  style: const TextStyle(fontWeight: FontWeight.bold),
-                ),
-                Text(
-                  content,
-                  style: const TextStyle(
-                      fontSize: 11, color: Color.fromARGB(255, 113, 113, 113)),
-                )
-              ],
-            )
-          ],
-        ),
-        Text(
-          money,
-          style: TextStyle(
-              color: status == LUONG ? Colors.blue : Colors.red,
-              fontWeight: FontWeight.bold),
-        )
-      ],
+                  child: Container(
+                    height: 15,
+                    width: 15,
+                    decoration: BoxDecoration(
+                        border: Border.all(color: Colors.white, width: 2.0),
+                        color: Colors.red,
+                        // image: const DecorationImage(
+                        //     image: AssetImage('assets/status.jpg')),
+                        shape: BoxShape.circle),
+                  )),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    status == AN_UONG
+                        ? "Ăn uống"
+                        : status == LUONG
+                            ? "Lương"
+                            : "Trả nợ",
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    content,
+                    style: const TextStyle(
+                        fontSize: 11, color: Color.fromARGB(255, 113, 113, 113)),
+                  )
+                ],
+              )
+            ],
+          ),
+          Text(
+            money,
+            style: TextStyle(
+                color: status == LUONG ? Colors.blue : Colors.red,
+                fontWeight: FontWeight.bold),
+          )
+        ],
+      ),
     );
   }
 }
