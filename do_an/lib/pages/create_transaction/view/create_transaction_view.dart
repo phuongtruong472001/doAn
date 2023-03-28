@@ -14,7 +14,8 @@ class CreateTransactionPage extends GetView<CreateTransactionController> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return SafeArea(
+      child: Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: true,
           title: AutoSizeText(
@@ -24,6 +25,13 @@ class CreateTransactionPage extends GetView<CreateTransactionController> {
             ),
           ),
           centerTitle: true,
+          actions: [
+            Center(
+                child: AutoSizeText(
+              "LƯU",
+              style: Get.textTheme.bodyText1,
+            )),
+          ],
         ),
         body: SingleChildScrollView(
           child: Column(
@@ -44,13 +52,12 @@ class CreateTransactionPage extends GetView<CreateTransactionController> {
               InputTextWithLabel(
                 buildInputText: BuildInputText(
                   InputTextModel(
-                    controller: controller.categoryController.value,
-                    // currentNode: controller.descriptionNode,
-                    hintText: "Nhập ghi chú",
-                    iconNextTextInputAction: TextInputAction.done,
-                    submitFunc: (v) => {},
-                    iconLeading: Icons.notes_outlined
-                  ),
+                      controller: controller.categoryController.value,
+                      // currentNode: controller.descriptionNode,
+                      hintText: "Nhập ghi chú",
+                      iconNextTextInputAction: TextInputAction.done,
+                      submitFunc: (v) => {},
+                      iconLeading: Icons.notes_outlined),
                 ),
                 label: "Ghi chú",
               ),
@@ -99,22 +106,24 @@ class CreateTransactionPage extends GetView<CreateTransactionController> {
             horizontal: defaultPadding,
           ),
         ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-        floatingActionButton: TextButton(
-          style: ButtonStyle(
-            backgroundColor:
-                const MaterialStatePropertyAll<Color>(kPrimaryColor),
-            minimumSize:
-                MaterialStatePropertyAll<Size>(Size(Get.width / 2, 50)),
-          ),
-          onPressed: () {},
-          child: AutoSizeText(
-            "Thêm mới",
-            style: Get.textTheme.bodyLarge!.copyWith(
-              color: Colors.white,
-              fontSize: sizeTextSmall,
-            ),
-          ),
-        ));
+        // floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+        // floatingActionButton: TextButton(
+        //   style: ButtonStyle(
+        //     backgroundColor:
+        //         const MaterialStatePropertyAll<Color>(kPrimaryColor),
+        //     minimumSize:
+        //         MaterialStatePropertyAll<Size>(Size(Get.width / 2, 50)),
+        //   ),
+        //   onPressed: () {},
+        //   child: AutoSizeText(
+        //     "Thêm mới",
+        //     style: Get.textTheme.bodyLarge!.copyWith(
+        //       color: Colors.white,
+        //       fontSize: sizeTextSmall,
+        //     ),
+        //   ),
+        // ),
+      ),
+    );
   }
 }
