@@ -3,6 +3,7 @@ import 'package:do_an/base/colors.dart';
 import 'package:do_an/base/dimen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 import '../../../enum/input_formatter_enum.dart';
 import '../../../component/base_input_with_label.dart';
@@ -81,16 +82,25 @@ class CreateTransactionPage extends GetView<CreateTransactionController> {
                   ),
                 ).paddingSymmetric(vertical: paddingSmall),
               ),
-              Card(
-                child: ListTile(
-                  leading: const Icon(Icons.date_range),
-                  trailing: AutoSizeText(
+              GestureDetector(
+                onTap: () => controller.selectDate(context),
+                child: Card(
+                  child: Obx(
+                    () => ListTile(
+                        leading: const Icon(Icons.date_range),
+                        trailing: AutoSizeText(
                     "Chọn thời gian",
                     style:
                         Get.textTheme.bodyText2!.copyWith(color: kPrimaryColor),
                   ),
-                ),
-              ).paddingSymmetric(vertical: paddingSmall),
+                        title: AutoSizeText(
+                          DateFormat.yMMMd()
+                              .format(controller.selectedDate.value),
+                          style: Get.textTheme.bodyText2,
+                        )),
+                  ),
+                ).paddingSymmetric(vertical: paddingSmall),
+              ),
               Card(
                 child: ListTile(
                   leading: const Icon(Icons.book),
@@ -116,23 +126,6 @@ class CreateTransactionPage extends GetView<CreateTransactionController> {
             horizontal: defaultPadding,
           ),
         ),
-        // floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-        // floatingActionButton: TextButton(
-        //   style: ButtonStyle(
-        //     backgroundColor:
-        //         const MaterialStatePropertyAll<Color>(kPrimaryColor),
-        //     minimumSize:
-        //         MaterialStatePropertyAll<Size>(Size(Get.width / 2, 50)),
-        //   ),
-        //   onPressed: () {},
-        //   child: AutoSizeText(
-        //     "Thêm mới",
-        //     style: Get.textTheme.bodyLarge!.copyWith(
-        //       color: Colors.white,
-        //       fontSize: sizeTextSmall,
-        //     ),
-        //   ),
-        // ),
       ),
     );
   }

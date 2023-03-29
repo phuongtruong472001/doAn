@@ -11,8 +11,10 @@ class CategoryPage extends GetView<CategoryController> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: ListView.builder(
-        itemBuilder: (context, index) => item(
-          category: categories[index],
+        itemBuilder: (context, index) => Card(
+          child: item(
+            category: categories[index],
+          ),
         ),
         itemCount: categories.length,
       ),

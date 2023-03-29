@@ -12,6 +12,22 @@ class CreateTransactionController extends GetxController {
   final fundController = TextEditingController().obs;
   final peopleController = TextEditingController().obs;
   Rx<Transaction> transaction = Transaction().obs;
+  var choosedDate = false.obs;
+  var selectedDate = DateTime.now().obs;
+
+  void selectDate(BuildContext context) async {
+    DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: selectedDate.value,
+      firstDate: DateTime.now(),
+      lastDate: DateTime(2025),
+    );
+    choosedDate.value = true;
+    if (picked != null && picked != DateTime.now()) {
+      selectedDate.value = picked;
+    }
+  }
+
   @override
   void onInit() {
     super.onInit();
