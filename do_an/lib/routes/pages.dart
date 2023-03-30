@@ -9,10 +9,12 @@ import 'package:do_an/pages/create_transaction/binding/create_transaction_bindin
 import 'package:do_an/pages/create_transaction/view/create_transaction_view.dart';
 import 'package:do_an/pages/detail_transaction/binding/detail_transaction_binding.dart';
 import 'package:do_an/pages/detail_transaction/view/detail_transaction_view.dart';
+import 'package:do_an/pages/fund/binding/fund_binding.dart';
 import 'package:do_an/pages/home/binding/home_binding.dart';
 import 'package:do_an/pages/home/view/home_view.dart';
 import 'package:get/get.dart';
 
+import '../pages/fund/view/fund_view.dart';
 import 'routes.dart';
 
 class RoutePage {
@@ -41,6 +43,11 @@ class RoutePage {
       name: AppRoutes.category,
       page: () => const CategoryPage(),
       binding: CategoryBinding(),
+    ),
+    GetPage(
+      name: AppRoutes.fund,
+      page: () => const FundPage(),
+      binding: FundBinding(),
     ),
   ];
 }

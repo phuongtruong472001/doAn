@@ -1,6 +1,7 @@
 import 'package:do_an/base/dimen.dart';
 import 'package:do_an/base/strings.dart';
 import 'package:do_an/component/divider.dart';
+import 'package:do_an/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -28,10 +29,13 @@ class HomePage extends GetView<HomeController> {
               CardBase(
                 Column(
                   children: [
-                    const SpaceBetweenLetter(
-                      title: AppString.myWallet,
-                      subTitle: AppString.viewAll,
-                    ).paddingAll(defaultPadding),
+                    GestureDetector(
+                      onTap: () => Get.toNamed(AppRoutes.fund),
+                      child: const SpaceBetweenLetter(
+                        title: AppString.myWallet,
+                        subTitle: AppString.viewAll,
+                      ).paddingAll(defaultPadding),
+                    ),
                     BuildDividerDefault(),
                     ItemCard(
                       Icons.wallet,

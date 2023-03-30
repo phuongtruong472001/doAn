@@ -2,19 +2,17 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:do_an/base/dimen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../controller/event_controller.dart';
 
-import '../controller/fund_controller.dart';
-
-class FundPage extends GetView<FundController> {
-  const FundPage({Key? key}) : super(key: key);
+class EventPage extends GetView<EventController> {
+  const EventPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: true,
-        title: const Text("Ví của tôi"),
-        actions: const [Icon(Icons.notifications), AutoSizeText("SỬA")],
+        title: const Text("Chọn sự kiện"),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -33,7 +31,7 @@ class FundPage extends GetView<FundController> {
             const AutoSizeText("Danh sách ví của bạn"),
             ListView.builder(
               itemBuilder: (context, index) => GestureDetector(
-                onTap: () => controller.onTapItem(index),
+                // onTap: () => controller.onTapItem(index),
                 child: const ListTile(
                   leading: Icon(Icons.sports_basketball_rounded),
                   title: AutoSizeText("Tiền mặt"),

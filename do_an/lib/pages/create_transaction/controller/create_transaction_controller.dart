@@ -48,4 +48,14 @@ class CreateTransactionController extends GetxController {
       });
     });
   }
+
+  void chooseFund() {
+    Get.toNamed(AppRoutes.fund)!.then((value) {
+      transaction.update((val) {
+        if (value is int) {
+          val!.fundID = value;
+        }
+      });
+    });
+  }
 }

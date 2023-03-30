@@ -4,4 +4,5 @@ class AppRoutes {
   static const String createTransaction = '/create_transaction';
   static const String detailTransaction = '/detail_transaction';
   static const String category = '/category';
+  static const String fund = '/fund';
 }

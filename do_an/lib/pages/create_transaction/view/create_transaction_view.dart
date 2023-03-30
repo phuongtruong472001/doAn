@@ -89,10 +89,10 @@ class CreateTransactionPage extends GetView<CreateTransactionController> {
                     () => ListTile(
                         leading: const Icon(Icons.date_range),
                         trailing: AutoSizeText(
-                    "Chọn thời gian",
-                    style:
-                        Get.textTheme.bodyText2!.copyWith(color: kPrimaryColor),
-                  ),
+                          "Chọn thời gian",
+                          style: Get.textTheme.bodyText2!
+                              .copyWith(color: kPrimaryColor),
+                        ),
                         title: AutoSizeText(
                           DateFormat.yMMMd()
                               .format(controller.selectedDate.value),
@@ -101,16 +101,23 @@ class CreateTransactionPage extends GetView<CreateTransactionController> {
                   ),
                 ).paddingSymmetric(vertical: paddingSmall),
               ),
-              Card(
-                child: ListTile(
-                  leading: const Icon(Icons.book),
-                  trailing: AutoSizeText(
-                    "Chọn nguồn tiền",
-                    style:
-                        Get.textTheme.bodyText2!.copyWith(color: kPrimaryColor),
+              GestureDetector(
+                onTap: () => controller.chooseFund(),
+                child: Card(
+                  child: Obx(
+                    () => ListTile(
+                      leading: const Icon(Icons.book),
+                      trailing: AutoSizeText(
+                        "Chọn nguồn tiền",
+                        style: Get.textTheme.bodyText2!
+                            .copyWith(color: kPrimaryColor),
+                      ),
+                      title: AutoSizeText(
+                          controller.transaction.value.fundID.toString()),
+                    ),
                   ),
-                ),
-              ).paddingSymmetric(vertical: paddingSmall),
+                ).paddingSymmetric(vertical: paddingSmall),
+              ),
               Card(
                 child: ListTile(
                   leading: const Icon(Icons.event),
