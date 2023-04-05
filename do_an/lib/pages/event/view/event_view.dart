@@ -18,20 +18,9 @@ class EventPage extends GetView<EventController> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            GestureDetector(
-              onTap: () {},
-              child: const Card(
-                child: ListTile(
-                  leading: Icon(Icons.sports_basketball_rounded),
-                  title: AutoSizeText("Tổng cộng"),
-                  subtitle: AutoSizeText("2000000 đ"),
-                ),
-              ),
-            ),
-            const AutoSizeText("Danh sách ví của bạn"),
             ListView.builder(
               itemBuilder: (context, index) => GestureDetector(
-                // onTap: () => controller.onTapItem(index),
+                onTap: () => controller.onTapItem(index),
                 child: const ListTile(
                   leading: Icon(Icons.sports_basketball_rounded),
                   title: AutoSizeText("Tiền mặt"),

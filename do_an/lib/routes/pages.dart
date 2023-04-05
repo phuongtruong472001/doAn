@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:do_an/model/category.dart';
+import 'package:do_an/model/event.dart';
 import 'package:do_an/pages/bottom_navigation_bar_home/binding/bottom_navigation_bar_home_binding.dart';
 import 'package:do_an/pages/bottom_navigation_bar_home/view/bottom_navigation_bar_home_view.dart';
 import 'package:do_an/pages/category/binding/category_binding.dart';
@@ -9,6 +10,8 @@ import 'package:do_an/pages/create_transaction/binding/create_transaction_bindin
 import 'package:do_an/pages/create_transaction/view/create_transaction_view.dart';
 import 'package:do_an/pages/detail_transaction/binding/detail_transaction_binding.dart';
 import 'package:do_an/pages/detail_transaction/view/detail_transaction_view.dart';
+import 'package:do_an/pages/event/binding/event_binding.dart';
+import 'package:do_an/pages/event/view/event_view.dart';
 import 'package:do_an/pages/fund/binding/fund_binding.dart';
 import 'package:do_an/pages/home/binding/home_binding.dart';
 import 'package:do_an/pages/home/view/home_view.dart';
@@ -48,6 +51,11 @@ class RoutePage {
       name: AppRoutes.fund,
       page: () => const FundPage(),
       binding: FundBinding(),
+    ),
+    GetPage(
+      name: AppRoutes.event,
+      page: () => const EventPage(),
+      binding: EventBinding(),
     ),
   ];
 }

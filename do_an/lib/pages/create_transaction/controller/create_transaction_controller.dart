@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 
 import '../../../routes/routes.dart';
 
+List<Transaction> listTran = [];
+
 class CreateTransactionController extends GetxController {
   final valueController = TextEditingController().obs;
   final categoryController = TextEditingController().obs;
@@ -57,5 +59,19 @@ class CreateTransactionController extends GetxController {
         }
       });
     });
+  }
+
+  void chooseEvent() {
+    Get.toNamed(AppRoutes.event)!.then((value) {
+      transaction.update((val) {
+        if (value is int) {
+          val!.eventId = value;
+        }
+      });
+    });
+  }
+
+  void createTransaction() {
+    listTran.add(transaction.value);
   }
 }

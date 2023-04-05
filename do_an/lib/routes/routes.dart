@@ -5,4 +5,5 @@ class AppRoutes {
   static const String detailTransaction = '/detail_transaction';
   static const String category = '/category';
   static const String fund = '/fund';
+  static const String event = '/event';
 }

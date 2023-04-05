@@ -1,18 +1,19 @@
 import 'package:get/get.dart';
 
 class EventController extends GetxController {
-
-    @override
-    void onInit() {
+  @override
+  void onInit() {
     super.onInit();
-    }
+  }
 
-    @override
-    void onReady() {  }
+  @override
+  void onReady() {}
 
-    @override
-    void onClose() { 
-super.onClose(); 
- }
-
-   }
+  @override
+  void onClose() {
+    super.onClose();
+  }
+  void onTapItem(int index){
+      Get.back(result: index);
+  }
+}

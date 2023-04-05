@@ -28,10 +28,13 @@ class CreateTransactionPage extends GetView<CreateTransactionController> {
           centerTitle: true,
           actions: [
             Center(
-                child: AutoSizeText(
-              "LƯU",
-              style: Get.textTheme.bodyText1,
-            )),
+                child: InkWell(
+                  onTap: () => controller.createTransaction(),
+                  child: AutoSizeText(
+                              "LƯU",
+                              style: Get.textTheme.bodyText1,
+                            ),
+                )),
           ],
         ),
         body: SingleChildScrollView(
@@ -113,21 +116,30 @@ class CreateTransactionPage extends GetView<CreateTransactionController> {
                             .copyWith(color: kPrimaryColor),
                       ),
                       title: AutoSizeText(
-                          controller.transaction.value.fundID.toString()),
+                        controller.transaction.value.fundID.toString(),
+                      ),
                     ),
                   ),
                 ).paddingSymmetric(vertical: paddingSmall),
               ),
-              Card(
-                child: ListTile(
-                  leading: const Icon(Icons.event),
-                  trailing: AutoSizeText(
-                    "Chọn sự kiện",
-                    style:
-                        Get.textTheme.bodyText2!.copyWith(color: kPrimaryColor),
+              GestureDetector(
+                onTap: () => controller.chooseEvent(),
+                child: Card(
+                  child: Obx(
+                    () => ListTile(
+                      leading: const Icon(Icons.event),
+                      trailing: AutoSizeText(
+                        "Chọn sự kiện",
+                        style: Get.textTheme.bodyText2!
+                            .copyWith(color: kPrimaryColor),
+                      ),
+                      title: AutoSizeText(
+                        controller.transaction.value.eventId.toString(),
+                      ),
+                    ),
                   ),
-                ),
-              ).paddingSymmetric(vertical: paddingSmall),
+                ).paddingSymmetric(vertical: paddingSmall),
+              ),
             ],
           ).paddingSymmetric(
             horizontal: defaultPadding,
