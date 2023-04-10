@@ -2,6 +2,8 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:do_an/model/category.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import '../../../base/icons.dart';
 import '../controller/category_controller.dart';
 
 class CategoryPage extends GetView<CategoryController> {
@@ -35,6 +37,11 @@ class CategoryPage extends GetView<CategoryController> {
       onTap: () => controller.onTapItem(category),
       child: ListTile(
         title: AutoSizeText(category.name ?? ""),
+        leading: Image.asset(
+          "${ImageAsset.linkIconCategory}${category.id}.png",
+          width: 80,
+          height: 50,
+        ),
       ),
     );
   }

@@ -4,7 +4,7 @@ import 'dart:convert';
 class Transaction {
   int? id;
   int? value;
-  String? desciption;
+  String? description;
   int? eventId;
   int? categoryId;
   DateTime? executionTime;
@@ -12,7 +12,7 @@ class Transaction {
   Transaction({
     this.id=0,
     this.value=0,
-    this.desciption="",
+    this.description="",
     this.eventId=0,
     this.categoryId=0,
     this.executionTime,
@@ -23,7 +23,7 @@ class Transaction {
     return <String, dynamic>{
       'id': id,
       'value': value,
-      'desciption': desciption,
+      'description': description,
       'eventId': eventId,
       'categoryId': categoryId,
       'executionTime': executionTime?.millisecondsSinceEpoch,
@@ -35,7 +35,7 @@ class Transaction {
     return Transaction(
       id: map['id'] != null ? map['id'] as int : null,
       value: map['value'] != null ? map['value'] as int : null,
-      desciption: map['desciption'] != null ? map['desciption'] as String : null,
+      description: map['description'] != null ? map['description'] as String : null,
       eventId: map['eventId'] != null ? map['eventId'] as int : null,
       categoryId: map['categoryId'] != null ? map['categoryId'] as int : null,
       executionTime: map['executionTime'] != null ? DateTime.fromMillisecondsSinceEpoch(map['executionTime'] as int) : null,

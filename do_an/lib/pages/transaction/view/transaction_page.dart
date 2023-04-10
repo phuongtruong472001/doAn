@@ -2,9 +2,11 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:do_an/base/colors.dart';
 import 'package:do_an/base/dimen.dart';
 import 'package:do_an/base/strings.dart';
+import 'package:do_an/model/transaction.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../component/item_card.dart';
 import '../../../routes/routes.dart';
 import '../controller/transaction_controller.dart';
 
@@ -25,6 +27,35 @@ class TracsactionPage extends GetView<TracsactionController> {
       spending(LUONG, '', '8,000,000'),
       spending(TRA_NO, 'Trả nợ cho ai đó', '10,000,000'),
       spending(AN_UONG, '', '200,000')
+    ];
+    var listTransaction = [
+      Transaction(
+        id: 0,
+        categoryId: 0,
+        value: 300000,
+        eventId: 1,
+        fundID: 1,
+        description: "Ăn uống cùng anh em",
+        executionTime: DateTime.now(),
+      ),
+      Transaction(
+        id: 0,
+        categoryId: 0,
+        value: 300000,
+        eventId: 1,
+        fundID: 1,
+        description: "Ăn uống cùng anh em",
+        executionTime: DateTime.now(),
+      ),
+      Transaction(
+        id: 0,
+        categoryId: 0,
+        value: 300000,
+        eventId: 1,
+        fundID: 1,
+        description: "Ăn uống cùng anh em",
+        executionTime: DateTime.now(),
+      ),
     ];
     return DefaultTabController(
       initialIndex: 1,
@@ -111,8 +142,9 @@ class TracsactionPage extends GetView<TracsactionController> {
                   ],
                 )),
             ListView.builder(
-              itemBuilder: (context, index) => listItem[index],
-              itemCount: listItem.length,
+              itemBuilder: (context, index) =>
+                  TransactionWidget(listTransaction[index]),
+              itemCount: listTransaction.length,
               shrinkWrap: true,
             ),
           ],
@@ -221,7 +253,8 @@ class TracsactionPage extends GetView<TracsactionController> {
                   Text(
                     content,
                     style: const TextStyle(
-                        fontSize: 11, color: Color.fromARGB(255, 113, 113, 113)),
+                        fontSize: 11,
+                        color: Color.fromARGB(255, 113, 113, 113)),
                   )
                 ],
               )
