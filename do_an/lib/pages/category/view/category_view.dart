@@ -15,10 +15,10 @@ class CategoryPage extends GetView<CategoryController> {
       body: ListView.builder(
         itemBuilder: (context, index) => Card(
           child: item(
-            category: categories[index],
+            category: controller.listCategories[index],
           ),
         ),
-        itemCount: categories.length,
+        itemCount: controller.listCategories.length,
       ),
       appBar: AppBar(
         automaticallyImplyLeading: true,
