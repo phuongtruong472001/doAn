@@ -1,6 +1,9 @@
 import 'package:get/get.dart';
 
+import '../../../model/event.dart';
+
 class EventController extends GetxController {
+  RxList<Event> listEvents = List<Event>.empty(growable: true).obs;
   @override
   void onInit() {
     super.onInit();
@@ -13,7 +16,8 @@ class EventController extends GetxController {
   void onClose() {
     super.onClose();
   }
-  void onTapItem(int index){
-      Get.back(result: index);
+
+  void onTapItem(Event event) {
+    Get.back(result: event);
   }
 }

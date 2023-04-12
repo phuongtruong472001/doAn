@@ -12,13 +12,15 @@ class CategoryPage extends GetView<CategoryController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView.builder(
-        itemBuilder: (context, index) => Card(
-          child: item(
-            category: controller.listCategories[index],
+      body: Obx(
+        () => ListView.builder(
+          itemBuilder: (context, index) => Card(
+            child: item(
+              category: controller.listCategories[index],
+            ),
           ),
+          itemCount: controller.listCategories.length,
         ),
-        itemCount: controller.listCategories.length,
       ),
       appBar: AppBar(
         automaticallyImplyLeading: true,

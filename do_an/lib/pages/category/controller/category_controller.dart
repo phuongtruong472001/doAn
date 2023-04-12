@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 import '../../../database/database.dart';
 
 class CategoryController extends GetxController {
-  List<Category> listCategories = List<Category>.empty().obs;
+  RxList<Category> listCategories = List<Category>.empty().obs;
   @override
   void onInit() async {
     await initData();
@@ -16,7 +16,7 @@ class CategoryController extends GetxController {
   Future<void> initData() async {
     var dbHelper = DBHelper();
     List<Category> categories = await dbHelper.getCategories();
-    print(categories.length);
+    listCategories.value = categories;
   }
 
   @override

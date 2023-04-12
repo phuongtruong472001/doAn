@@ -4,8 +4,6 @@ import 'package:get/get.dart';
 
 import '../../../routes/routes.dart';
 
-List<Transaction> listTran = [];
-
 class CreateTransactionController extends GetxController {
   final valueController = TextEditingController().obs;
   final categoryController = TextEditingController().obs;
@@ -45,33 +43,36 @@ class CreateTransactionController extends GetxController {
 
   void chooseCategory() {
     Get.toNamed(AppRoutes.category)!.then((value) {
-      transaction.update((val) {
-        val!.categoryId = value.id;
-      });
+      if (value != null) {
+        transaction.update((val) {
+          val!.categoryId = value.id;
+          val.categoryName = value.name;
+        });
+      }
     });
   }
 
   void chooseFund() {
     Get.toNamed(AppRoutes.fund)!.then((value) {
-      transaction.update((val) {
-        if (value is int) {
-          val!.fundID = value;
-        }
-      });
+      if (value != null) {
+        transaction.update((val) {
+          val!.fundID = value.id;
+          val.fundName = value.name;
+        });
+      }
     });
   }
 
   void chooseEvent() {
     Get.toNamed(AppRoutes.event)!.then((value) {
-      transaction.update((val) {
-        if (value is int) {
-          val!.eventId = value;
-        }
-      });
+      if (value != null) {
+        transaction.update((val) {
+          val!.eventId = value.id;
+          val.eventName = value.name;
+        });
+      }
     });
   }
 
-  void createTransaction() {
-    listTran.add(transaction.value);
-  }
+  void createTransaction() {}
 }

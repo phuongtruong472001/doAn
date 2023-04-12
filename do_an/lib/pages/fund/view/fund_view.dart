@@ -33,14 +33,14 @@ class FundPage extends GetView<FundController> {
             const AutoSizeText("Danh sách ví của bạn"),
             ListView.builder(
               itemBuilder: (context, index) => GestureDetector(
-                onTap: () => controller.onTapItem(index),
+                onTap: () => controller.onTapItem(controller.fund[index]),
                 child: const ListTile(
                   leading: Icon(Icons.sports_basketball_rounded),
                   title: AutoSizeText("Tiền mặt"),
                   subtitle: AutoSizeText("2000000 đ"),
                 ).paddingAll(paddingSmall),
               ),
-              itemCount: 10,
+              itemCount: controller.fund.length,
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
             )

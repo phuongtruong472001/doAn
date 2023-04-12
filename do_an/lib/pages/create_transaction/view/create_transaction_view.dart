@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:do_an/base/colors.dart';
 import 'package:do_an/base/dimen.dart';
+import 'package:do_an/database/database.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -15,6 +16,7 @@ class CreateTransactionPage extends GetView<CreateTransactionController> {
 
   @override
   Widget build(BuildContext context) {
+    var dbHelper = DBHelper();
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -29,12 +31,12 @@ class CreateTransactionPage extends GetView<CreateTransactionController> {
           actions: [
             Center(
                 child: InkWell(
-                  onTap: () => controller.createTransaction(),
-                  child: AutoSizeText(
-                              "LƯU",
-                              style: Get.textTheme.bodyText1,
-                            ),
-                )),
+              onTap: () => controller.createTransaction(),
+              child: AutoSizeText(
+                "LƯU",
+                style: Get.textTheme.bodyText1,
+              ),
+            )),
           ],
         ),
         body: SingleChildScrollView(
@@ -70,18 +72,14 @@ class CreateTransactionPage extends GetView<CreateTransactionController> {
                 child: Card(
                   child: Obx(
                     () => ListTile(
-                      leading: const Icon(Icons.book),
-                      trailing: AutoSizeText(
-                        "Chọn danh mục",
-                        style: Get.textTheme.bodyText2!
-                            .copyWith(color: kPrimaryColor),
-                      ),
-                      title: AutoSizeText(
-                          controller.transaction.value.categoryId == 0
-                              ? ""
-                              : controller.transaction.value.categoryId
-                                  .toString()),
-                    ),
+                        leading: const Icon(Icons.book),
+                        trailing: AutoSizeText(
+                          "Chọn danh mục",
+                          style: Get.textTheme.bodyText2!
+                              .copyWith(color: kPrimaryColor),
+                        ),
+                        title: AutoSizeText(
+                            controller.transaction.value.categoryName)),
                   ),
                 ).paddingSymmetric(vertical: paddingSmall),
               ),
@@ -116,7 +114,7 @@ class CreateTransactionPage extends GetView<CreateTransactionController> {
                             .copyWith(color: kPrimaryColor),
                       ),
                       title: AutoSizeText(
-                        controller.transaction.value.fundID.toString(),
+                        controller.transaction.value.fundName,
                       ),
                     ),
                   ),
@@ -134,7 +132,7 @@ class CreateTransactionPage extends GetView<CreateTransactionController> {
                             .copyWith(color: kPrimaryColor),
                       ),
                       title: AutoSizeText(
-                        controller.transaction.value.eventId.toString(),
+                        controller.transaction.value.eventName,
                       ),
                     ),
                   ),

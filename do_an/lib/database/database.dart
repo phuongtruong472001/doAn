@@ -149,4 +149,12 @@ class DBHelper {
     );
     return status == 1;
   }
+
+  Future<String> getNameOfCategory(int id) async {
+    var dbClient = await db;
+    var category = await dbClient?.rawQuery(
+      'SELECT * FROM Category WHERE id = ?', [id]
+    );
+    return category![0]["name"] as String;
+  }
 }

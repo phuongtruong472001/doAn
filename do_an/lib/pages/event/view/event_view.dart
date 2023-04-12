@@ -20,14 +20,14 @@ class EventPage extends GetView<EventController> {
           children: [
             ListView.builder(
               itemBuilder: (context, index) => GestureDetector(
-                onTap: () => controller.onTapItem(index),
+                onTap: () => controller.onTapItem(controller.listEvents[index]),
                 child: const ListTile(
                   leading: Icon(Icons.sports_basketball_rounded),
                   title: AutoSizeText("Tiền mặt"),
                   subtitle: AutoSizeText("2000000 đ"),
                 ).paddingAll(paddingSmall),
               ),
-              itemCount: 10,
+              itemCount: controller.listEvents.length,
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
             )
