@@ -66,19 +66,19 @@ class DBHelper {
   Future<List<Event>> getEvents() async {
     var dbClient = await db;
     var events = await dbClient?.query('Event');
-    List<Event> listEvents = events!.isNotEmpty
-        ? events.map((c) => Event.fromjson(c)).toList()
-        : [];
+    List<Event> listEvents =
+        events!.isNotEmpty ? events.map((c) => Event.fromjson(c)).toList() : [];
     return listEvents;
   }
+
   Future<List<Fund>> getFunds() async {
     var dbClient = await db;
     var funds = await dbClient?.query('Event');
-    List<Fund> listFunds = funds!.isNotEmpty
-        ? funds.map((c) => Fund.fromMap(c)).toList()
-        : [];
+    List<Fund> listFunds =
+        funds!.isNotEmpty ? funds.map((c) => Fund.fromMap(c)).toList() : [];
     return listFunds;
   }
+
   Future<List<Invoice>> getInvoices() async {
     var dbClient = await db;
     var invoices = await dbClient?.query('Event');
@@ -86,5 +86,67 @@ class DBHelper {
         ? invoices.map((c) => Invoice.fromMap(c)).toList()
         : [];
     return listInvoices;
+  }
+
+  Future<bool> addFund(Fund fund) async {
+    var dbClient = await db;
+    var status = await dbClient?.rawInsert(
+      'INSERT INTO Fund(name,icon,value,allowNegative) VALUES(?, ?, ?, ?)',
+      [
+        fund.name,
+        fund.icon,
+        fund.value,
+        fund.allowNegative,
+      ],
+    );
+    return status == 1;
+  }
+
+  Future<bool> addEvent(Event event) async {
+    var dbClient = await db;
+    var status = await dbClient?.rawInsert(
+      'INSERT INTO Event(name,icon,date,estimateValue) VALUES(?, ?, ?, ?)',
+      [
+        event.name,
+        event.icon,
+        event.date,
+        event.estimateValue,
+      ],
+    );
+    return status == 1;
+  }
+
+  Future<bool> addInvoice(Invoice invoice) async {
+    var dbClient = await db;
+    var status = await dbClient?.rawInsert(
+      'INSERT INTO Invoice(value, description,eventID,category,executionTime,fundId,notificationTime,typeOfNotification) VALUES(?, ?, ?, ?,?, ?, ?, ?)',
+      [
+        invoice.value,
+        invoice.description,
+        invoice.eventID,
+        invoice.category,
+        invoice.executionTime,
+        invoice.fundId,
+        invoice.notificationTime,
+        invoice.typeOfNotification,
+      ],
+    );
+    return status == 1;
+  }
+
+  Future<bool> addTransaction(tr.Transaction transaction) async {
+    var dbClient = await db;
+    var status = await dbClient?.rawInsert(
+      'INSERT INTO Transaction(value,description,eventId,categoryId,executionTime,fundID,) VALUES(?, ?, ?, ?, ?, ?)',
+      [
+        transaction.value,
+        transaction.description,
+        transaction.eventId,
+        transaction.categoryId,
+        transaction.executionTime,
+        transaction.fundID,
+      ],
+    );
+    return status == 1;
   }
 }
