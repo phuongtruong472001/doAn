@@ -137,7 +137,7 @@ class DBHelper {
   Future<bool> addTransaction(tr.Transaction transaction) async {
     var dbClient = await db;
     var status = await dbClient?.rawInsert(
-      'INSERT INTO Transaction(value,description,eventId,categoryId,executionTime,fundID,) VALUES(?, ?, ?, ?, ?, ?)',
+      'INSERT INTO Transaction(value,description,eventId,categoryId,executionTime,fundID,categoryName,eventName,fundName) VALUES(?, ?, ?, ?, ?, ?,?,?,?)',
       [
         transaction.value,
         transaction.description,
@@ -145,6 +145,9 @@ class DBHelper {
         transaction.categoryId,
         transaction.executionTime,
         transaction.fundID,
+        transaction.categoryName,
+        transaction.eventName,
+        transaction.fundName
       ],
     );
     return status == 1;
@@ -152,9 +155,8 @@ class DBHelper {
 
   Future<String> getNameOfCategory(int id) async {
     var dbClient = await db;
-    var category = await dbClient?.rawQuery(
-      'SELECT * FROM Category WHERE id = ?', [id]
-    );
+    var category =
+        await dbClient?.rawQuery('SELECT * FROM Category WHERE id = ?', [id]);
     return category![0]["name"] as String;
   }
 }

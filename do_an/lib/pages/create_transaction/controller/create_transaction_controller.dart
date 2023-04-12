@@ -1,3 +1,4 @@
+import 'package:do_an/database/database.dart';
 import 'package:do_an/model/transaction.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -14,6 +15,7 @@ class CreateTransactionController extends GetxController {
   Rx<Transaction> transaction = Transaction().obs;
   var choosedDate = false.obs;
   var selectedDate = DateTime.now().obs;
+  DBHelper dbHelper = DBHelper();
 
   void selectDate(BuildContext context) async {
     DateTime? picked = await showDatePicker(
@@ -74,5 +76,13 @@ class CreateTransactionController extends GetxController {
     });
   }
 
-  void createTransaction() {}
+  Future<void> createTransaction() async {
+    Transaction transaction = Transaction();
+    bool status = await dbHelper.addTransaction(transaction);
+    if (status) {
+      print("Tao moi giao dich thanh cong");
+    } else {
+      print("That bai");
+    }
+  }
 }
