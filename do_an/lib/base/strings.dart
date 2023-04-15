@@ -74,4 +74,7 @@ class AppString {
   static const String balance = "Số dư";
   static const String total = "Tổng cộng ";
 
+  //messege
+  static String success(String name) => "Thêm mới $name thành công";
+  static const String fail = "Thêm mới thất bại";
 }

@@ -1,11 +1,13 @@
 import 'package:get/get.dart';
 
+import '../../../database/database.dart';
 import '../../../model/event.dart';
 
 class EventController extends GetxController {
   RxList<Event> listEvents = List<Event>.empty(growable: true).obs;
   @override
-  void onInit() {
+  void onInit() async {
+    await initData();
     super.onInit();
   }
 
@@ -19,5 +21,11 @@ class EventController extends GetxController {
 
   void onTapItem(Event event) {
     Get.back(result: event);
+  }
+
+  Future<void> initData() async {
+    var dbHelper = DBHelper();
+    List<Event> events = await dbHelper.getEvents();
+    listEvents.value = events;
   }
 }

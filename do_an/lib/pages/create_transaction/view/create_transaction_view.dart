@@ -58,12 +58,13 @@ class CreateTransactionPage extends GetView<CreateTransactionController> {
               InputTextWithLabel(
                 buildInputText: BuildInputText(
                   InputTextModel(
-                      controller: controller.categoryController.value,
-                      // currentNode: controller.descriptionNode,
-                      hintText: "Nhập ghi chú",
-                      iconNextTextInputAction: TextInputAction.done,
-                      submitFunc: (v) => {},
-                      iconLeading: Icons.notes_outlined),
+                    controller: controller.descriptionController.value,
+                    // currentNode: controller.descriptionNode,
+                    hintText: "Nhập ghi chú",
+                    iconNextTextInputAction: TextInputAction.done,
+                    submitFunc: (v) => {},
+                    iconLeading: Icons.notes_outlined,
+                  ),
                 ),
                 label: "Ghi chú",
               ),

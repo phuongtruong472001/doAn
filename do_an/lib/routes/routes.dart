@@ -6,4 +6,6 @@ class AppRoutes {
   static const String category = '/category';
   static const String fund = '/fund';
   static const String event = '/event';
+  static const String createFund = '/create_fund';
+  static const String createEvent = '/create_event';
 }

@@ -20,12 +20,10 @@ class Transaction {
     this.categoryId = -1,
     this.executionTime,
     this.fundID = 0,
-    this.categoryName="",
-    this.fundName="",
-    this.eventName="",
+    this.categoryName = "",
+    this.fundName = "",
+    this.eventName = "",
   });
-
-  
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
@@ -34,7 +32,7 @@ class Transaction {
       'description': description,
       'eventId': eventId,
       'categoryId': categoryId,
-      'executionTime': executionTime?.millisecondsSinceEpoch,
+      'executionTime': executionTime?.millisecondsSinceEpoch.toString(),
       'fundID': fundID,
       'eventName': eventName,
       'fundName': fundName,
@@ -46,10 +44,13 @@ class Transaction {
     return Transaction(
       id: map['id'] != null ? map['id'] as int : null,
       value: map['value'] != null ? map['value'] as int : null,
-      description: map['description'] != null ? map['description'] as String : null,
+      description:
+          map['description'] != null ? map['description'] as String : null,
       eventId: map['eventId'] != null ? map['eventId'] as int : null,
       categoryId: map['categoryId'] != null ? map['categoryId'] as int : null,
-      executionTime: map['executionTime'] != null ? DateTime.fromMillisecondsSinceEpoch(map['executionTime'] as int) : null,
+      executionTime: map['executionTime'] != null
+          ? DateTime.parse(map['executionTime'])
+          : null,
       fundID: map['fundID'] != null ? map['fundID'] as int : null,
       eventName: map['eventName'] as String,
       fundName: map['fundName'] as String,
@@ -59,5 +60,6 @@ class Transaction {
 
   String toJson() => json.encode(toMap());
 
-  factory Transaction.fromJson(String source) => Transaction.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory Transaction.fromJson(String source) =>
+      Transaction.fromMap(json.decode(source) as Map<String, dynamic>);
 }

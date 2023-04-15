@@ -56,7 +56,7 @@ class DBHelper {
 
   Future<List<tr.Transaction>> getTransactions() async {
     var dbClient = await db;
-    var transactions = await dbClient?.query('Transaction');
+    var transactions = await dbClient?.query('Transactions');
     List<tr.Transaction> listCategories = transactions!.isNotEmpty
         ? transactions.map((c) => tr.Transaction.fromMap(c)).toList()
         : [];
@@ -73,7 +73,7 @@ class DBHelper {
 
   Future<List<Fund>> getFunds() async {
     var dbClient = await db;
-    var funds = await dbClient?.query('Event');
+    var funds = await dbClient?.query('Fund');
     List<Fund> listFunds =
         funds!.isNotEmpty ? funds.map((c) => Fund.fromMap(c)).toList() : [];
     return listFunds;
@@ -95,11 +95,11 @@ class DBHelper {
       [
         fund.name,
         fund.icon,
-        fund.value,
+        fund.value.toString(),
         fund.allowNegative,
       ],
     );
-    return status == 1;
+    return status != 0;
   }
 
   Future<bool> addEvent(Event event) async {
@@ -109,7 +109,7 @@ class DBHelper {
       [
         event.name,
         event.icon,
-        event.date,
+        event.date.toString(),
         event.estimateValue,
       ],
     );
@@ -137,20 +137,20 @@ class DBHelper {
   Future<bool> addTransaction(tr.Transaction transaction) async {
     var dbClient = await db;
     var status = await dbClient?.rawInsert(
-      'INSERT INTO Transaction(value,description,eventId,categoryId,executionTime,fundID,categoryName,eventName,fundName) VALUES(?, ?, ?, ?, ?, ?,?,?,?)',
+      'INSERT INTO Transactions(value,description,eventId,categoryId,executionTime,fundID,categoryName,eventName,fundName) VALUES(?, ?, ?, ?, ?, ?,?,?,?)',
       [
         transaction.value,
         transaction.description,
         transaction.eventId,
         transaction.categoryId,
-        transaction.executionTime,
+        transaction.executionTime.toString(),
         transaction.fundID,
         transaction.categoryName,
         transaction.eventName,
         transaction.fundName
       ],
     );
-    return status == 1;
+    return status != 0;
   }
 
   Future<String> getNameOfCategory(int id) async {

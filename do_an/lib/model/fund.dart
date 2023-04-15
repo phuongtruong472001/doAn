@@ -6,15 +6,14 @@ class Fund {
   String? name;
   String? icon;
   int? value;
-  bool? allowNegative;
+  int? allowNegative;
   Fund({
     this.id,
     this.name,
     this.icon,
     this.value,
-    this.allowNegative,
+    this.allowNegative = 1,
   });
-  
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
@@ -31,12 +30,13 @@ class Fund {
       id: json['id'] != null ? json['id'] as int : null,
       name: json['name'] != null ? json['name'] as String : null,
       icon: json['icon'] != null ? json['icon'] as String : null,
-      value: json['value'] != null ? json['value'] as int : null,
-      allowNegative: json['allowNegative'] != null ? json['allowNegative'] as bool : null,
+      value: json['value'] != null ? json['value'] as int : 0,
+      allowNegative: json['allowNegative'],
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory Fund.fromJson(String source) => Fund.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory Fund.fromJson(String source) =>
+      Fund.fromMap(json.decode(source) as Map<String, dynamic>);
 }

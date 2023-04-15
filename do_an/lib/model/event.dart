@@ -30,11 +30,8 @@ class Event {
       id: json['id'] != null ? json['id'] as int : null,
       name: json['name'] != null ? json['name'] as String : null,
       icon: json['icon'] != null ? json['icon'] as String : null,
-      date: json['date'] != null
-          ? DateTime.fromMillisecondsSinceEpoch(json['date'] as int)
-          : null,
-      estimateValue:
-          json['estimateValue'] != null ? json['estimateValue'] as int : null,
+      date: json['date'] != null ? DateTime.parse(json['date']) : null,
+      estimateValue: json['estimateValue'],
     );
   }
 

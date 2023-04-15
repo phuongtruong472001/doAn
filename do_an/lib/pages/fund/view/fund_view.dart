@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:do_an/base/dimen.dart';
+import 'package:do_an/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -13,38 +14,61 @@ class FundPage extends GetView<FundController> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: true,
-        title: const Text("Ví của tôi"),
-        actions: const [Icon(Icons.notifications), AutoSizeText("SỬA")],
+        title: Text(Get.arguments == null ? "Ví của tôi" : "Chọn nguồn tiền"),
+        actions: [
+          if (Get.arguments == null) ...[
+            const Icon(Icons.notifications),
+            const AutoSizeText("SỬA"),
+          ]
+        ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Get.toNamed(AppRoutes.createFund);
+        },
+        backgroundColor: Colors.green,
+        child: const Icon(
+          Icons.add,
+        ),
       ),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            GestureDetector(
-              onTap: () {},
-              child: const Card(
-                child: ListTile(
-                  leading: Icon(Icons.sports_basketball_rounded),
-                  title: AutoSizeText("Tổng cộng"),
-                  subtitle: AutoSizeText("2000000 đ"),
+            if (Get.arguments == null)
+              GestureDetector(
+                onTap: () {},
+                child: const Card(
+                  child: ListTile(
+                    leading: Icon(Icons.sports_basketball_rounded),
+                    title: AutoSizeText("Tổng cộng"),
+                    subtitle: AutoSizeText("2000000 đ"),
+                  ),
                 ),
               ),
-            ),
             const AutoSizeText("Danh sách ví của bạn"),
-            ListView.builder(
-              itemBuilder: (context, index) => GestureDetector(
-                onTap: () => controller.onTapItem(controller.fund[index]),
-                child: const ListTile(
-                  leading: Icon(Icons.sports_basketball_rounded),
-                  title: AutoSizeText("Tiền mặt"),
-                  subtitle: AutoSizeText("2000000 đ"),
-                ).paddingAll(paddingSmall),
+            Obx(
+              () => ListView.builder(
+                itemBuilder: (context, index) => GestureDetector(
+                  onTap: () => controller.onTapItem(controller.funds[index]),
+                  child: ListTile(
+                    leading: const Icon(Icons.sports_basketball_rounded),
+                    title: AutoSizeText(
+                      controller.funds[index].name ?? "",
+                    ),
+                    subtitle: AutoSizeText(
+                      controller.funds[index].value.toString(),
+                    ),
+                  ).paddingAll(paddingSmall),
+                ),
+                itemCount: controller.funds.length,
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
               ),
-              itemCount: controller.fund.length,
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
             )
           ],
+        ).paddingSymmetric(
+          horizontal: defaultPadding,
         ),
       ),
     );

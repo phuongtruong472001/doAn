@@ -28,7 +28,7 @@ class ItemCard extends StatelessWidget {
       leading: Icon(icon),
       title: AutoSizeText(
         content,
-        style: Get.textTheme.bodyText1!.copyWith(
+        style: Get.textTheme.bodyLarge!.copyWith(
           fontWeight: FontWeight.bold,
         ),
       ),
@@ -68,7 +68,7 @@ class TransactionWidget extends StatelessWidget {
       child: InkWell(
         child: Row(
           children: [
-            CircleAvatar(
+            const CircleAvatar(
               child: Icon(Icons.water),
             ),
             const SizedBox(width: 15),
@@ -77,7 +77,7 @@ class TransactionWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    transaction.categoryId.toString(),
+                    transaction.categoryName.toString(),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: Theme.of(context)
@@ -85,22 +85,20 @@ class TransactionWidget extends StatelessWidget {
                         .titleMedium!
                         .copyWith(fontWeight: FontWeight.bold),
                   ),
-                  if (transaction.description != null &&
-                      transaction.description!.isNotEmpty)
-                    Padding(
-                      padding: const EdgeInsets.only(top: 5),
-                      child: Text(
-                        transaction.description!,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(fontSize: 12),
-                      ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 5),
+                    child: Text(
+                      "${transaction.description!} lúc ${transaction.executionTime}",
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(fontSize: 12),
                     ),
+                  ),
                 ],
               ),
             ),
             Text(' ${transaction.value.toString()}',
-                style: TextStyle(
+                style: const TextStyle(
                     color: Colors.greenAccent,
                     fontSize: 14,
                     fontWeight: FontWeight.bold))

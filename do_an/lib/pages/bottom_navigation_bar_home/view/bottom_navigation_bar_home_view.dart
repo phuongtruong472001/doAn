@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../home/view/home_view.dart';
+import '../../transaction/controller/transaction_controller.dart';
 import '../../transaction/view/transaction_page.dart';
 import '../controller/bottom_navigation_bar_home_controller.dart';
 
@@ -20,6 +21,7 @@ class BottomNavigationBarHomePage
   @override
   Widget build(BuildContext context) {
     Get.put(BottomNavigationBarHomeController());
+    Get.put(TransactionController());
     final iconList = [
       IconWithTitle(
         iconLink: ImageAsset.icHome,

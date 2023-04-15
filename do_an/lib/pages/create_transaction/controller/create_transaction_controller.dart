@@ -1,12 +1,15 @@
 import 'package:do_an/database/database.dart';
 import 'package:do_an/model/transaction.dart';
+import 'package:do_an/pages/transaction/controller/transaction_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../base/strings.dart';
 import '../../../routes/routes.dart';
 
 class CreateTransactionController extends GetxController {
   final valueController = TextEditingController().obs;
+  final descriptionController = TextEditingController().obs;
   final categoryController = TextEditingController().obs;
   final noteController = TextEditingController().obs;
   final dateTimeController = TextEditingController().obs;
@@ -55,7 +58,7 @@ class CreateTransactionController extends GetxController {
   }
 
   void chooseFund() {
-    Get.toNamed(AppRoutes.fund)!.then((value) {
+    Get.toNamed(AppRoutes.fund, arguments: true)!.then((value) {
       if (value != null) {
         transaction.update((val) {
           val!.fundID = value.id;
@@ -77,12 +80,21 @@ class CreateTransactionController extends GetxController {
   }
 
   Future<void> createTransaction() async {
-    Transaction transaction = Transaction();
-    bool status = await dbHelper.addTransaction(transaction);
+    transaction.value.value = int.parse(valueController.value.text);
+    transaction.value.description = descriptionController.value.text;
+    transaction.value.executionTime = selectedDate.value;
+    bool status = await dbHelper.addTransaction(transaction.value);
     if (status) {
-      print("Tao moi giao dich thanh cong");
-    } else {
-      print("That bai");
+      TransactionController transactionController =
+          Get.find<TransactionController>();
+      await transactionController.initData();
+      Get.back();
     }
+    Get.snackbar(
+      "",
+      status ? AppString.success("Giao dịch") : AppString.fail,
+      backgroundColor: status ? Colors.green : Colors.red,
+      snackPosition: SnackPosition.BOTTOM,
+    );
   }
 }
