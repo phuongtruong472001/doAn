@@ -11,6 +11,7 @@ class Invoice {
   int? fundId;
   DateTime? notificationTime;
   int? typeOfNotification;
+  int? allowNegative;
   Invoice({
     this.id,
     this.value,
@@ -21,6 +22,7 @@ class Invoice {
     this.fundId,
     this.notificationTime,
     this.typeOfNotification,
+    this.allowNegative = 1,
   });
 
   Map<String, dynamic> toMap() {
@@ -39,19 +41,28 @@ class Invoice {
 
   factory Invoice.fromMap(Map<String, dynamic> json) {
     return Invoice(
-      id: json['id'] != null ? json['id'] as int : null,
-      value: json['value'] != null ? json['value'] as int : null,
-      description: json['description'] != null ? json['description'] as String : null,
-      eventID: json['eventID'] != null ? json['eventID'] as int : null,
-      category: json['category'] != null ? json['category'] as int : null,
-      executionTime: json['executionTime'] != null ? DateTime.fromMillisecondsSinceEpoch(json['executionTime'] as int) : null,
-      fundId: json['fundId'] != null ? json['fundId'] as int : null,
-      notificationTime: json['notificationTime'] != null ? DateTime.fromMillisecondsSinceEpoch(json['notificationTime'] as int) : null,
-      typeOfNotification: json['typeOfNotification'] != null ? json['typeOfNotification'] as int : null,
-    );
+        id: json['id'] != null ? json['id'] as int : null,
+        value: json['value'] != null ? json['value'] as int : null,
+        description:
+            json['description'] != null ? json['description'] as String : null,
+        eventID: json['eventID'] != null ? json['eventID'] as int : null,
+        category: json['category'] != null ? json['category'] as int : null,
+        executionTime: json['executionTime'] != null
+            ? DateTime.fromMillisecondsSinceEpoch(json['executionTime'] as int)
+            : null,
+        fundId: json['fundId'] != null ? json['fundId'] as int : null,
+        notificationTime: json['notificationTime'] != null
+            ? DateTime.fromMillisecondsSinceEpoch(
+                json['notificationTime'] as int)
+            : null,
+        typeOfNotification: json['typeOfNotification'] != null
+            ? json['typeOfNotification'] as int
+            : null,
+        allowNegative: json['allowNegative']);
   }
 
   String toJson() => json.encode(toMap());
 
-  factory Invoice.fromJson(String source) => Invoice.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory Invoice.fromJson(String source) =>
+      Invoice.fromMap(json.decode(source) as Map<String, dynamic>);
 }
