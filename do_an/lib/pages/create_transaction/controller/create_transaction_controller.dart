@@ -8,13 +8,10 @@ import '../../../base/strings.dart';
 import '../../../routes/routes.dart';
 
 class CreateTransactionController extends GetxController {
-  final valueController = TextEditingController().obs;
-  final descriptionController = TextEditingController().obs;
-  final categoryController = TextEditingController().obs;
-  final noteController = TextEditingController().obs;
-  final dateTimeController = TextEditingController().obs;
-  final fundController = TextEditingController().obs;
-  final peopleController = TextEditingController().obs;
+  final valueController = TextEditingController();
+  final descriptionController = TextEditingController();
+
+  final peopleController = TextEditingController();
   Rx<Transaction> transaction = Transaction().obs;
   var choosedDate = false.obs;
   var selectedDate = DateTime.now().obs;
@@ -35,15 +32,22 @@ class CreateTransactionController extends GetxController {
 
   @override
   void onInit() {
+    initData();
     super.onInit();
   }
 
   @override
   void onReady() {}
 
-  @override
-  void onClose() {
-    super.onClose();
+  void initData() {
+    if (Get.arguments is Transaction) {
+      Transaction tran = Get.arguments;
+      valueController.text = tran.value.toString();
+      descriptionController.text = tran.description!;
+      transaction.value.categoryName = tran.categoryName;
+      transaction.value.fundName = tran.fundName;
+      selectedDate.value = tran.executionTime!;
+    }
   }
 
   void chooseCategory() {
@@ -69,7 +73,7 @@ class CreateTransactionController extends GetxController {
   }
 
   void chooseEvent() {
-    Get.toNamed(AppRoutes.event)!.then((value) {
+    Get.toNamed(AppRoutes.event, arguments: true)!.then((value) {
       if (value != null) {
         transaction.update((val) {
           val!.eventId = value.id;

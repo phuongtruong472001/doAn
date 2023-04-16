@@ -8,13 +8,12 @@ import '../../../base/strings.dart';
 
 class CreateFundController extends GetxController {
   Rx<Fund> fund = Fund().obs;
-  final fundNameController = TextEditingController().obs;
-  final valueController = TextEditingController().obs;
-  final noteController = TextEditingController().obs;
-  final dateTimeController = TextEditingController().obs;
+  final fundNameController = TextEditingController();
+  final valueController = TextEditingController();
   DBHelper dbHelper = DBHelper();
   @override
   void onInit() {
+    initData();
     super.onInit();
   }
 
@@ -26,9 +25,16 @@ class CreateFundController extends GetxController {
     super.onClose();
   }
 
+  void initData() {
+    if (Get.arguments != null && Get.arguments is Fund) {
+      fundNameController.text = Get.arguments.name;
+      valueController.text = Get.arguments.value.toString();
+    }
+  }
+
   Future<void> createFund() async {
-    fund.value.name = fundNameController.value.text;
-    fund.value.value = int.parse(valueController.value.text);
+    fund.value.name = fundNameController.text;
+    fund.value.value = int.parse(valueController.text);
     bool status = await dbHelper.addFund(fund.value);
     if (status) {
       FundController fundController = Get.find<FundController>();

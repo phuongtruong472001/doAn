@@ -22,7 +22,7 @@ class CreateTransactionPage extends GetView<CreateTransactionController> {
         appBar: AppBar(
           automaticallyImplyLeading: true,
           title: AutoSizeText(
-            "Tạo mới giao dịch",
+            Get.arguments == null ? "Tạo mới giao dịch" : "Chi tiết giao dịch",
             style: Get.textTheme.bodyLarge!.copyWith(
               fontWeight: FontWeight.bold,
             ),
@@ -33,7 +33,7 @@ class CreateTransactionPage extends GetView<CreateTransactionController> {
                 child: InkWell(
               onTap: () => controller.createTransaction(),
               child: AutoSizeText(
-                "LƯU",
+                 Get.arguments == null ? "LƯU":"CẬP NHẬT",
                 style: Get.textTheme.bodyText1,
               ),
             )),
@@ -45,7 +45,7 @@ class CreateTransactionPage extends GetView<CreateTransactionController> {
               InputTextWithLabel(
                 buildInputText: BuildInputText(
                   InputTextModel(
-                    controller: controller.valueController.value,
+                    controller: controller.valueController,
                     //currentNode: controller.descriptionNode,
                     hintText: "Nhập số tiền",
                     iconNextTextInputAction: TextInputAction.done,
@@ -58,7 +58,7 @@ class CreateTransactionPage extends GetView<CreateTransactionController> {
               InputTextWithLabel(
                 buildInputText: BuildInputText(
                   InputTextModel(
-                    controller: controller.descriptionController.value,
+                    controller: controller.descriptionController,
                     // currentNode: controller.descriptionNode,
                     hintText: "Nhập ghi chú",
                     iconNextTextInputAction: TextInputAction.done,

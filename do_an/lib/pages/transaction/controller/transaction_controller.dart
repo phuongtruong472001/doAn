@@ -1,4 +1,5 @@
 import 'package:do_an/model/transaction.dart' as tr;
+import 'package:do_an/routes/routes.dart';
 import 'package:get/get.dart';
 
 import '../../../database/database.dart';
@@ -22,6 +23,10 @@ class TransactionController extends GetxController {
 
   void onTapped(int index) {
     indexTabbar.value = index;
+  }
+
+  void goToDetail(tr.Transaction transaction) {
+    Get.toNamed(AppRoutes.createTransaction, arguments: transaction);
   }
 
   Future<void> initData() async {

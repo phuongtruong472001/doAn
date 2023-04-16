@@ -18,7 +18,7 @@ class CreateEventPage extends GetView<CreateEventController> {
       appBar: AppBar(
         automaticallyImplyLeading: true,
         title: AutoSizeText(
-          "Tạo mới sự kiện",
+          Get.arguments == null ? "Tạo mới sự kiện" : "Thông tin sự kiện",
           style: Get.textTheme.bodyLarge!.copyWith(
             fontWeight: FontWeight.bold,
           ),
@@ -29,7 +29,7 @@ class CreateEventPage extends GetView<CreateEventController> {
               child: InkWell(
             onTap: () => controller.createEvent(),
             child: AutoSizeText(
-              "LƯU",
+              Get.arguments == null ? "LƯU" : "CẬP NHẬT",
               style: Get.textTheme.bodyLarge,
             ),
           )),

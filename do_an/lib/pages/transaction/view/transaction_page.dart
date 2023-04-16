@@ -41,15 +41,16 @@ class TracsactionPage extends GetView<TransactionController> {
                                   AutoSizeText(AppString.balance),
                                   Text(
                                     '-8,700,000 đ',
-                                    style: TextStyle(fontWeight: FontWeight.bold),
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
                                   )
                                 ],
                               ),
                               Container(
                                 padding: const EdgeInsets.all(5),
                                 decoration: BoxDecoration(
-                                    color:
-                                        const Color.fromARGB(255, 200, 200, 200),
+                                    color: const Color.fromARGB(
+                                        255, 200, 200, 200),
                                     borderRadius: BorderRadius.circular(5)),
                                 child: Row(
                                   children: const [
@@ -101,8 +102,13 @@ class TracsactionPage extends GetView<TransactionController> {
                   )),
               Obx(
                 () => ListView.builder(
-                  itemBuilder: (context, index) =>
-                      TransactionWidget(controller.transactions[index]),
+                  itemBuilder: (context, index) => GestureDetector(
+                    onTap: () =>
+                        controller.goToDetail(controller.transactions[index]),
+                    child: TransactionWidget(
+                      controller.transactions[index],
+                    ),
+                  ),
                   itemCount: controller.transactions.length,
                   shrinkWrap: true,
                 ),

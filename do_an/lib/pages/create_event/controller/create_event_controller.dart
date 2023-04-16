@@ -10,7 +10,7 @@ class CreateEventController extends GetxController {
   Rx<Event> event = Event().obs;
   final valueController = TextEditingController().obs;
   final nameController = TextEditingController().obs;
-  final fundNameController = TextEditingController().obs;
+  //final fundNameController = TextEditingController().obs;
   var choosedDate = false.obs;
   var selectedDate = DateTime.now().obs;
   DBHelper dbHelper = DBHelper();
@@ -47,6 +47,14 @@ class CreateEventController extends GetxController {
       backgroundColor: status ? Colors.green : Colors.red,
       snackPosition: SnackPosition.BOTTOM,
     );
+  }
+
+  void initData() {
+    if (Get.arguments != null && Get.arguments is Event) {
+      nameController.value.text = Get.arguments.name;
+      valueController.value.text = Get.arguments.estimateValue;
+      selectedDate.value = DateTime.parse(Get.arguments.date);
+    }
   }
 
   // void chooseFund() {

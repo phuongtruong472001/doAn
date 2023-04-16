@@ -1,3 +1,4 @@
+import 'package:do_an/routes/routes.dart';
 import 'package:get/get.dart';
 
 import '../../../database/database.dart';
@@ -20,7 +21,11 @@ class EventController extends GetxController {
   }
 
   void onTapItem(Event event) {
-    Get.back(result: event);
+    if (Get.arguments) {
+      Get.back(result: event);
+    } else {
+      Get.toNamed(AppRoutes.createEvent, arguments: event);
+    }
   }
 
   Future<void> initData() async {

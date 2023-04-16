@@ -16,7 +16,7 @@ class CreateFundPage extends GetView<CreateFundController> {
       appBar: AppBar(
         automaticallyImplyLeading: true,
         title: AutoSizeText(
-          "Tạo mới ví",
+          Get.arguments == null ? "Tạo mới ví" : "Chi tiết ví",
           style: Get.textTheme.bodyLarge!.copyWith(
             fontWeight: FontWeight.bold,
           ),
@@ -27,7 +27,7 @@ class CreateFundPage extends GetView<CreateFundController> {
               child: InkWell(
             onTap: () => controller.createFund(),
             child: AutoSizeText(
-              "LƯU",
+              Get.arguments == null ? "LƯU" : "CẬP NHẬT",
               style: Get.textTheme.bodyLarge,
             ),
           )),
@@ -39,7 +39,7 @@ class CreateFundPage extends GetView<CreateFundController> {
             InputTextWithLabel(
               buildInputText: BuildInputText(
                 InputTextModel(
-                  controller: controller.fundNameController.value,
+                  controller: controller.fundNameController,
                   hintText: "Nhập tên ví",
                   iconNextTextInputAction: TextInputAction.done,
                   //inputFormatters: InputFormatterEnum.lengthLimitingText,
@@ -51,7 +51,7 @@ class CreateFundPage extends GetView<CreateFundController> {
             InputTextWithLabel(
               buildInputText: BuildInputText(
                 InputTextModel(
-                  controller: controller.valueController.value,
+                  controller: controller.valueController,
                   hintText: "Nhập số tiền",
                   iconNextTextInputAction: TextInputAction.done,
                   //inputFormatters: InputFormatterEnum.lengthLimitingText,

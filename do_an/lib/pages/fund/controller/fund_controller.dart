@@ -2,6 +2,7 @@ import 'package:do_an/model/fund.dart';
 import 'package:get/get.dart';
 
 import '../../../database/database.dart';
+import '../../../routes/routes.dart';
 
 class FundController extends GetxController {
   RxList<Fund> funds = List<Fund>.empty().obs;
@@ -26,7 +27,11 @@ class FundController extends GetxController {
   }
 
   void onTapItem(Fund fund) {
-    Get.back(result: fund);
+    if (Get.arguments != null) {
+      Get.back(result: fund);
+    } else {
+      Get.toNamed(AppRoutes.createFund, arguments: fund);
+    }
   }
 
   void createFund() {}
