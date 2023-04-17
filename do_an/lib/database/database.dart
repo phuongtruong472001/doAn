@@ -54,9 +54,13 @@ class DBHelper {
     return listCategories;
   }
 
-  Future<List<tr.Transaction>> getTransactions() async {
+  Future<List<tr.Transaction>> getTransactions(
+      String fromDate, String toDate) async {
+    String fromDate = DateFormat('yyyy-MM-dd').format(DateTime(2023, 4, 15));
+    String toDate = DateFormat('yyyy-MM-dd').format(DateTime(2023, 4, 18));
     var dbClient = await db;
-    var transactions = await dbClient?.query('Transactions');
+    var transactions = await dbClient?.rawQuery(
+        'SELECT * FROM Transactions where executionTime >= "$fromDate" AND executionTime <= "$toDate"');
     List<tr.Transaction> listCategories = transactions!.isNotEmpty
         ? transactions.map((c) => tr.Transaction.fromMap(c)).toList()
         : [];
@@ -109,7 +113,7 @@ class DBHelper {
       [
         event.name,
         event.icon,
-        event.date.toString(),
+        event.date!.toIso8601String(),
         event.estimateValue,
       ],
     );
@@ -118,6 +122,7 @@ class DBHelper {
 
   Future<bool> addInvoice(Invoice invoice) async {
     var dbClient = await db;
+    print(DateFormat('yyyy-MM-dd').format(invoice.executionTime!));
     var status = await dbClient?.rawInsert(
       'INSERT INTO Invoice(value, description,eventID,category,executionTime,fundId,notificationTime,typeOfNotification) VALUES(?, ?, ?, ?,?, ?, ?, ?)',
       [
@@ -125,7 +130,7 @@ class DBHelper {
         invoice.description,
         invoice.eventID,
         invoice.category,
-        invoice.executionTime,
+        DateFormat('yyyy-MM-dd').format(invoice.executionTime!),
         invoice.fundId,
         invoice.notificationTime,
         invoice.typeOfNotification,
@@ -143,7 +148,7 @@ class DBHelper {
         transaction.description,
         transaction.eventId,
         transaction.categoryId,
-        transaction.executionTime.toString(),
+        DateFormat('yyyy-MM-dd kk:mm').format(transaction.executionTime!),
         transaction.fundID,
         transaction.categoryName,
         transaction.eventName,
