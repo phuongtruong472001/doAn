@@ -1,12 +1,15 @@
 import 'package:do_an/model/transaction.dart' as tr;
 import 'package:do_an/routes/routes.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 import '../../../database/database.dart';
 
 class TransactionController extends GetxController {
   RxInt indexTabbar = 0.obs;
   RxList<tr.Transaction> transactions = List<tr.Transaction>.empty().obs;
+  String fromDate = DateFormat('yyyy-MM-dd kk:mm').format(DateTime.now());
+  String toDate = DateFormat('yyyy-MM-dd kk:mm').format(DateTime.now());
   @override
   void onInit() {
     initData();
@@ -31,7 +34,7 @@ class TransactionController extends GetxController {
 
   Future<void> initData() async {
     var dbHelper = DBHelper();
-    List<tr.Transaction> listTransaction = await dbHelper.getTransactions();
+    List<tr.Transaction> listTransaction = await dbHelper.getTransactions(fromDate,toDate);
     transactions.value = listTransaction;
   }
 }

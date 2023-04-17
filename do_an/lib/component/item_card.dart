@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:do_an/model/transaction.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 import '../base/colors.dart';
 
@@ -88,7 +89,7 @@ class TransactionWidget extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(top: 5),
                     child: Text(
-                      "${transaction.description!} lúc ${transaction.executionTime}",
+                      "${transaction.description!} lúc ${DateFormat('kk:mm dd-MM-yyyy').format(transaction.executionTime!)}",
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(fontSize: 12),
