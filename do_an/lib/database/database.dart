@@ -56,11 +56,9 @@ class DBHelper {
 
   Future<List<tr.Transaction>> getTransactions(
       String fromDate, String toDate) async {
-    String fromDate = DateFormat('yyyy-MM-dd').format(DateTime(2023, 4, 15));
-    String toDate = DateFormat('yyyy-MM-dd').format(DateTime(2023, 4, 18));
     var dbClient = await db;
     var transactions = await dbClient?.rawQuery(
-        'SELECT * FROM Transactions where executionTime >= "$fromDate" AND executionTime <= "$toDate"');
+        'SELECT * FROM Transactions where executionTime = "$fromDate" AND executionTime <= "$toDate"');
     List<tr.Transaction> listCategories = transactions!.isNotEmpty
         ? transactions.map((c) => tr.Transaction.fromMap(c)).toList()
         : [];
@@ -109,7 +107,7 @@ class DBHelper {
   Future<bool> addEvent(Event event) async {
     var dbClient = await db;
     var status = await dbClient?.rawInsert(
-      'INSERT INTO Event(name,icon,date,estimateValue,,allowNegative) VALUES(?, ?, ?, ?,?)',
+      'INSERT INTO Event(name,icon,date,estimateValue,allowNegative) VALUES(?, ?, ?, ?,?)',
       [
         event.name,
         event.icon,
@@ -160,6 +158,9 @@ class DBHelper {
     );
     if (status != 0) {
       await updateFund(transaction);
+      if (transaction.eventId! >= 0) {
+        updateEvent(transaction);
+      }
     }
     return status != 0;
   }
@@ -244,7 +245,37 @@ class DBHelper {
   ) async {
     var dbClient = await db;
     await dbClient?.rawInsert(
-      'Update Event SET value=value+ ${transaction.value} WHERE id=${transaction.id}',
+      'Update Event SET value=value+ ${transaction.value} WHERE id=${transaction.eventId}',
     );
+  }
+
+  Future<int> getTotalValueOfCategory(
+    int categoryID,
+    String fromDate,
+    String toDate,
+  ) async {
+    var dbClient = await db;
+    var transactions = await dbClient?.rawQuery(
+        'SELECT SUM(value) as Total FROM Transactions where   categoryId=$categoryID');
+    int sumValues = transactions![0]["Total"] as int;
+    return sumValues;
+  }
+
+  Future<int> getTotalValue(
+    String fromDate,
+    String toDate,
+  ) async {
+    var dbClient = await db;
+    var transactions = await dbClient
+        ?.rawQuery('SELECT SUM(value) as Total FROM Transactions');
+    int sumValues = transactions![0]["Total"] as int;
+    return sumValues;
+  }
+
+  Future<int> getTotalValueOfCash() async {
+    var dbClient = await db;
+    var fund = await dbClient?.rawQuery('SELECT value  FROM Fund where id=0');
+    int sumValues = fund![0]["value"] as int;
+    return sumValues;
   }
 }

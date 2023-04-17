@@ -6,6 +6,7 @@ import '../../../routes/routes.dart';
 
 class FundController extends GetxController {
   RxList<Fund> funds = List<Fund>.empty().obs;
+   RxInt totalValue = 0.obs;
   @override
   void onInit() async {
     await initData();
@@ -14,6 +15,7 @@ class FundController extends GetxController {
 
   Future<void> initData() async {
     var dbHelper = DBHelper();
+    totalValue.value = await dbHelper.getTotalValue("", "");
     List<Fund> listFunds = await dbHelper.getFunds();
     funds.value = listFunds;
   }

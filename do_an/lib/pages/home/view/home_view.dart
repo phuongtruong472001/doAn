@@ -37,10 +37,19 @@ class HomePage extends GetView<HomeController> {
                       ).paddingAll(defaultPadding),
                     ),
                     BuildDividerDefault(),
-                    ItemCard(
-                      Icons.wallet,
-                      "Tiền mặt",
-                      subTitle: "10000000",
+                    Obx(
+                      () => ItemCard(
+                        Icons.wallet,
+                        "Tổng cộng",
+                        subTitle: controller.totalValue.value.toString(),
+                      ),
+                    ),
+                    Obx(
+                      () => ItemCard(
+                        Icons.wallet,
+                        "Tiền mặt",
+                        subTitle: controller.cashValue.value.toString(),
+                      ),
                     ),
                   ],
                 ),

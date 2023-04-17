@@ -13,21 +13,20 @@ class Transaction {
   String fundName;
   String categoryName;
   int? allowNegative;
-  int isIncrease ;
-  Transaction({
-    this.id = 0,
-    this.value = 0,
-    this.description = "",
-    this.eventId = 0,
-    this.categoryId = -1,
-    this.executionTime,
-    this.fundID = 0,
-    this.categoryName = "",
-    this.fundName = "",
-    this.eventName = "",
-    this.allowNegative = 1,
-    this.isIncrease = 0
-  });
+  int isIncrease;
+  Transaction(
+      {this.id = 0,
+      this.value = 0,
+      this.description = "",
+      this.eventId = -1,
+      this.categoryId = -1,
+      this.executionTime,
+      this.fundID = -1,
+      this.categoryName = "",
+      this.fundName = "",
+      this.eventName = "",
+      this.allowNegative = 1,
+      this.isIncrease = 0});
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{

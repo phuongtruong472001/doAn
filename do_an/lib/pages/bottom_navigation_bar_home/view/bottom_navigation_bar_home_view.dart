@@ -9,6 +9,7 @@ import 'package:do_an/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../home/controller/home_controller.dart';
 import '../../home/view/home_view.dart';
 import '../../transaction/controller/transaction_controller.dart';
 import '../../transaction/view/transaction_page.dart';
@@ -22,6 +23,7 @@ class BottomNavigationBarHomePage
   Widget build(BuildContext context) {
     Get.put(BottomNavigationBarHomeController());
     Get.put(TransactionController());
+    Get.put(HomeController());
     final iconList = [
       IconWithTitle(
         iconLink: ImageAsset.icHome,

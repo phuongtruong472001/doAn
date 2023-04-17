@@ -38,12 +38,14 @@ class FundPage extends GetView<FundController> {
             if (Get.arguments == null)
               GestureDetector(
                 onTap: () {},
-                child: const Card(
-                  child: ListTile(
-                    leading: Icon(Icons.sports_basketball_rounded),
-                    title: AutoSizeText("Tổng cộng"),
-                    subtitle: AutoSizeText("2000000 đ"),
-                  ),
+                child: Card(
+                  child: Obx(() => ListTile(
+                        leading: const Icon(Icons.sports_basketball_rounded),
+                        title: const AutoSizeText("Tổng cộng"),
+                        subtitle: AutoSizeText(
+                          controller.totalValue.value.toString(),
+                        ),
+                      )),
                 ),
               ),
             const AutoSizeText("Danh sách ví của bạn"),
