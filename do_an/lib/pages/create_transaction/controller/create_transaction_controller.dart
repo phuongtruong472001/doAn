@@ -56,6 +56,7 @@ class CreateTransactionController extends GetxController {
         transaction.update((val) {
           val!.categoryId = value.id;
           val.categoryName = value.name;
+          val.isIncrease = value.typeCategory;
         });
       }
     });
@@ -84,7 +85,12 @@ class CreateTransactionController extends GetxController {
   }
 
   Future<void> createTransaction() async {
-    transaction.value.value = int.parse(valueController.value.text);
+    if (transaction.value.isIncrease == 5) {
+      transaction.value.value = int.parse(valueController.value.text);
+    } else {
+      transaction.value.value = int.parse(valueController.value.text) * (-1);
+    }
+
     transaction.value.description = descriptionController.value.text;
     transaction.value.executionTime = selectedDate.value;
     bool status = await dbHelper.addTransaction(transaction.value);

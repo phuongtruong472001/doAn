@@ -123,7 +123,6 @@ class DBHelper {
 
   Future<bool> addInvoice(Invoice invoice) async {
     var dbClient = await db;
-    print(DateFormat('yyyy-MM-dd').format(invoice.executionTime!));
     var status = await dbClient?.rawInsert(
       'INSERT INTO Invoice(value, description,eventID,category,executionTime,fundId,notificationTime,typeOfNotification,allowNegative) VALUES(?, ?, ?, ?,?, ?, ?, ?,?)',
       [
@@ -144,7 +143,7 @@ class DBHelper {
   Future<bool> addTransaction(tr.Transaction transaction) async {
     var dbClient = await db;
     var status = await dbClient?.rawInsert(
-      'INSERT INTO Transactions(value,description,eventId,categoryId,executionTime,fundID,categoryName,eventName,fundName,,allowNegative) VALUES(?, ?, ?, ?, ?, ?,?,?,?,?)',
+      'INSERT INTO Transactions(value,description,eventId,categoryId,executionTime,fundID,categoryName,eventName,fundName,allowNegative,isIncrease) VALUES(?, ?, ?, ?, ?, ?,?,?,?,?,?)',
       [
         transaction.value,
         transaction.description,
@@ -155,10 +154,13 @@ class DBHelper {
         transaction.categoryName,
         transaction.eventName,
         transaction.fundName,
-        transaction.allowNegative
+        transaction.allowNegative,
+        transaction.isIncrease
       ],
     );
-    if (status != 0) {}
+    if (status != 0) {
+      await updateFund(transaction);
+    }
     return status != 0;
   }
 
@@ -175,7 +177,7 @@ class DBHelper {
   ) async {
     var dbClient = await db;
     await dbClient?.rawInsert(
-      'Update  Fund SET value=value+ ${transaction.value} WHERE id=${transaction.id}',
+      'Update  Fund SET value=value+ ${transaction.value} WHERE id=${transaction.fundID}',
     );
   }
 
@@ -245,6 +247,4 @@ class DBHelper {
       'Update Event SET value=value+ ${transaction.value} WHERE id=${transaction.id}',
     );
   }
-
-  
 }

@@ -13,6 +13,7 @@ class Transaction {
   String fundName;
   String categoryName;
   int? allowNegative;
+  int isIncrease ;
   Transaction({
     this.id = 0,
     this.value = 0,
@@ -25,6 +26,7 @@ class Transaction {
     this.fundName = "",
     this.eventName = "",
     this.allowNegative = 1,
+    this.isIncrease = 0
   });
 
   Map<String, dynamic> toMap() {
@@ -58,6 +60,7 @@ class Transaction {
       fundName: map['fundName'] as String,
       categoryName: map['categoryName'] as String,
       allowNegative: map['allowNegative'],
+      isIncrease: map["isIncrease"],
     );
   }
 
