@@ -6,12 +6,14 @@ class Event {
   String? name;
   String? icon;
   DateTime? date;
+  int? allowNegative;
   int? estimateValue;
   Event({
     this.id,
     this.name,
     this.icon,
     this.date,
+    this.allowNegative=1,
     this.estimateValue,
   });
 
@@ -31,6 +33,7 @@ class Event {
       name: json['name'] != null ? json['name'] as String : null,
       icon: json['icon'] != null ? json['icon'] as String : null,
       date: json['date'] != null ? DateTime.parse(json['date']) : null,
+      allowNegative: json["allowNegative"],
       estimateValue: json['estimateValue'],
     );
   }

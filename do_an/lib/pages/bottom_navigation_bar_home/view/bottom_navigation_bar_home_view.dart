@@ -76,15 +76,12 @@ class BottomNavigationBarHomePage
                   color: color,
                 ).paddingAll(5),
                 const SizedBox(height: 4),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8),
-                  child: AutoSizeText(
-                    iconList[index].title,
-                    maxLines: 1,
-                    style: Get.textTheme.bodySmall!.copyWith(
-                      color: color,
-                      fontWeight: FontWeight.bold,
-                    ),
+                AutoSizeText(
+                  iconList[index].title,
+                  maxLines: 1,
+                  style: Get.textTheme.bodySmall!.copyWith(
+                    color: color,
+                    fontWeight: FontWeight.bold,
                   ),
                 )
               ],

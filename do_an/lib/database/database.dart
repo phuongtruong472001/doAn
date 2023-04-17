@@ -99,7 +99,7 @@ class DBHelper {
       [
         fund.name,
         fund.icon,
-        fund.value.toString(),
+        fund.value,
         fund.allowNegative,
       ],
     );
@@ -109,12 +109,13 @@ class DBHelper {
   Future<bool> addEvent(Event event) async {
     var dbClient = await db;
     var status = await dbClient?.rawInsert(
-      'INSERT INTO Event(name,icon,date,estimateValue) VALUES(?, ?, ?, ?)',
+      'INSERT INTO Event(name,icon,date,estimateValue,,allowNegative) VALUES(?, ?, ?, ?,?)',
       [
         event.name,
         event.icon,
         event.date!.toIso8601String(),
         event.estimateValue,
+        event.allowNegative
       ],
     );
     return status == 1;
@@ -124,7 +125,7 @@ class DBHelper {
     var dbClient = await db;
     print(DateFormat('yyyy-MM-dd').format(invoice.executionTime!));
     var status = await dbClient?.rawInsert(
-      'INSERT INTO Invoice(value, description,eventID,category,executionTime,fundId,notificationTime,typeOfNotification) VALUES(?, ?, ?, ?,?, ?, ?, ?)',
+      'INSERT INTO Invoice(value, description,eventID,category,executionTime,fundId,notificationTime,typeOfNotification,allowNegative) VALUES(?, ?, ?, ?,?, ?, ?, ?,?)',
       [
         invoice.value,
         invoice.description,
@@ -134,15 +135,16 @@ class DBHelper {
         invoice.fundId,
         invoice.notificationTime,
         invoice.typeOfNotification,
+        invoice.allowNegative
       ],
     );
-    return status == 1;
+    return status != 0;
   }
 
   Future<bool> addTransaction(tr.Transaction transaction) async {
     var dbClient = await db;
     var status = await dbClient?.rawInsert(
-      'INSERT INTO Transactions(value,description,eventId,categoryId,executionTime,fundID,categoryName,eventName,fundName) VALUES(?, ?, ?, ?, ?, ?,?,?,?)',
+      'INSERT INTO Transactions(value,description,eventId,categoryId,executionTime,fundID,categoryName,eventName,fundName,,allowNegative) VALUES(?, ?, ?, ?, ?, ?,?,?,?,?)',
       [
         transaction.value,
         transaction.description,
@@ -152,9 +154,11 @@ class DBHelper {
         transaction.fundID,
         transaction.categoryName,
         transaction.eventName,
-        transaction.fundName
+        transaction.fundName,
+        transaction.allowNegative
       ],
     );
+    if (status != 0) {}
     return status != 0;
   }
 
@@ -164,4 +168,83 @@ class DBHelper {
         await dbClient?.rawQuery('SELECT * FROM Category WHERE id = ?', [id]);
     return category![0]["name"] as String;
   }
+
+  //edit records
+  Future<void> updateFund(
+    tr.Transaction transaction,
+  ) async {
+    var dbClient = await db;
+    await dbClient?.rawInsert(
+      'Update  Fund SET value=value+ ${transaction.value} WHERE id=${transaction.id}',
+    );
+  }
+
+  Future<bool> editEvent(Event event) async {
+    var dbClient = await db;
+    var status = await dbClient?.rawUpdate(
+      'Update Event SET name=${event.name},icon=${event.icon},date=${event.date},estimate =${event.estimateValue} WHERE id=${event.id}',
+    );
+    return status == 1;
+  }
+
+  Future<bool> editInvoice(Invoice invoice) async {
+    var dbClient = await db;
+    var status = await dbClient?.rawUpdate(
+      'Update  Invoice SET value=${invoice.value}, description=${invoice.description},eventID=${invoice.eventID},category=${invoice.category},executionTime=${invoice.executionTime},fundId=${invoice.fundId},notificationTime=${invoice.notificationTime},typeOfNotification=${invoice.typeOfNotification} WHERE id=${invoice.id}',
+    );
+    return status == 1;
+  }
+
+  Future<bool> editTransaction(tr.Transaction transaction) async {
+    var dbClient = await db;
+    var status = await dbClient?.rawUpdate(
+      'Update Transactions SET value=${transaction.value},description=${transaction.description},eventId=${transaction.eventId},categoryId=${transaction.categoryId},executionTime=${transaction.executionTime},fundID=${transaction.fundID},categoryName=${transaction.categoryName},eventName=${transaction.eventName},fundName=${transaction.fundName} WHERE id=${transaction.id}',
+    );
+    return status != 0;
+  }
+
+  //delete records
+  Future<bool> deleteFund(Fund fund) async {
+    var dbClient = await db;
+    var status = await dbClient?.rawInsert(
+      'Update  Fund SET allowNegative=0 WHERE id=${fund.id}',
+    );
+    return status != 0;
+  }
+
+  Future<bool> deleteEvent(Event event) async {
+    var dbClient = await db;
+    var status = await dbClient?.rawUpdate(
+      'Update Event SET allowNegative=0 WHERE id=${event.id}',
+    );
+    return status == 1;
+  }
+
+  Future<bool> deleteInvoice(Invoice invoice) async {
+    var dbClient = await db;
+    var status = await dbClient?.rawInsert(
+      'Update Invoice SET allowNegative=0 WHERE id=${invoice.id}',
+    );
+    return status == 1;
+  }
+
+  Future<bool> deleteTransaction(tr.Transaction transaction) async {
+    var dbClient = await db;
+    var status = await dbClient?.rawInsert(
+      'DELETE FROM  Transaction WHERE id=${transaction.id}',
+    );
+    return status != 0;
+  }
+  //update record
+
+  Future<void> updateEvent(
+    tr.Transaction transaction,
+  ) async {
+    var dbClient = await db;
+    await dbClient?.rawInsert(
+      'Update Event SET value=value+ ${transaction.value} WHERE id=${transaction.id}',
+    );
+  }
+
+  
 }
