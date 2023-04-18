@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 
 import '../../../base/colors.dart';
 import '../../../base/dimen.dart';
+import '../../../base/strings.dart';
 import '../../../component/base_input_with_label.dart';
 import '../../../component/input_text_form_field_model.dart';
 import '../controller/create_event_controller.dart';
@@ -18,7 +19,7 @@ class CreateEventPage extends GetView<CreateEventController> {
       appBar: AppBar(
         automaticallyImplyLeading: true,
         title: AutoSizeText(
-          Get.arguments == null ? "Tạo mới sự kiện" : "Thông tin sự kiện",
+          Get.arguments == null ? AppString.createEvent : AppString.detailEvent,
           style: Get.textTheme.bodyLarge!.copyWith(
             fontWeight: FontWeight.bold,
           ),
@@ -29,7 +30,7 @@ class CreateEventPage extends GetView<CreateEventController> {
               child: InkWell(
             onTap: () => controller.createEvent(),
             child: AutoSizeText(
-              Get.arguments == null ? "LƯU" : "CẬP NHẬT",
+              Get.arguments == null ? AppString.save : AppString.edit,
               style: Get.textTheme.bodyLarge,
             ),
           )),
@@ -42,25 +43,25 @@ class CreateEventPage extends GetView<CreateEventController> {
               buildInputText: BuildInputText(
                 InputTextModel(
                   controller: controller.nameController.value,
-                  hintText: "Nhập tên sự kiện",
+                  hintText: AppString.hintNameEvent,
                   iconNextTextInputAction: TextInputAction.done,
                   //inputFormatters: InputFormatterEnum.lengthLimitingText,
                   submitFunc: (v) => {},
                 ),
               ),
-              label: "Tên sự kiện",
+              label: AppString.nameEvent,
             ),
             InputTextWithLabel(
               buildInputText: BuildInputText(
                 InputTextModel(
                   controller: controller.valueController.value,
-                  hintText: "Nhập số tiền",
+                  hintText: AppString.hintValue,
                   iconNextTextInputAction: TextInputAction.done,
                   //inputFormatters: InputFormatterEnum.lengthLimitingText,
                   submitFunc: (v) => {},
                 ),
               ),
-              label: "Số tiền",
+              label: AppString.value,
             ),
             // GestureDetector(
             //    // onTap: () => controller.chooseFund(),
@@ -87,7 +88,7 @@ class CreateEventPage extends GetView<CreateEventController> {
                   () => ListTile(
                       leading: const Icon(Icons.date_range),
                       trailing: AutoSizeText(
-                        "Chọn thời gian",
+                        AppString.hintTime,
                         style: Get.textTheme.bodyMedium!
                             .copyWith(color: kPrimaryColor),
                       ),

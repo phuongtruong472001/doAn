@@ -11,8 +11,12 @@ class AppString {
   static const String notification = 'Thông báo';
   static const String filter = 'Lọc';
   static const String send = "Gửi";
-  static const String save = 'Lưu';
-  static const String edit = "Sửa";
+  static const String save = 'LƯU';
+  static const String edit = "SỬA";
+  static const String hintValue = "Nhập số tiền";
+  static const String value = "Số tiền";
+  static const String hintTime = "Chọn thời gian";
+  static const String cash = "Tiền mặt";
 
   static const String invoice = 'Hóa đơn';
   static const String account = 'Tài khoản';
@@ -56,10 +60,19 @@ class AppString {
   static const String quarterThree = "Quý 3";
   static const String quarterFour = "Quý 4";
 
+
+  //transaction
   static const String selectGroup = "Chọn nhóm ";
   static const String createTransaction = "Thêm giao dịch";
   static const String setReminder = "Đặt nhắc nhở";
   static const String createNote = "Thêm ghi chú";
+  static const String editNote = "Nhập ghi chú";
+  static const String balance = "Số dư";
+  static const String total = "Tổng cộng ";
+  static const String detailTransaction = "Chi tiết giao dịch";
+  static const String selectCategory = "Chọn danh mục";
+  static const String selectFund = "Chọn nguồn tiền";
+  static const String selectEvent = "Chọn sự kiện";
 
   //Home
   static const String overview = "Tổng quan";
@@ -69,12 +82,27 @@ class AppString {
   static const String viewAll = "Xem tất cả";
   static const String viewReport = "Xem báo cáo";
   static const String spendingReport = "Báo cáo chi tiêu";
-
-  //transaction
-  static const String balance = "Số dư";
-  static const String total = "Tổng cộng ";
+  
 
   //messege
   static String success(String name) => "Thêm mới $name thành công";
   static const String fail = "Thêm mới thất bại";
+
+  //event
+  static const String allEvent = "Tất cả sự kiện";
+  static const String chooseEvent = "Chọn sự kiện";
+  static const String createEvent = "Tạo mới sự kiện";
+  static const String detailEvent = "Chi tiết sự kiện";
+
+  static const String hintNameEvent = "Nhập tên sự kiện";
+  static const String nameEvent = "Tên sự kiện";
+
+  //fund
+
+  static const String createFund = "Tạo mới ví";
+  static const String nameFund = "Tên ví";
+  static const String hintNameFund = "Nhập tên ví";
+  static const String myFund = "Ví của tôi";
+  static const String listFund = "Danh sách ví của bạn";
+  static const String detailFund = "Chi tiết ví";
 }

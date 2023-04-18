@@ -5,13 +5,12 @@ import 'package:do_an/model/category.dart';
 import 'package:do_an/model/event.dart';
 import 'package:do_an/model/fund.dart';
 import 'package:do_an/model/invoice.dart';
+import 'package:do_an/model/transaction.dart' as tr;
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
-
-import 'package:do_an/model/transaction.dart' as tr;
 
 class DBHelper {
   static Database? _db;
@@ -26,7 +25,7 @@ class DBHelper {
     io.Directory documentsDirectory = await getApplicationDocumentsDirectory();
     String path = join(documentsDirectory.path, "do_an.db");
     bool dbExists = await io.File(path).exists();
-    print("Database: " + path);
+    print("Database: $path");
 
     if (!dbExists) {
       // Copy from asset
@@ -256,8 +255,9 @@ class DBHelper {
   ) async {
     var dbClient = await db;
     var transactions = await dbClient?.rawQuery(
-        'SELECT SUM(value) as Total FROM Transactions where   categoryId=$categoryID');
-    int sumValues = transactions![0]["Total"] as int;
+        'SELECT SUM(value) as Total FROM Transactions where categoryId=$categoryID');
+    int sumValues =
+        transactions!.isNotEmpty ? transactions[0]["Total"] as int : 0;
     return sumValues;
   }
 
@@ -266,16 +266,17 @@ class DBHelper {
     String toDate,
   ) async {
     var dbClient = await db;
-    var transactions = await dbClient
-        ?.rawQuery('SELECT SUM(value) as Total FROM Transactions');
-    int sumValues = transactions![0]["Total"] as int;
+    var transactions =
+        await dbClient?.rawQuery('SELECT SUM(value) as Total FROM Fund');
+    int sumValues =
+        transactions!.isNotEmpty ? transactions[0]["Total"] as int : 0;
     return sumValues;
   }
 
   Future<int> getTotalValueOfCash() async {
     var dbClient = await db;
     var fund = await dbClient?.rawQuery('SELECT value  FROM Fund where id=0');
-    int sumValues = fund![0]["value"] as int;
+    int sumValues = fund!.isNotEmpty ? fund[0]["value"] as int : 0;
     return sumValues;
   }
 }

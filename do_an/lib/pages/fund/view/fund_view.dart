@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:do_an/base/dimen.dart';
+import 'package:do_an/base/strings.dart';
 import 'package:do_an/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -14,11 +15,11 @@ class FundPage extends GetView<FundController> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: true,
-        title: Text(Get.arguments == null ? "Ví của tôi" : "Chọn nguồn tiền"),
+        title: Text(Get.arguments == null ? AppString.myFund  : AppString.selectFund),
         actions: [
           if (Get.arguments == null) ...[
             const Icon(Icons.notifications),
-            const AutoSizeText("SỬA"),
+            const AutoSizeText(AppString.edit),
           ]
         ],
       ),
@@ -41,14 +42,14 @@ class FundPage extends GetView<FundController> {
                 child: Card(
                   child: Obx(() => ListTile(
                         leading: const Icon(Icons.sports_basketball_rounded),
-                        title: const AutoSizeText("Tổng cộng"),
+                        title: const AutoSizeText(AppString.total),
                         subtitle: AutoSizeText(
                           controller.totalValue.value.toString(),
                         ),
                       )),
                 ),
               ),
-            const AutoSizeText("Danh sách ví của bạn"),
+            const AutoSizeText(AppString.listFund),
             Obx(
               () => ListView.builder(
                 itemBuilder: (context, index) => GestureDetector(

@@ -3,6 +3,7 @@ import 'package:do_an/base/dimen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../base/strings.dart';
 import '../../../component/base_input_with_label.dart';
 import '../../../component/input_text_form_field_model.dart';
 import '../controller/create_fund_controller.dart';
@@ -16,7 +17,7 @@ class CreateFundPage extends GetView<CreateFundController> {
       appBar: AppBar(
         automaticallyImplyLeading: true,
         title: AutoSizeText(
-          Get.arguments == null ? "Tạo mới ví" : "Chi tiết ví",
+          Get.arguments == null ? AppString.createFund : AppString.detailFund,
           style: Get.textTheme.bodyLarge!.copyWith(
             fontWeight: FontWeight.bold,
           ),
@@ -27,7 +28,7 @@ class CreateFundPage extends GetView<CreateFundController> {
               child: InkWell(
             onTap: () => controller.createFund(),
             child: AutoSizeText(
-              Get.arguments == null ? "LƯU" : "CẬP NHẬT",
+              Get.arguments == null ? AppString.save : AppString.edit,
               style: Get.textTheme.bodyLarge,
             ),
           )),
@@ -40,25 +41,25 @@ class CreateFundPage extends GetView<CreateFundController> {
               buildInputText: BuildInputText(
                 InputTextModel(
                   controller: controller.fundNameController,
-                  hintText: "Nhập tên ví",
+                  hintText: AppString.hintNameFund,
                   iconNextTextInputAction: TextInputAction.done,
                   //inputFormatters: InputFormatterEnum.lengthLimitingText,
                   submitFunc: (v) => {},
                 ),
               ),
-              label: "Tên ví",
+              label: AppString.nameFund,
             ),
             InputTextWithLabel(
               buildInputText: BuildInputText(
                 InputTextModel(
                   controller: controller.valueController,
-                  hintText: "Nhập số tiền",
+                  hintText: AppString.hintValue,
                   iconNextTextInputAction: TextInputAction.done,
                   //inputFormatters: InputFormatterEnum.lengthLimitingText,
                   submitFunc: (v) => {},
                 ),
               ),
-              label: "Số tiền",
+              label: AppString.value,
             ),
           ]).paddingSymmetric(
             horizontal: defaultPadding,

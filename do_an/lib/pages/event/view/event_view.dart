@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:do_an/base/dimen.dart';
+import 'package:do_an/base/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -14,7 +15,7 @@ class EventPage extends GetView<EventController> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: true,
-        title: const Text("Chọn sự kiện"),
+        title: Text(Get.arguments == null ?  AppString.allEvent: AppString.chooseEvent),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {

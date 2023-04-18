@@ -40,14 +40,14 @@ class HomePage extends GetView<HomeController> {
                     Obx(
                       () => ItemCard(
                         Icons.wallet,
-                        "Tổng cộng",
+                        AppString.total,
                         subTitle: controller.totalValue.value.toString(),
                       ),
                     ),
                     Obx(
                       () => ItemCard(
                         Icons.wallet,
-                        "Tiền mặt",
+                        AppString.cash,
                         subTitle: controller.cashValue.value.toString(),
                       ),
                     ),

@@ -36,7 +36,7 @@ class TransactionController extends GetxController {
     var dbHelper = DBHelper();
     List<tr.Transaction> listTransaction =
         await dbHelper.getTransactions(fromDate, toDate);
-    dbHelper.getTotalValueOfCategory(0, "", "");
+    //dbHelper.getTotalValueOfCategory(0, "", "");
     transactions.value = listTransaction;
   }
 }

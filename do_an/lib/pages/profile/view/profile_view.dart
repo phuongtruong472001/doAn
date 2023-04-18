@@ -34,7 +34,7 @@ class ProfilePage extends GetView<ProfileController> {
                       menuMet("My Account", Icons.credit_card_outlined,
                           Colors.blue),
                       menuMet(
-                          "Address", Icons.location_on_outlined, Colors.purple),
+                          "Hoá đơn", Icons.location_on_outlined, Colors.purple),
                       menuMet(
                           "Setting", Icons.settings_outlined, Colors.orange),
                       menuMet("Help Center", Icons.help_outline, Colors.purple),
@@ -43,21 +43,21 @@ class ProfilePage extends GetView<ProfileController> {
                   ),
                 ),
                 Spacer(),
-                Container(
-                  height: 50,
-                  decoration: BoxDecoration(
-                      color: const Color.fromARGB(255, 255, 226, 236),
-                      borderRadius: BorderRadius.circular(5)),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
-                      Text("Log out",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Colors.redAccent)),
-                    ],
-                  ),
-                ).paddingAll(defaultPadding),
+                // Container(
+                //   height: 50,
+                //   decoration: BoxDecoration(
+                //       color: const Color.fromARGB(255, 255, 226, 236),
+                //       borderRadius: BorderRadius.circular(5)),
+                //   child: Row(
+                //     mainAxisAlignment: MainAxisAlignment.center,
+                //     children: const [
+                //       Text("Log out",
+                //           style: TextStyle(
+                //               fontWeight: FontWeight.bold,
+                //               color: Colors.redAccent)),
+                //     ],
+                //   ),
+                // ).paddingAll(defaultPadding),
               ],
             )));
   }

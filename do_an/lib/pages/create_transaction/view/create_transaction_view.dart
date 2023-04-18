@@ -6,9 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
-import '../../../enum/input_formatter_enum.dart';
+import '../../../base/strings.dart';
 import '../../../component/base_input_with_label.dart';
 import '../../../component/input_text_form_field_model.dart';
+import '../../../enum/input_formatter_enum.dart';
 import '../controller/create_transaction_controller.dart';
 
 class CreateTransactionPage extends GetView<CreateTransactionController> {
@@ -22,7 +23,9 @@ class CreateTransactionPage extends GetView<CreateTransactionController> {
         appBar: AppBar(
           automaticallyImplyLeading: true,
           title: AutoSizeText(
-            Get.arguments == null ? "Tạo mới giao dịch" : "Chi tiết giao dịch",
+            Get.arguments == null
+                ? AppString.createTransaction
+                : AppString.detailTransaction,
             style: Get.textTheme.bodyLarge!.copyWith(
               fontWeight: FontWeight.bold,
             ),
@@ -33,7 +36,7 @@ class CreateTransactionPage extends GetView<CreateTransactionController> {
                 child: InkWell(
               onTap: () => controller.createTransaction(),
               child: AutoSizeText(
-                 Get.arguments == null ? "LƯU":"CẬP NHẬT",
+                Get.arguments == null ? AppString.save : AppString.edit,
                 style: Get.textTheme.bodyText1,
               ),
             )),
@@ -47,26 +50,26 @@ class CreateTransactionPage extends GetView<CreateTransactionController> {
                   InputTextModel(
                     controller: controller.valueController,
                     //currentNode: controller.descriptionNode,
-                    hintText: "Nhập số tiền",
+                    hintText: AppString.hintValue,
                     iconNextTextInputAction: TextInputAction.done,
                     inputFormatters: InputFormatterEnum.digitsOnly,
                     submitFunc: (v) => {},
                   ),
                 ),
-                label: "Số tiền",
+                label: AppString.value,
               ),
               InputTextWithLabel(
                 buildInputText: BuildInputText(
                   InputTextModel(
                     controller: controller.descriptionController,
                     // currentNode: controller.descriptionNode,
-                    hintText: "Nhập ghi chú",
+                    hintText: AppString.editNote,
                     iconNextTextInputAction: TextInputAction.done,
                     submitFunc: (v) => {},
                     iconLeading: Icons.notes_outlined,
                   ),
                 ),
-                label: "Ghi chú",
+                label: AppString.edit,
               ),
               GestureDetector(
                 onTap: () => controller.chooseCategory(),
@@ -75,7 +78,7 @@ class CreateTransactionPage extends GetView<CreateTransactionController> {
                     () => ListTile(
                         leading: const Icon(Icons.book),
                         trailing: AutoSizeText(
-                          "Chọn danh mục",
+                          AppString.selectCategory,
                           style: Get.textTheme.bodyText2!
                               .copyWith(color: kPrimaryColor),
                         ),
@@ -91,7 +94,7 @@ class CreateTransactionPage extends GetView<CreateTransactionController> {
                     () => ListTile(
                         leading: const Icon(Icons.date_range),
                         trailing: AutoSizeText(
-                          "Chọn thời gian",
+                          AppString.hintTime,
                           style: Get.textTheme.bodyText2!
                               .copyWith(color: kPrimaryColor),
                         ),
@@ -110,7 +113,7 @@ class CreateTransactionPage extends GetView<CreateTransactionController> {
                     () => ListTile(
                       leading: const Icon(Icons.book),
                       trailing: AutoSizeText(
-                        "Chọn nguồn tiền",
+                        AppString.selectFund,
                         style: Get.textTheme.bodyText2!
                             .copyWith(color: kPrimaryColor),
                       ),
@@ -128,7 +131,7 @@ class CreateTransactionPage extends GetView<CreateTransactionController> {
                     () => ListTile(
                       leading: const Icon(Icons.event),
                       trailing: AutoSizeText(
-                        "Chọn sự kiện",
+                        AppString.selectEvent,
                         style: Get.textTheme.bodyText2!
                             .copyWith(color: kPrimaryColor),
                       ),
