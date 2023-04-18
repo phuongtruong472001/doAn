@@ -1,4 +1,5 @@
 import 'package:do_an/base/dimen.dart';
+import 'package:do_an/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -33,10 +34,22 @@ class ProfilePage extends GetView<ProfileController> {
                     children: [
                       menuMet("My Account", Icons.credit_card_outlined,
                           Colors.blue),
-                      menuMet(
-                          "Hoá đơn", Icons.location_on_outlined, Colors.purple),
-                      menuMet(
-                          "Setting", Icons.settings_outlined, Colors.orange),
+                      GestureDetector(
+                        onTap: () => Get.toNamed(
+                          AppRoutes.createTransaction,
+                          arguments: true,
+                        ),
+                        child: menuMet("Hoá đơn", Icons.location_on_outlined,
+                            Colors.purple),
+                      ),
+                      GestureDetector(
+                        onTap: () => Get.toNamed(
+                          AppRoutes.invoice,
+                          arguments: true,
+                        ),
+                        child: menuMet("Giao dịch định kỳ",
+                            Icons.settings_outlined, Colors.orange),
+                      ),
                       menuMet("Help Center", Icons.help_outline, Colors.purple),
                       menuMet("Contact", Icons.call_outlined, Colors.blue)
                     ],

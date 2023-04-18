@@ -60,7 +60,6 @@ class AppString {
   static const String quarterThree = "Quý 3";
   static const String quarterFour = "Quý 4";
 
-
   //transaction
   static const String selectGroup = "Chọn nhóm ";
   static const String createTransaction = "Thêm giao dịch";
@@ -82,7 +81,6 @@ class AppString {
   static const String viewAll = "Xem tất cả";
   static const String viewReport = "Xem báo cáo";
   static const String spendingReport = "Báo cáo chi tiêu";
-  
 
   //messege
   static String success(String name) => "Thêm mới $name thành công";
@@ -113,4 +111,6 @@ class AppString {
   static const String myInvoice = "Hóa đơn của tôi";
   static const String listInvoice = "Danh sách hóa đơn của bạn";
   static const String detailInvoice = "Chi tiết hóa đơn";
+//recurringTransaction
+  static const String notRepeat = "Không lặp lại";
 }

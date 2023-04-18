@@ -6,6 +6,8 @@ import 'package:do_an/pages/create_event/binding/create_event_binding.dart';
 import 'package:do_an/pages/create_event/view/create_event_view.dart';
 import 'package:do_an/pages/create_fund/binding/create_fund_binding.dart';
 import 'package:do_an/pages/create_fund/view/create_fund_view.dart';
+import 'package:do_an/pages/create_invoice/binding/create_invoice_binding.dart';
+import 'package:do_an/pages/create_invoice/view/create_invoice_view.dart';
 import 'package:do_an/pages/create_transaction/binding/create_transaction_binding.dart';
 import 'package:do_an/pages/create_transaction/view/create_transaction_view.dart';
 import 'package:do_an/pages/detail_transaction/binding/detail_transaction_binding.dart';
@@ -18,6 +20,8 @@ import 'package:do_an/pages/home/view/home_view.dart';
 import 'package:get/get.dart';
 
 import '../pages/fund/view/fund_view.dart';
+import '../pages/invoice/binding/invoice_binding.dart';
+import '../pages/invoice/view/invoice_view.dart';
 import 'routes.dart';
 
 class RoutePage {
@@ -66,6 +70,16 @@ class RoutePage {
       name: AppRoutes.createEvent,
       page: () => const CreateEventPage(),
       binding: CreateEventBinding(),
+    ),
+    GetPage(
+      name: AppRoutes.createInvoice,
+      page: () => const CreateInvoicePage(),
+      binding: CreateInvoiceBinding(),
+    ),
+    GetPage(
+      name: AppRoutes.invoice,
+      page: () => const InvoicePage(),
+      binding: InvoiceBinding(),
     ),
   ];
 }

@@ -8,4 +8,6 @@ class AppRoutes {
   static const String event = '/event';
   static const String createFund = '/create_fund';
   static const String createEvent = '/create_event';
+  static const String invoice = '/invoice';
+  static const String createInvoice = '/create_invoice';
 }

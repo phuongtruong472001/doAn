@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 import '../../../base/strings.dart';
+import '../../../component/base_bottomsheet.dart';
 import '../../../component/base_input_with_label.dart';
 import '../../../component/input_text_form_field_model.dart';
 import '../../../enum/input_formatter_enum.dart';
@@ -103,6 +104,25 @@ class CreateTransactionPage extends GetView<CreateTransactionController> {
                         )),
                   ),
                 ).paddingSymmetric(vertical: paddingSmall),
+              ),
+              Visibility(
+                visible: Get.arguments == true,
+                child: GestureDetector(
+                  onTap: () => Get.bottomSheet(const BottomSheetSelectTime()),
+                  child: Card(
+                    child: ListTile(
+                      leading: const Icon(Icons.book),
+                      trailing: AutoSizeText(
+                        AppString.selectFund,
+                        style: Get.textTheme.bodyMedium!
+                            .copyWith(color: kPrimaryColor),
+                      ),
+                      title: const AutoSizeText(
+                        AppString.notRepeat,
+                      ),
+                    ),
+                  ).paddingSymmetric(vertical: paddingSmall),
+                ),
               ),
               GestureDetector(
                 onTap: () => controller.chooseFund(),
