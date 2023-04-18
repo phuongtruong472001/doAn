@@ -105,4 +105,12 @@ class AppString {
   static const String myFund = "Ví của tôi";
   static const String listFund = "Danh sách ví của bạn";
   static const String detailFund = "Chi tiết ví";
+
+  //invoice
+  static const String createInvoice = "Tạo mới hóa đơn";
+  static const String nameInvoice = "Tên hóa đơn";
+  static const String hintNameInvoice = "Nhập tên hóa đơn";
+  static const String myInvoice = "Hóa đơn của tôi";
+  static const String listInvoice = "Danh sách hóa đơn của bạn";
+  static const String detailInvoice = "Chi tiết hóa đơn";
 }

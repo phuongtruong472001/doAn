@@ -6,9 +6,11 @@ class Invoice {
   int? value;
   String? description;
   int? eventID;
-  int? category;
+  int? categoryID;
   DateTime? executionTime;
   int? fundId;
+  String? categoryName;
+  String? fundName;
   DateTime? notificationTime;
   int? typeOfNotification;
   int? allowNegative;
@@ -17,7 +19,9 @@ class Invoice {
     this.value,
     this.description,
     this.eventID,
-    this.category,
+    this.categoryID,
+    this.categoryName,
+    this.fundName,
     this.executionTime,
     this.fundId,
     this.notificationTime,
@@ -31,7 +35,7 @@ class Invoice {
       'value': value,
       'description': description,
       'eventID': eventID,
-      'category': category,
+      'category': categoryID,
       'executionTime': executionTime?.millisecondsSinceEpoch,
       'fundId': fundId,
       'notificationTime': notificationTime?.millisecondsSinceEpoch,
@@ -46,7 +50,7 @@ class Invoice {
         description:
             json['description'] != null ? json['description'] as String : null,
         eventID: json['eventID'] != null ? json['eventID'] as int : null,
-        category: json['category'] != null ? json['category'] as int : null,
+        categoryID: json['categoryID'] != null ? json['category'] as int : null,
         executionTime: json['executionTime'] != null
             ? DateTime.fromMillisecondsSinceEpoch(json['executionTime'] as int)
             : null,
@@ -58,6 +62,8 @@ class Invoice {
         typeOfNotification: json['typeOfNotification'] != null
             ? json['typeOfNotification'] as int
             : null,
+        fundName: json['fundName'] ?? "",
+        categoryName: json['categoryName'] ?? "",
         allowNegative: json['allowNegative']);
   }
 

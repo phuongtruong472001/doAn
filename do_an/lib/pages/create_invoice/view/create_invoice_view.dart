@@ -9,10 +9,10 @@ import '../../../base/strings.dart';
 import '../../../component/base_input_with_label.dart';
 import '../../../component/input_text_form_field_model.dart';
 import '../../../enum/input_formatter_enum.dart';
-import '../controller/create_transaction_controller.dart';
+import '../controller/create_invoice_controller.dart';
 
-class CreateTransactionPage extends GetView<CreateTransactionController> {
-  const CreateTransactionPage({Key? key}) : super(key: key);
+class CreateInvoicePage extends GetView<CreateInvoiceController> {
+  const CreateInvoicePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,8 +22,8 @@ class CreateTransactionPage extends GetView<CreateTransactionController> {
           automaticallyImplyLeading: true,
           title: AutoSizeText(
             Get.arguments == null
-                ? AppString.createTransaction
-                : AppString.detailTransaction,
+                ? AppString.createInvoice
+                : AppString.detailInvoice,
             style: Get.textTheme.bodyLarge!.copyWith(
               fontWeight: FontWeight.bold,
             ),
@@ -32,10 +32,10 @@ class CreateTransactionPage extends GetView<CreateTransactionController> {
           actions: [
             Center(
                 child: InkWell(
-              onTap: () => controller.createTransaction(),
+              onTap: () => controller.createInvoice(),
               child: AutoSizeText(
                 Get.arguments == null ? AppString.save : AppString.edit,
-                style: Get.textTheme.bodyLarge,
+                style: Get.textTheme.bodyText1,
               ),
             )),
           ],
@@ -56,6 +56,22 @@ class CreateTransactionPage extends GetView<CreateTransactionController> {
                 ),
                 label: AppString.value,
               ),
+              GestureDetector(
+                onTap: () => controller.chooseCategory(),
+                child: Card(
+                  child: Obx(
+                    () => ListTile(
+                        leading: const Icon(Icons.book),
+                        trailing: AutoSizeText(
+                          AppString.selectCategory,
+                          style: Get.textTheme.bodyText2!
+                              .copyWith(color: kPrimaryColor),
+                        ),
+                        title: AutoSizeText(
+                            controller.invoice.value.categoryName ?? "")),
+                  ),
+                ).paddingSymmetric(vertical: paddingSmall),
+              ),
               InputTextWithLabel(
                 buildInputText: BuildInputText(
                   InputTextModel(
@@ -70,22 +86,6 @@ class CreateTransactionPage extends GetView<CreateTransactionController> {
                 label: AppString.edit,
               ),
               GestureDetector(
-                onTap: () => controller.chooseCategory(),
-                child: Card(
-                  child: Obx(
-                    () => ListTile(
-                        leading: const Icon(Icons.book),
-                        trailing: AutoSizeText(
-                          AppString.selectCategory,
-                          style: Get.textTheme.bodyMedium!
-                              .copyWith(color: kPrimaryColor),
-                        ),
-                        title: AutoSizeText(
-                            controller.transaction.value.categoryName)),
-                  ),
-                ).paddingSymmetric(vertical: paddingSmall),
-              ),
-              GestureDetector(
                 onTap: () => controller.selectDate(context),
                 child: Card(
                   child: Obx(
@@ -93,13 +93,13 @@ class CreateTransactionPage extends GetView<CreateTransactionController> {
                         leading: const Icon(Icons.date_range),
                         trailing: AutoSizeText(
                           AppString.hintTime,
-                          style: Get.textTheme.bodyMedium!
+                          style: Get.textTheme.bodyText2!
                               .copyWith(color: kPrimaryColor),
                         ),
                         title: AutoSizeText(
                           DateFormat.yMMMd()
                               .format(controller.selectedDate.value),
-                          style: Get.textTheme.bodyMedium,
+                          style: Get.textTheme.bodyText2,
                         )),
                   ),
                 ).paddingSymmetric(vertical: paddingSmall),
@@ -112,29 +112,11 @@ class CreateTransactionPage extends GetView<CreateTransactionController> {
                       leading: const Icon(Icons.book),
                       trailing: AutoSizeText(
                         AppString.selectFund,
-                        style: Get.textTheme.bodyMedium!
+                        style: Get.textTheme.bodyText2!
                             .copyWith(color: kPrimaryColor),
                       ),
                       title: AutoSizeText(
-                        controller.transaction.value.fundName,
-                      ),
-                    ),
-                  ),
-                ).paddingSymmetric(vertical: paddingSmall),
-              ),
-              GestureDetector(
-                onTap: () => controller.chooseEvent(),
-                child: Card(
-                  child: Obx(
-                    () => ListTile(
-                      leading: const Icon(Icons.event),
-                      trailing: AutoSizeText(
-                        AppString.selectEvent,
-                        style: Get.textTheme.bodyMedium!
-                            .copyWith(color: kPrimaryColor),
-                      ),
-                      title: AutoSizeText(
-                        controller.transaction.value.eventName,
+                        controller.invoice.value.fundName ?? "",
                       ),
                     ),
                   ),
