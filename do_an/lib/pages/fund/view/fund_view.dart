@@ -15,7 +15,7 @@ class FundPage extends GetView<FundController> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: true,
-        title: Text(Get.arguments == null ? AppString.myFund  : AppString.selectFund),
+        title: AutoSizeText(Get.arguments == null ? AppString.myFund  : AppString.selectFund),
         actions: [
           if (Get.arguments == null) ...[
             const Icon(Icons.notifications),
