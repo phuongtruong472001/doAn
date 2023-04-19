@@ -121,17 +121,19 @@ class DBHelper {
   Future<bool> addInvoice(Invoice invoice) async {
     var dbClient = await db;
     var status = await dbClient?.rawInsert(
-      'INSERT INTO Invoice(value, description,eventID,category,executionTime,fundId,notificationTime,typeOfNotification,allowNegative) VALUES(?, ?, ?, ?,?, ?, ?, ?,?)',
+      'INSERT INTO Invoice(value, description,eventID,category,executionTime,fundId,notificationTime,typeOfNotification,allowNegative,fundName,categoryName) VALUES(?,?,?, ?, ?, ?,?, ?, ?, ?,?)',
       [
         invoice.value,
         invoice.description,
         invoice.eventID,
-        invoice.category,
+        invoice.categoryID,
         DateFormat('yyyy-MM-dd').format(invoice.executionTime!),
         invoice.fundId,
         invoice.notificationTime,
         invoice.typeOfNotification,
-        invoice.allowNegative
+        invoice.allowNegative,
+        invoice.fundName,
+        invoice.categoryName
       ],
     );
     return status != 0;
@@ -192,7 +194,7 @@ class DBHelper {
   Future<bool> editInvoice(Invoice invoice) async {
     var dbClient = await db;
     var status = await dbClient?.rawUpdate(
-      'Update  Invoice SET value=${invoice.value}, description=${invoice.description},eventID=${invoice.eventID},category=${invoice.category},executionTime=${invoice.executionTime},fundId=${invoice.fundId},notificationTime=${invoice.notificationTime},typeOfNotification=${invoice.typeOfNotification} WHERE id=${invoice.id}',
+      'Update  Invoice SET value=${invoice.value}, description=${invoice.description},eventID=${invoice.eventID},category=${invoice.categoryID},executionTime=${invoice.executionTime},fundId=${invoice.fundId},notificationTime=${invoice.notificationTime},typeOfNotification=${invoice.typeOfNotification} WHERE id=${invoice.id}',
     );
     return status == 1;
   }

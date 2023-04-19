@@ -11,68 +11,70 @@ class ProfilePage extends GetView<ProfileController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Container(
-            padding: const EdgeInsets.all(paddingSmall),
-            child: Column(
-              children: [
-                const ListTile(
-                  leading: CircleAvatar(
-                    foregroundColor: Colors.blue,
+        body: SafeArea(
+          child: Container(
+              padding: const EdgeInsets.all(paddingSmall),
+              child: Column(
+                children: [
+                  const ListTile(
+                    leading: CircleAvatar(
+                      foregroundColor: Colors.blue,
+                    ),
+                    title: Text(
+                      "Nguyễn Tiến Duy",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: Text(
+                      "0969 696 969",
+                      style: TextStyle(color: Color.fromARGB(128, 0, 0, 0)),
+                    ),
                   ),
-                  title: Text(
-                    "Nguyễn Tiến Duy",
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  subtitle: Text(
-                    "0969 696 969",
-                    style: TextStyle(color: Color.fromARGB(128, 0, 0, 0)),
-                  ),
-                ),
-                Container(
-                  margin: const EdgeInsets.only(top: 10),
-                  child: Column(
-                    children: [
-                      menuMet("My Account", Icons.credit_card_outlined,
-                          Colors.blue),
-                      GestureDetector(
-                        onTap: () => Get.toNamed(
-                          AppRoutes.createTransaction,
-                          arguments: true,
+                  Container(
+                    margin: const EdgeInsets.only(top: 10),
+                    child: Column(
+                      children: [
+                        menuMet("My Account", Icons.credit_card_outlined,
+                            Colors.blue),
+                        GestureDetector(
+                          onTap: () => Get.toNamed(
+                            AppRoutes.invoice,
+                            arguments: true,
+                          ),
+                          child: menuMet("Hoá đơn", Icons.location_on_outlined,
+                              Colors.purple),
                         ),
-                        child: menuMet("Hoá đơn", Icons.location_on_outlined,
-                            Colors.purple),
-                      ),
-                      GestureDetector(
-                        onTap: () => Get.toNamed(
-                          AppRoutes.invoice,
-                          arguments: true,
+                        GestureDetector(
+                          onTap: () => Get.toNamed(
+                            AppRoutes.createTransaction,
+                            arguments: true,
+                          ),
+                          child: menuMet("Giao dịch định kỳ",
+                              Icons.settings_outlined, Colors.orange),
                         ),
-                        child: menuMet("Giao dịch định kỳ",
-                            Icons.settings_outlined, Colors.orange),
-                      ),
-                      menuMet("Help Center", Icons.help_outline, Colors.purple),
-                      menuMet("Contact", Icons.call_outlined, Colors.blue)
-                    ],
+                        menuMet("Help Center", Icons.help_outline, Colors.purple),
+                        menuMet("Contact", Icons.call_outlined, Colors.blue)
+                      ],
+                    ),
                   ),
-                ),
-                Spacer(),
-                // Container(
-                //   height: 50,
-                //   decoration: BoxDecoration(
-                //       color: const Color.fromARGB(255, 255, 226, 236),
-                //       borderRadius: BorderRadius.circular(5)),
-                //   child: Row(
-                //     mainAxisAlignment: MainAxisAlignment.center,
-                //     children: const [
-                //       Text("Log out",
-                //           style: TextStyle(
-                //               fontWeight: FontWeight.bold,
-                //               color: Colors.redAccent)),
-                //     ],
-                //   ),
-                // ).paddingAll(defaultPadding),
-              ],
-            )));
+                  Spacer(),
+                  // Container(
+                  //   height: 50,
+                  //   decoration: BoxDecoration(
+                  //       color: const Color.fromARGB(255, 255, 226, 236),
+                  //       borderRadius: BorderRadius.circular(5)),
+                  //   child: Row(
+                  //     mainAxisAlignment: MainAxisAlignment.center,
+                  //     children: const [
+                  //       Text("Log out",
+                  //           style: TextStyle(
+                  //               fontWeight: FontWeight.bold,
+                  //               color: Colors.redAccent)),
+                  //     ],
+                  //   ),
+                  // ).paddingAll(defaultPadding),
+                ],
+              )),
+        ));
   }
 
   Widget menuMet(
