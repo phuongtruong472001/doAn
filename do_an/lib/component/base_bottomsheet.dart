@@ -1,47 +1,134 @@
+import 'package:auto_size_text/auto_size_text.dart';
+import 'package:do_an/base/dimen.dart';
 import 'package:do_an/base/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class BottomSheetSelectTime extends StatelessWidget {
-  const BottomSheetSelectTime({Key? key}) : super(key: key);
+  BottomSheetSelectTime({Key? key}) : super(key: key);
+  List<String> list = <String>[
+    "Lặp hàng ngày",
+    "Lặp hàng tuần",
+    "Lặp hàng tháng",
+  ];
+  List<String> listRepeatTime = <String>[
+    "Mãi mãi",
+    "1 lần",
+  ];
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: Get.width * 2 / 3,
-      height: Get.height / 2,
-      child: Column(
-        children: [
-          Row(
-            children: const [Text("Lặp hàng tháng")],
+    String dropdownValue = list.first;
+    String dropdownValueTypeRepeat = listRepeatTime.first;
+    return Stack(
+      children: [
+        GestureDetector(
+          onTap: () => Get.back(),
+          child: Container(
+            color: Colors.transparent,
+            height: double.infinity,
+            width: double.infinity,
           ),
-          Row(
-            children: const [
-              Text("Từ ngày"),
-              Text("Lúc 9:00"),
-            ],
-          ),
-          const Text("Mỗi 1 tháng"),
-          const Text("vào cùng 1 ngày hàng tháng"),
-          const Text("mãi mãi"),
-          Row(
-            children: [
-              TextButton(
-                onPressed: () {},
-                child: const Text(
-                  AppString.cancel,
-                ),
+        ),
+        Align(
+          alignment: Alignment.center,
+          child: Container(
+            constraints: const BoxConstraints(maxWidth: 1000),
+            decoration: BoxDecoration(
+                color: Colors.white, borderRadius: BorderRadius.circular(20)),
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  DropdownButton<String>(
+                    value: dropdownValue,
+                    elevation: 16,
+                    style: const TextStyle(color: Colors.deepPurple),
+                    underline: Container(
+                      height: 2,
+                      color: Colors.deepPurpleAccent,
+                    ),
+                    onChanged: (String? value) {
+                      // This is called when the user selects an item.
+                    },
+                    items: list.map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: AutoSizeText(value),
+                      );
+                    }).toList(),
+                  ),
+                  Row(
+                    children: [
+                      const AutoSizeText("Từ ngày "),
+                      TextButton(
+                        onPressed: () {},
+                        child: const AutoSizeText(
+                          "Hôm nay ",
+                          style: TextStyle(
+                            color: Colors.blue,
+                            decoration: TextDecoration.underline,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: const [
+                      AutoSizeText("Mỗi 1 tháng"),
+                      SizedBox(
+                        width: 50,
+                        //height: 20,
+                        child: TextField(),
+                      ),
+                    ],
+                  ),
+                  const AutoSizeText("vào cùng 1 ngày hàng tháng"),
+                  DropdownButton<String>(
+                    value: dropdownValueTypeRepeat,
+                    elevation: 16,
+                    style: const TextStyle(color: Colors.deepPurple),
+                    underline: Container(
+                      height: 2,
+                      color: Colors.deepPurpleAccent,
+                    ),
+                    onChanged: (String? value) {
+                      // This is called when the user selects an item.
+                    },
+                    items: listRepeatTime
+                        .map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: AutoSizeText(value),
+                      );
+                    }).toList(),
+                  ),
+                  Row(
+                    children: [
+                      TextButton(
+                        onPressed: () {
+                          Get.back();
+                        },
+                        child: const AutoSizeText(
+                          AppString.cancel,
+                        ),
+                      ),
+                      TextButton(
+                        onPressed: () {},
+                        child: const AutoSizeText(
+                          AppString.accept,
+                        ),
+                      ),
+                    ],
+                  )
+                ],
+              ).paddingAll(
+                defaultPadding,
               ),
-              TextButton(
-                onPressed: () {},
-                child: const Text(
-                  AppString.accept,
-                ),
-              ),
-            ],
-          )
-        ],
-      ),
+            ),
+          ).paddingSymmetric(horizontal: defaultPadding),
+        ),
+      ],
     );
   }
 }
