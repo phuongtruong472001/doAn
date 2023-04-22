@@ -82,7 +82,7 @@ class CreateInvoicePage extends GetView<CreateInvoiceController> {
                     iconLeading: Icons.notes_outlined,
                   ),
                 ),
-                label: AppString.edit,
+                label: AppString.editNote,
               ),
               GestureDetector(
                 onTap: () => controller.selectDate(context),

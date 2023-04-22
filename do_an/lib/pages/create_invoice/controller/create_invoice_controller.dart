@@ -62,6 +62,7 @@ class CreateInvoiceController extends GetxController {
   }
 
   void selectDate(BuildContext context) {
-    Get.bottomSheet(BottomSheetSelectTime());
+    Get.bottomSheet(BottomSheetSelectTime())
+        .whenComplete(() => Get.delete<BaseBottomSheetController>());
   }
 }

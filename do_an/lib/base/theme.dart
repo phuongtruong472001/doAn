@@ -9,7 +9,7 @@ ThemeData theme() {
     fontFamily: "Poppins",
     appBarTheme: appBarTheme(),
     textTheme: textTheme(),
-    inputDecorationTheme: inputDecorationTheme(),
+    //inputDecorationTheme: inputDecorationTheme(),
     visualDensity: VisualDensity.adaptivePlatformDensity,
   );
 }

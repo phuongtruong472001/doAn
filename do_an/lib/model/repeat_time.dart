@@ -11,17 +11,17 @@ enum TypeRepeat {
 class RepeatTime {
   int typeRepeat;
   String nameRepeat;
-  DateTime dateTime;
-  TimeOfDay timeOfDay;
+  DateTime? dateTime;
+  TimeOfDay? timeOfDay;
   int quantityTime;
   int typeTime;
   RepeatTime({
-    required this.typeRepeat,
-    required this.nameRepeat,
-    required this.dateTime,
-    required this.timeOfDay,
-    required this.quantityTime,
-    required this.typeTime,
+    this.typeRepeat = 0,
+    this.nameRepeat = "",
+    this.dateTime,
+    this.timeOfDay,
+    this.quantityTime = 1,
+    this.typeTime = 0,
   });
 
   factory RepeatTime.fromJson(Map<String, dynamic> map) {
