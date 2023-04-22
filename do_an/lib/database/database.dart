@@ -115,19 +115,20 @@ class DBHelper {
         event.allowNegative
       ],
     );
-    return status == 1;
+    return status != 0;
   }
 
   Future<bool> addInvoice(Invoice invoice) async {
     var dbClient = await db;
     var status = await dbClient?.rawInsert(
-      'INSERT INTO Invoice(value, description,eventID,category,executionTime,fundId,notificationTime,typeOfNotification,allowNegative,fundName,categoryName) VALUES(?,?,?, ?, ?, ?,?, ?, ?, ?,?)',
+      'INSERT INTO Invoice(value, description,eventID,categoryID,executionTime,fundId,notificationTime,typeOfNotification,allowNegative,fundName,categoryName) VALUES(?,?,?, ?, ?, ?,?, ?, ?, ?,?)',
       [
         invoice.value,
         invoice.description,
         invoice.eventID,
         invoice.categoryID,
-        DateFormat('yyyy-MM-dd').format(invoice.executionTime!),
+        DateFormat('yyyy-MM-dd')
+            .format(invoice.executionTime ?? DateTime.now()),
         invoice.fundId,
         invoice.notificationTime,
         invoice.typeOfNotification,

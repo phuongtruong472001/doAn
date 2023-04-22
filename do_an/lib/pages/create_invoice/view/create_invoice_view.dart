@@ -3,7 +3,6 @@ import 'package:do_an/base/colors.dart';
 import 'package:do_an/base/dimen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 
 import '../../../base/strings.dart';
 import '../../../component/base_input_with_label.dart';
@@ -83,7 +82,7 @@ class CreateInvoicePage extends GetView<CreateInvoiceController> {
                     iconLeading: Icons.notes_outlined,
                   ),
                 ),
-                label: AppString.edit,
+                label: AppString.editNote,
               ),
               GestureDetector(
                 onTap: () => controller.selectDate(context),
@@ -97,8 +96,7 @@ class CreateInvoicePage extends GetView<CreateInvoiceController> {
                               .copyWith(color: kPrimaryColor),
                         ),
                         title: AutoSizeText(
-                          DateFormat.yMMMd()
-                              .format(controller.selectedDate.value),
+                          controller.time.value.format(context),
                           style: Get.textTheme.bodyText2,
                         )),
                   ),

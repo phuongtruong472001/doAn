@@ -108,7 +108,11 @@ class CreateTransactionPage extends GetView<CreateTransactionController> {
               Visibility(
                 visible: Get.arguments == true,
                 child: GestureDetector(
-                  onTap: () => Get.bottomSheet(const BottomSheetSelectTime()),
+                  onTap: () => Get.bottomSheet(
+                    BottomSheetSelectTime(),
+                    isScrollControlled: true,
+                    enableDrag: false,
+                  ),
                   child: Card(
                     child: ListTile(
                       leading: const Icon(Icons.book),

@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
+
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 class Invoice {
   int? id;
@@ -14,6 +16,11 @@ class Invoice {
   DateTime? notificationTime;
   int? typeOfNotification;
   int? allowNegative;
+  int typeRepeat;
+  String nameRepeat;
+  TimeOfDay? timeOfDay;
+  int quantityTime;
+  int typeTime;
   Invoice({
     this.id = 0,
     this.value = 0,
@@ -27,6 +34,11 @@ class Invoice {
     this.notificationTime,
     this.typeOfNotification,
     this.allowNegative = 1,
+    this.nameRepeat = "",
+    this.quantityTime = 0,
+    this.timeOfDay,
+    this.typeRepeat = 0,
+    this.typeTime = 0,
   });
 
   Map<String, dynamic> toMap() {
