@@ -10,15 +10,6 @@ import 'package:intl/intl.dart';
 
 class BottomSheetSelectTime extends GetView<BaseBottomSheetController> {
   BottomSheetSelectTime({Key? key}) : super(key: key);
-  // List<String> list = <String>[
-  //   "Lặp hàng ngày",
-  //   "Lặp hàng tuần",
-  //   "Lặp hàng tháng",
-  // ];
-  // List<String> listRepeatTime = <String>[
-  //   "Mãi mãi",
-  //   "1 lần",
-  // ];
   @override
   BaseBottomSheetController controller = Get.put(BaseBottomSheetController());
 
@@ -46,8 +37,8 @@ class BottomSheetSelectTime extends GetView<BaseBottomSheetController> {
                 children: [
                   Obx(
                     () => DropdownButton<String>(
-                      value:
-                          controller.listTypeRepeat[controller.typeTime.value],
+                      value: controller
+                          .listTypeTimeRepeat[controller.typeTime.value],
                       elevation: 16,
                       style: const TextStyle(color: Colors.deepPurple),
                       underline: Container(
@@ -56,7 +47,7 @@ class BottomSheetSelectTime extends GetView<BaseBottomSheetController> {
                       ),
                       onChanged: (String? value) {
                         controller.typeTime.value =
-                            controller.listTypeRepeat.indexOf(value ?? '');
+                            controller.listTypeTimeRepeat.indexOf(value ?? '');
                         switch (controller.typeTime.value) {
                           case 0:
                             controller.amountName.value = "ngày";
@@ -69,7 +60,7 @@ class BottomSheetSelectTime extends GetView<BaseBottomSheetController> {
                             break;
                         }
                       },
-                      items: controller.listTypeRepeat
+                      items: controller.listTypeTimeRepeat
                           .map<DropdownMenuItem<String>>((element) {
                         return DropdownMenuItem<String>(
                           value: element,
@@ -122,25 +113,40 @@ class BottomSheetSelectTime extends GetView<BaseBottomSheetController> {
                     () => AutoSizeText(
                         "vào cùng 1 ngày hàng ${controller.amountName.value}"),
                   ),
-                  // DropdownButton<String>(
-                  //   value: dropdownValueTypeRepeat,
-                  //   elevation: 16,
-                  //   style: const TextStyle(color: Colors.deepPurple),
-                  //   underline: Container(
-                  //     height: 2,
-                  //     color: Colors.deepPurpleAccent,
-                  //   ),
-                  //   onChanged: (String? value) {
-                  //     // This is called when the user selects an item.
-                  //   },
-                  //   items: listRepeatTime
-                  //       .map<DropdownMenuItem<String>>((String value) {
-                  //     return DropdownMenuItem<String>(
-                  //       value: value,
-                  //       child: AutoSizeText(value),
-                  //     );
-                  //   }).toList(),
-                  // ),
+                  Obx(
+                    () => DropdownButton<String>(
+                      value: controller
+                          .listTypeRepeat[controller.typeRepeat.value],
+                      elevation: 16,
+                      style: const TextStyle(color: Colors.deepPurple),
+                      underline: Container(
+                        height: 2,
+                        color: Colors.deepPurpleAccent,
+                      ),
+                      onChanged: (String? value) {
+                        controller.typeRepeat.value =
+                            controller.listTypeRepeat.indexOf(value ?? '');
+                        switch (controller.typeRepeat.value) {
+                          case 0:
+                            controller.amountName.value = "ngày";
+                            break;
+                          case 1:
+                            controller.amountName.value = "tuần";
+                            break;
+                          case 2:
+                            controller.amountName.value = "tháng";
+                            break;
+                        }
+                      },
+                      items: controller.listTypeRepeat
+                          .map<DropdownMenuItem<String>>((element) {
+                        return DropdownMenuItem<String>(
+                          value: element,
+                          child: AutoSizeText(element),
+                        );
+                      }).toList(),
+                    ),
+                  ),
                   Row(
                     children: [
                       TextButton(
@@ -152,7 +158,9 @@ class BottomSheetSelectTime extends GetView<BaseBottomSheetController> {
                         ),
                       ),
                       TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Get.back(result: controller.repeatTime.value);
+                        },
                         child: const AutoSizeText(
                           AppString.accept,
                         ),
@@ -172,20 +180,24 @@ class BottomSheetSelectTime extends GetView<BaseBottomSheetController> {
 }
 
 class BaseBottomSheetController extends GetxController {
-  List<String> listTypeRepeat = [
+  List<String> listTypeTimeRepeat = [
     "Hàng ngày",
     "Hàng tuần",
     "Hàng tháng",
   ];
+  List<String> listTypeRepeat = [
+    "Mãi mãi",
+    "1 lần",
+  ];
   final quantityController = TextEditingController(text: "1");
-  Rx<RepeatTime> invoice = RepeatTime().obs;
+  Rx<RepeatTime> repeatTime = RepeatTime().obs;
 
   RxBool choosedDate = false.obs;
   var selectedDate = DateTime.now().obs;
   DBHelper dbHelper = DBHelper();
   Rx<TimeOfDay> time = const TimeOfDay(hour: 7, minute: 15).obs;
-  late RxInt typeTime;
-  // late RxString typeTimeName;
+  RxInt typeTime = 0.obs;
+  RxInt typeRepeat = 0.obs;
   RxString amountName = "ngày".obs;
 
   void selectDate(BuildContext context) async {
@@ -203,12 +215,18 @@ class BaseBottomSheetController extends GetxController {
 
   @override
   void onInit() {
-    typeTime = 0.obs;
-    // typeTimeName = listTypeRepeat.values.first.obs;
     // TODO: implement onInit
     super.onInit();
   }
 
   @override
   void onReady() {}
+
+  void doneRepeatTime() {
+    repeatTime.value.dateTime = selectedDate.value;
+    repeatTime.value.nameRepeat = listTypeTimeRepeat[typeTime.value];
+    repeatTime.value.typeTime = typeTime.value;
+    repeatTime.value.quantityTime = int.parse(quantityController.text);
+    repeatTime.value.typeRepeat = 1;
+  }
 }

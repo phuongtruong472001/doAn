@@ -1,5 +1,5 @@
 import 'package:do_an/model/invoice.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:do_an/model/repeat_time.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -62,7 +62,17 @@ class CreateInvoiceController extends GetxController {
   }
 
   void selectDate(BuildContext context) {
-    Get.bottomSheet(BottomSheetSelectTime())
-        .whenComplete(() => Get.delete<BaseBottomSheetController>());
+    Get.bottomSheet(BottomSheetSelectTime()).then((value) {
+      Get.delete<BaseBottomSheetController>();
+
+      if (value is RepeatTime) {
+        invoice.update((val) {
+          val!.executionTime = value.dateTime;
+          val.nameRepeat = value.nameRepeat;
+          val.typeRepeat = val.typeRepeat;
+          val.typeTime = val.typeTime;
+        });
+      }
+    });
   }
 }
