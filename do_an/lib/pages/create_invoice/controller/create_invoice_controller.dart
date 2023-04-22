@@ -64,7 +64,6 @@ class CreateInvoiceController extends GetxController {
   void selectDate(BuildContext context) {
     Get.bottomSheet(BottomSheetSelectTime()).then((value) {
       Get.delete<BaseBottomSheetController>();
-
       if (value is RepeatTime) {
         invoice.update((val) {
           val!.executionTime = value.dateTime;

@@ -8,6 +8,7 @@ import 'package:do_an/model/invoice.dart';
 import 'package:do_an/model/transaction.dart' as tr;
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
+import 'package:jiffy/jiffy.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
@@ -281,5 +282,34 @@ class DBHelper {
     var fund = await dbClient?.rawQuery('SELECT value  FROM Fund where id=0');
     int sumValues = fund!.isNotEmpty ? fund[0]["value"] as int : 0;
     return sumValues;
+  }
+
+  Future<void> autoGenerateTransaction() async {
+    List<tr.Transaction> transactions = await getTransactions("", "");
+    for (tr.Transaction transaction in transactions) {
+      if (transaction.isRepeat == true) {
+        String date = DateFormat.yMd()
+            .format(transaction.executionTime ?? DateTime.now());
+        String now = DateFormat.yMd().format(DateTime.now());
+        var tempDate = Jiffy(date);
+        while (Jiffy(now).isAfter(Jiffy(tempDate))) {
+          if (transaction.typeRepeat == 0) {
+            tempDate = Jiffy(date).add(duration: const Duration(days: 1));
+          } else if (transaction.typeRepeat == 1) {
+            tempDate = Jiffy(date).add(weeks: 1);
+          } else {
+            tempDate = Jiffy(date).add(months: 1);
+          }
+          if (Jiffy(now).isAfter(Jiffy(tempDate))) {
+            transaction.executionTime = DateTime.tryParse(tempDate.yMd);
+            addTransaction(transaction);
+          } else {
+            break;
+          }
+        }
+        print(Jiffy('1997/9/23').isBefore(Jiffy('1997/9/24')));
+        Jiffy('1997/09/23').subtract(years: 2, months: 3, days: 5).yMMMMd;
+      }
+    }
   }
 }
