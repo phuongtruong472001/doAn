@@ -144,7 +144,7 @@ class DBHelper {
   Future<bool> addTransaction(tr.Transaction transaction) async {
     var dbClient = await db;
     var status = await dbClient?.rawInsert(
-      'INSERT INTO Transactions(value,description,eventId,categoryId,executionTime,fundID,categoryName,eventName,fundName,allowNegative,isIncrease) VALUES(?, ?, ?, ?, ?, ?,?,?,?,?,?)',
+      'INSERT INTO Transactions(value,description,eventId,categoryId,executionTime,fundID,categoryName,eventName,fundName,allowNegative,isIncrease,isRepeat,typeTime,typeRepeat) VALUES(?, ?, ?, ?, ?, ?,?,?,?,?,?,?,?,?)',
       [
         transaction.value,
         transaction.description,
@@ -156,7 +156,10 @@ class DBHelper {
         transaction.eventName,
         transaction.fundName,
         transaction.allowNegative,
-        transaction.isIncrease
+        transaction.isIncrease,
+        transaction.isRepeat == true ? 1 : 0,
+        transaction.typeTime,
+        transaction.typeRepeat,
       ],
     );
     if (status != 0) {
@@ -281,6 +284,12 @@ class DBHelper {
     var dbClient = await db;
     var fund = await dbClient?.rawQuery('SELECT value  FROM Fund where id=0');
     int sumValues = fund!.isNotEmpty ? fund[0]["value"] as int : 0;
+    return sumValues;
+  }
+  Future<int> getValueOfMonth(String fromDate, String toDate) async {
+    var dbClient = await db;
+    var transactions = await dbClient?.rawQuery('SELECT SUM(value) as Total FROM Transactions where where executionTime = "$fromDate" AND executionTime <= "$toDate" AND value<0');
+    int sumValues = transactions!.isNotEmpty ? transactions[0]["value"] as int : 0;
     return sumValues;
   }
 
