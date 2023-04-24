@@ -3,8 +3,11 @@ import 'package:do_an/model/transaction.dart';
 import 'package:do_an/pages/transaction/controller/transaction_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:jiffy/jiffy.dart';
 
 import '../../../base/strings.dart';
+import '../../../component/base_bottomsheet.dart';
+import '../../../model/repeat_time.dart';
 import '../../../routes/routes.dart';
 
 class CreateTransactionController extends GetxController {
@@ -21,7 +24,7 @@ class CreateTransactionController extends GetxController {
     DateTime? picked = await showDatePicker(
       context: context,
       initialDate: selectedDate.value,
-      firstDate: DateTime.now(),
+      firstDate: DateTime(2023),
       lastDate: DateTime(2025),
     );
     choosedDate.value = true;
@@ -92,7 +95,20 @@ class CreateTransactionController extends GetxController {
     }
 
     transaction.value.description = descriptionController.value.text;
-    transaction.value.executionTime = selectedDate.value;
+    transaction.value.endTime = transaction.value.executionTime;
+    if (transaction.value.typeTime == 1) {
+      if (transaction.value.typeRepeat == 0) {
+        transaction.value.endTime = Jiffy(transaction.value.endTime)
+            .add(duration: const Duration(days: 1))
+            .dateTime;
+      } else if (transaction.value.typeRepeat == 1) {
+        transaction.value.endTime =
+            Jiffy(transaction.value.endTime).add(weeks: 1).dateTime;
+      } else {
+        transaction.value.endTime =
+            Jiffy(transaction.value.endTime).add(months: 1).dateTime;
+      }
+    }
     bool status = await dbHelper.addTransaction(transaction.value);
     if (status) {
       TransactionController transactionController =
@@ -106,5 +122,19 @@ class CreateTransactionController extends GetxController {
       backgroundColor: status ? Colors.green : Colors.red,
       snackPosition: SnackPosition.BOTTOM,
     );
+  }
+
+  void selectDateRepeat(BuildContext context) {
+    Get.bottomSheet(BottomSheetSelectTime()).then((value) {
+      Get.delete<BaseBottomSheetController>();
+      if (value is RepeatTime) {
+        transaction.update((val) {
+          val!.executionTime = value.dateTime;
+          val.typeRepeat = value.typeRepeat;
+          val.typeTime = value.typeTime;
+          val.isRepeat = true;
+        });
+      }
+    });
   }
 }

@@ -159,6 +159,7 @@ class BottomSheetSelectTime extends GetView<BaseBottomSheetController> {
                       ),
                       TextButton(
                         onPressed: () {
+                          controller.doneRepeatTime();
                           Get.back(result: controller.repeatTime.value);
                         },
                         child: const AutoSizeText(
@@ -204,19 +205,13 @@ class BaseBottomSheetController extends GetxController {
     DateTime? picked = await showDatePicker(
       context: context,
       initialDate: selectedDate.value,
-      firstDate: DateTime.now(),
+      firstDate: DateTime(2023),
       lastDate: DateTime(2025),
     );
     choosedDate.value = true;
     if (picked != null && picked != DateTime.now()) {
       selectedDate.value = picked;
     }
-  }
-
-  @override
-  void onInit() {
-    // TODO: implement onInit
-    super.onInit();
   }
 
   @override
@@ -227,6 +222,6 @@ class BaseBottomSheetController extends GetxController {
     repeatTime.value.nameRepeat = listTypeTimeRepeat[typeTime.value];
     repeatTime.value.typeTime = typeTime.value;
     repeatTime.value.quantityTime = int.parse(quantityController.text);
-    repeatTime.value.typeRepeat = 1;
+    repeatTime.value.typeRepeat = typeRepeat.value;
   }
 }

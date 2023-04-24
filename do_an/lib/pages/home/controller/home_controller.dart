@@ -15,6 +15,7 @@ class HomeController extends GetxController {
   void onReady() {}
 
   Future<void> initData() async {
+    await dbHelper.autoGenerateTransaction();
     totalValue.value = await dbHelper.getTotalValue("", "");
     cashValue.value = await dbHelper.getTotalValueOfCash();
   }

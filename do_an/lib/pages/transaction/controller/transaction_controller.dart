@@ -12,6 +12,7 @@ class TransactionController extends GetxController {
   String fromDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
   String toDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
   var dbHelper = DBHelper();
+  DateTime date = DateTime.now();
   @override
   void onInit() {
     initData();
@@ -28,7 +29,7 @@ class TransactionController extends GetxController {
 
   void onTapped(int index) async {
     indexTabbar.value = index;
-    DateTime date = DateTime.now();
+
     switch (indexTabbar.value) {
       case 0:
         fromDate = DateFormat('yyyy-MM-dd')
@@ -48,6 +49,7 @@ class TransactionController extends GetxController {
         toDate = '2023-01-01';
         break;
     }
+    print(fromDate + "-----" + toDate);
     transactions.value = await dbHelper.getTransactions(fromDate, toDate);
   }
 
@@ -56,6 +58,10 @@ class TransactionController extends GetxController {
   }
 
   Future<void> initData() async {
+    fromDate =
+        DateFormat('yyyy-MM-dd').format(DateTime(date.year, date.month, 1));
+    toDate = DateFormat('yyyy-MM-dd')
+        .format(Jiffy(fromDate).add(months: 1, days: -1).dateTime);
     List<tr.Transaction> listTransaction =
         await dbHelper.getTransactions(fromDate, toDate);
     //dbHelper.getTotalValueOfCategory(0, "", "");

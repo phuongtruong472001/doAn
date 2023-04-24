@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../component/item_card.dart';
-import '../../../routes/routes.dart';
 import '../controller/transaction_controller.dart';
 
 class TracsactionPage extends GetView<TransactionController> {
@@ -111,6 +110,7 @@ class TracsactionPage extends GetView<TransactionController> {
                   ),
                   itemCount: controller.transactions.length,
                   shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
                 ),
               ),
             ],

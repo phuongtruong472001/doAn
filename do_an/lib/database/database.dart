@@ -57,8 +57,10 @@ class DBHelper {
   Future<List<tr.Transaction>> getTransactions(
       String fromDate, String toDate) async {
     var dbClient = await db;
+    //  var transactions = await dbClient?.rawQuery(
+    //     'INSERT INTO Transactions(value,description,eventId,categoryId,executionTime,fundID,categoryName,eventName,fundName,allowNegative,isIncrease,isRepeat,typeTime,typeRepeat) VALUES(200000,"",0,0,"2023-04-20",0,"Ăn uống","","Tiền mặt",1,1,1,0,0)');
     var transactions = await dbClient?.rawQuery(
-        'SELECT * FROM Transactions where executionTime = "$fromDate" AND executionTime <= "$toDate"');
+        'SELECT * FROM Transactions where executionTime >= "$fromDate" AND executionTime <= "$toDate"');
     List<tr.Transaction> listCategories = transactions!.isNotEmpty
         ? transactions.map((c) => tr.Transaction.fromMap(c)).toList()
         : [];
@@ -144,7 +146,7 @@ class DBHelper {
   Future<bool> addTransaction(tr.Transaction transaction) async {
     var dbClient = await db;
     var status = await dbClient?.rawInsert(
-      'INSERT INTO Transactions(value,description,eventId,categoryId,executionTime,fundID,categoryName,eventName,fundName,allowNegative,isIncrease,isRepeat,typeTime,typeRepeat) VALUES(?, ?, ?, ?, ?, ?,?,?,?,?,?,?,?,?)',
+      'INSERT INTO Transactions(value,description,eventId,categoryId,executionTime,fundID,categoryName,eventName,fundName,allowNegative,isIncrease,isRepeat,typeTime,typeRepeat,endTime) VALUES(?, ?, ?, ?, ?, ?,?,?,?,?,?,?,?,?,?)',
       [
         transaction.value,
         transaction.description,
@@ -160,6 +162,7 @@ class DBHelper {
         transaction.isRepeat == true ? 1 : 0,
         transaction.typeTime,
         transaction.typeRepeat,
+        DateFormat('yyyy-MM-dd kk:mm').format(transaction.endTime!),
       ],
     );
     if (status != 0) {
@@ -286,38 +289,55 @@ class DBHelper {
     int sumValues = fund!.isNotEmpty ? fund[0]["value"] as int : 0;
     return sumValues;
   }
+
   Future<int> getValueOfMonth(String fromDate, String toDate) async {
     var dbClient = await db;
-    var transactions = await dbClient?.rawQuery('SELECT SUM(value) as Total FROM Transactions where where executionTime = "$fromDate" AND executionTime <= "$toDate" AND value<0');
-    int sumValues = transactions!.isNotEmpty ? transactions[0]["value"] as int : 0;
+    var transactions = await dbClient?.rawQuery(
+        'SELECT SUM(value) as Total FROM Transactions where where executionTime = "$fromDate" AND executionTime <= "$toDate" AND value<0');
+    int sumValues =
+        transactions!.isNotEmpty ? transactions[0]["value"] as int : 0;
     return sumValues;
   }
 
   Future<void> autoGenerateTransaction() async {
-    List<tr.Transaction> transactions = await getTransactions("", "");
+    List<tr.Transaction> transactions =
+        await getTransactions("2023-01-01", "2023-05-01");
     for (tr.Transaction transaction in transactions) {
+      print(transaction);
       if (transaction.isRepeat == true) {
-        String date = DateFormat.yMd()
-            .format(transaction.executionTime ?? DateTime.now());
-        String now = DateFormat.yMd().format(DateTime.now());
-        var tempDate = Jiffy(date);
-        while (Jiffy(now).isAfter(Jiffy(tempDate))) {
-          if (transaction.typeRepeat == 0) {
-            tempDate = Jiffy(date).add(duration: const Duration(days: 1));
-          } else if (transaction.typeRepeat == 1) {
-            tempDate = Jiffy(date).add(weeks: 1);
-          } else {
-            tempDate = Jiffy(date).add(months: 1);
+        if (transaction.typeRepeat == 0) {
+          var now = DateTime.now();
+          print("endtime" + transaction.endTime.toString());
+          var tempDate = Jiffy(transaction.endTime ?? DateTime.now());
+          while (Jiffy(now).isAfter(tempDate)) {
+            transaction.endTime = tempDate.dateTime;
+            if (transaction.typeTime == 0) {
+              tempDate = Jiffy(tempDate).add(duration: const Duration(days: 1));
+            } else if (transaction.typeTime == 1) {
+              tempDate = Jiffy(tempDate).add(weeks: 1);
+            } else {
+              tempDate = Jiffy(tempDate).add(months: 1);
+            }
+            tr.Transaction tempTransaction = transaction;
+            if (Jiffy(now).isAfter(Jiffy(tempDate))) {
+              tempTransaction.executionTime = tempDate.dateTime;
+              tempTransaction.isRepeat = false;
+              print(tempDate.dateTime);
+              await addTransaction(tempTransaction);
+            } else {
+              transaction.endTime = tempDate.dateTime;
+              break;
+            }
           }
-          if (Jiffy(now).isAfter(Jiffy(tempDate))) {
-            transaction.executionTime = DateTime.tryParse(tempDate.yMd);
-            addTransaction(transaction);
-          } else {
-            break;
+        } else {
+          if (Jiffy(transaction.endTime).isSameOrAfter(Jiffy(DateTime.now()))) {
+            tr.Transaction tempTransaction = transaction;
+            tempTransaction.executionTime = transaction.endTime;
+            transaction.isRepeat = false;
+            tempTransaction.isRepeat = false;
+            await addTransaction(tempTransaction);
           }
         }
-        print(Jiffy('1997/9/23').isBefore(Jiffy('1997/9/24')));
-        Jiffy('1997/09/23').subtract(years: 2, months: 3, days: 5).yMMMMd;
       }
     }
   }
