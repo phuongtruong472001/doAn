@@ -15,8 +15,8 @@ class Transaction {
   int? allowNegative;
   int isIncrease;
   bool? isRepeat;
-  int typeTime = 0;
-  int typeRepeat = 0;
+  int? typeTime ;
+  int? typeRepeat;
   DateTime? endTime;
   Transaction({
     this.id = 0,
@@ -32,7 +32,9 @@ class Transaction {
     this.allowNegative = 1,
     this.isIncrease = 0,
     this.isRepeat,
-    this.endTime
+    this.endTime,
+    this.typeRepeat = 0,
+    this.typeTime = 0,
   });
 
   Map<String, dynamic> toMap() {
@@ -68,9 +70,9 @@ class Transaction {
       allowNegative: map['allowNegative'],
       isIncrease: map["isIncrease"],
       isRepeat: map["isRepeat"] == 1,
-      endTime: map['endTime'] != null
-          ? DateTime.parse(map['endTime'])
-          : null,
+      endTime: map['endTime'] != null ? DateTime.parse(map['endTime']) : null,
+      typeRepeat: map["typeRepeat"],
+      typeTime: map["typeTime"],
     );
   }
 

@@ -30,6 +30,7 @@ class CreateTransactionController extends GetxController {
     choosedDate.value = true;
     if (picked != null && picked != DateTime.now()) {
       selectedDate.value = picked;
+      transaction.value.executionTime = selectedDate.value;
     }
   }
 
@@ -96,12 +97,12 @@ class CreateTransactionController extends GetxController {
 
     transaction.value.description = descriptionController.value.text;
     transaction.value.endTime = transaction.value.executionTime;
-    if (transaction.value.typeTime == 1) {
-      if (transaction.value.typeRepeat == 0) {
+    if (transaction.value.typeRepeat == 1) {
+      if (transaction.value.typeTime == 0) {
         transaction.value.endTime = Jiffy(transaction.value.endTime)
             .add(duration: const Duration(days: 1))
             .dateTime;
-      } else if (transaction.value.typeRepeat == 1) {
+      } else if (transaction.value.typeTime == 1) {
         transaction.value.endTime =
             Jiffy(transaction.value.endTime).add(weeks: 1).dateTime;
       } else {

@@ -60,7 +60,7 @@ class DBHelper {
     //  var transactions = await dbClient?.rawQuery(
     //     'INSERT INTO Transactions(value,description,eventId,categoryId,executionTime,fundID,categoryName,eventName,fundName,allowNegative,isIncrease,isRepeat,typeTime,typeRepeat) VALUES(200000,"",0,0,"2023-04-20",0,"Ăn uống","","Tiền mặt",1,1,1,0,0)');
     var transactions = await dbClient?.rawQuery(
-        'SELECT * FROM Transactions where executionTime >= "$fromDate" AND executionTime <= "$toDate"');
+        'SELECT * FROM Transactions where executionTime >= "$fromDate" AND executionTime <= "$toDate" ORDER BY executionTime DESC');
     List<tr.Transaction> listCategories = transactions!.isNotEmpty
         ? transactions.map((c) => tr.Transaction.fromMap(c)).toList()
         : [];
@@ -303,14 +303,12 @@ class DBHelper {
     List<tr.Transaction> transactions =
         await getTransactions("2023-01-01", "2023-05-01");
     for (tr.Transaction transaction in transactions) {
-      print(transaction);
       if (transaction.isRepeat == true) {
         if (transaction.typeRepeat == 0) {
           var now = DateTime.now();
           print("endtime" + transaction.endTime.toString());
           var tempDate = Jiffy(transaction.endTime ?? DateTime.now());
           while (Jiffy(now).isAfter(tempDate)) {
-            transaction.endTime = tempDate.dateTime;
             if (transaction.typeTime == 0) {
               tempDate = Jiffy(tempDate).add(duration: const Duration(days: 1));
             } else if (transaction.typeTime == 1) {
@@ -318,14 +316,14 @@ class DBHelper {
             } else {
               tempDate = Jiffy(tempDate).add(months: 1);
             }
-            tr.Transaction tempTransaction = transaction;
+
             if (Jiffy(now).isAfter(Jiffy(tempDate))) {
+              transaction.endTime = tempDate.dateTime;
+              tr.Transaction tempTransaction = transaction;
               tempTransaction.executionTime = tempDate.dateTime;
               tempTransaction.isRepeat = false;
-              print(tempDate.dateTime);
               await addTransaction(tempTransaction);
             } else {
-              transaction.endTime = tempDate.dateTime;
               break;
             }
           }
