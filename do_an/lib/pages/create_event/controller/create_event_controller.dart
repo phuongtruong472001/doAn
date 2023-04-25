@@ -1,5 +1,6 @@
 import 'package:do_an/pages/event/controller/event_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:get/get.dart';
 
 import '../../../base/strings.dart';
@@ -8,7 +9,8 @@ import '../../../model/event.dart';
 
 class CreateEventController extends GetxController {
   Rx<Event> event = Event().obs;
-  final valueController = TextEditingController().obs;
+  var valueController = MoneyMaskedTextController(
+      thousandSeparator: '.', precision: 0, decimalSeparator: "");
   final nameController = TextEditingController().obs;
   //final fundNameController = TextEditingController().obs;
   var choosedDate = false.obs;
@@ -52,7 +54,7 @@ class CreateEventController extends GetxController {
   void initData() {
     if (Get.arguments != null && Get.arguments is Event) {
       nameController.value.text = Get.arguments.name;
-      valueController.value.text = Get.arguments.estimateValue;
+      valueController.text = Get.arguments.estimateValue;
       selectedDate.value = DateTime.parse(Get.arguments.date);
     }
   }

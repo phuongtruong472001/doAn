@@ -50,7 +50,7 @@ class CreateInvoicePage extends GetView<CreateInvoiceController> {
                     //currentNode: controller.descriptionNode,
                     hintText: AppString.hintValue,
                     iconNextTextInputAction: TextInputAction.done,
-                    inputFormatters: InputFormatterEnum.digitsOnly,
+                    inputFormatters: InputFormatterEnum.currency,
                     submitFunc: (v) => {},
                   ),
                 ),

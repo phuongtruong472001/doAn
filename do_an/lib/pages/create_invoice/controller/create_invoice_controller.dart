@@ -1,15 +1,16 @@
 import 'package:do_an/model/invoice.dart';
 import 'package:do_an/model/repeat_time.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:get/get.dart';
-import 'package:jiffy/jiffy.dart';
 
 import '../../../component/base_bottomsheet.dart';
 import '../../../database/database.dart';
 import '../../../routes/routes.dart';
 
 class CreateInvoiceController extends GetxController {
-  final valueController = TextEditingController();
+  final valueController = MoneyMaskedTextController(
+      thousandSeparator: '.', precision: 0, decimalSeparator: "");
   final descriptionController = TextEditingController();
   Rx<Invoice> invoice = Invoice().obs;
   final peopleController = TextEditingController();

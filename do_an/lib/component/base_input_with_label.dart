@@ -3,10 +3,11 @@ import 'package:do_an/base/colors.dart';
 import 'package:do_an/component/input_text_form_field_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:get/get.dart';
 
-import '../enum/input_formatter_enum.dart';
 import '../base/dimen.dart';
+import '../enum/input_formatter_enum.dart';
 
 class InputTextWithLabel extends StatelessWidget {
   final BuildInputText buildInputText;
@@ -105,7 +106,7 @@ class _BuildInputTextState extends State<BuildInputText> {
         ];
       case InputFormatterEnum.currency:
         return [
-          
+          FilteringTextInputFormatter.allow(RegExp(r'[0-9,]')),
         ];
 
       // case InputFormatterEnum.negativeNumber:
@@ -131,7 +132,7 @@ class _BuildInputTextState extends State<BuildInputText> {
       //   ];
       default:
         return [
-           LengthLimitingTextFieldFormatterFixed(
+          LengthLimitingTextFieldFormatterFixed(
               widget.inputTextFormModel.maxLengthInputForm)
         ];
     }
@@ -161,7 +162,16 @@ class _BuildInputTextState extends State<BuildInputText> {
                 !widget.inputTextFormModel.isReadOnly,
             child: GestureDetector(
               onTap: () {
-                widget.inputTextFormModel.controller.clear();
+                if (widget.inputTextFormModel.controller
+                    is MoneyMaskedTextController) {
+                  widget.inputTextFormModel.controller.value =
+                      const TextEditingValue(
+                          text: '0',
+                          selection: TextSelection.collapsed(offset: 1));
+                } else {
+                  widget.inputTextFormModel.controller.clear();
+                }
+
                 widget.inputTextFormModel.onChanged?.call('');
                 _isShowButtonClear.value = false;
               },
@@ -257,6 +267,7 @@ class _BuildInputTextState extends State<BuildInputText> {
     );
   }
 }
+
 class LengthLimitingTextFieldFormatterFixed
     extends LengthLimitingTextInputFormatter {
   final int? lengthLimit;
@@ -285,4 +296,3 @@ class LengthLimitingTextFieldFormatterFixed
     return newValue;
   }
 }
-

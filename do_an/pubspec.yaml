@@ -47,6 +47,8 @@ dependencies:
   path_provider: ^2.0.11
   jiffy: ^5.0.0 
   fl_chart: ^0.62.0
+  flutter_masked_text2: ^0.9.1
+  flutter_format_money_vietnam: ^0.0.2
   
 dev_dependencies:
   flutter_test:

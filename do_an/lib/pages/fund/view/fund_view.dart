@@ -3,6 +3,7 @@ import 'package:do_an/base/dimen.dart';
 import 'package:do_an/base/strings.dart';
 import 'package:do_an/routes/routes.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_format_money_vietnam/flutter_format_money_vietnam.dart';
 import 'package:get/get.dart';
 
 import '../controller/fund_controller.dart';
@@ -44,7 +45,7 @@ class FundPage extends GetView<FundController> {
                         leading: const Icon(Icons.sports_basketball_rounded),
                         title: const AutoSizeText(AppString.total),
                         subtitle: AutoSizeText(
-                          controller.totalValue.value.toString(),
+                          controller.totalValue.value.toString().toVND(unit: 'đ'),
                         ),
                       )),
                 ),
@@ -60,7 +61,7 @@ class FundPage extends GetView<FundController> {
                       controller.funds[index].name ?? "",
                     ),
                     subtitle: AutoSizeText(
-                      controller.funds[index].value.toString(),
+                      controller.funds[index].value.toString().toVND(unit: 'đ'),
                     ),
                   ).paddingAll(paddingSmall),
                 ),

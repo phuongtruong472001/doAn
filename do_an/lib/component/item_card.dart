@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:do_an/model/transaction.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_format_money_vietnam/flutter_format_money_vietnam.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
@@ -98,7 +99,7 @@ class TransactionWidget extends StatelessWidget {
                 ],
               ),
             ),
-            Text(' ${transaction.value.toString()}',
+            Text(' ${transaction.value.toString().toVND(unit: 'đ')}',
                 style: TextStyle(
                     color: transaction.isIncrease == 5
                         ? Colors.greenAccent

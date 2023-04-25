@@ -51,7 +51,7 @@ class CreateTransactionPage extends GetView<CreateTransactionController> {
                     //currentNode: controller.descriptionNode,
                     hintText: AppString.hintValue,
                     iconNextTextInputAction: TextInputAction.done,
-                    inputFormatters: InputFormatterEnum.digitsOnly,
+                    inputFormatters: InputFormatterEnum.currency,
                     submitFunc: (v) => {},
                   ),
                 ),

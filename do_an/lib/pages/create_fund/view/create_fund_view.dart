@@ -3,6 +3,7 @@ import 'package:do_an/base/dimen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../Enum/input_formatter_enum.dart';
 import '../../../base/strings.dart';
 import '../../../component/base_input_with_label.dart';
 import '../../../component/input_text_form_field_model.dart';
@@ -55,7 +56,7 @@ class CreateFundPage extends GetView<CreateFundController> {
                   controller: controller.valueController,
                   hintText: AppString.hintValue,
                   iconNextTextInputAction: TextInputAction.done,
-                  //inputFormatters: InputFormatterEnum.lengthLimitingText,
+                  inputFormatters: InputFormatterEnum.currency,
                   submitFunc: (v) => {},
                 ),
               ),

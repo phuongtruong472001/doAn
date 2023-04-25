@@ -2,6 +2,7 @@ import 'package:do_an/database/database.dart';
 import 'package:do_an/model/fund.dart';
 import 'package:do_an/pages/fund/controller/fund_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:get/get.dart';
 
 import '../../../base/strings.dart';
@@ -9,7 +10,8 @@ import '../../../base/strings.dart';
 class CreateFundController extends GetxController {
   Rx<Fund> fund = Fund().obs;
   final fundNameController = TextEditingController();
-  final valueController = TextEditingController();
+  final valueController = MoneyMaskedTextController(
+      thousandSeparator: '.', precision: 0, decimalSeparator: "");
   DBHelper dbHelper = DBHelper();
   @override
   void onInit() {

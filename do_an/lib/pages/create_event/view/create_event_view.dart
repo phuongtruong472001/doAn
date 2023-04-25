@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
+import '../../../Enum/input_formatter_enum.dart';
 import '../../../base/colors.dart';
 import '../../../base/dimen.dart';
 import '../../../base/strings.dart';
@@ -54,10 +55,10 @@ class CreateEventPage extends GetView<CreateEventController> {
             InputTextWithLabel(
               buildInputText: BuildInputText(
                 InputTextModel(
-                  controller: controller.valueController.value,
+                  controller: controller.valueController,
                   hintText: AppString.hintValue,
                   iconNextTextInputAction: TextInputAction.done,
-                  //inputFormatters: InputFormatterEnum.lengthLimitingText,
+                  inputFormatters: InputFormatterEnum.currency,
                   submitFunc: (v) => {},
                 ),
               ),
