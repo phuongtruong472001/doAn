@@ -32,7 +32,7 @@ class FundController extends GetxController {
     if (Get.arguments != null) {
       Get.back(result: fund);
     } else {
-      Get.toNamed(AppRoutes.createFund, arguments: fund);
+      Get.toNamed(AppRoutes.transactionsOfFund, arguments: fund);
     }
   }
 

@@ -17,6 +17,8 @@ import 'package:do_an/pages/event/view/event_view.dart';
 import 'package:do_an/pages/fund/binding/fund_binding.dart';
 import 'package:do_an/pages/home/binding/home_binding.dart';
 import 'package:do_an/pages/home/view/home_view.dart';
+import 'package:do_an/pages/transactions_of_fund/binding/transactions_of_fund_binding.dart';
+import 'package:do_an/pages/transactions_of_fund/view/transactions_of_fund_view.dart';
 import 'package:get/get.dart';
 
 import '../pages/fund/view/fund_view.dart';
@@ -80,6 +82,11 @@ class RoutePage {
       name: AppRoutes.invoice,
       page: () => const InvoicePage(),
       binding: InvoiceBinding(),
+    ),
+    GetPage(
+      name: AppRoutes.transactionsOfFund,
+      page: () => const TransactionsOfFundPage(),
+      binding: TransactionsOfFundBinding(),
     ),
   ];
 }

@@ -61,10 +61,21 @@ class DBHelper {
     //     'INSERT INTO Transactions(value,description,eventId,categoryId,executionTime,fundID,categoryName,eventName,fundName,allowNegative,isIncrease,isRepeat,typeTime,typeRepeat) VALUES(200000,"",0,0,"2023-04-20",0,"Ăn uống","","Tiền mặt",1,1,1,0,0)');
     var transactions = await dbClient?.rawQuery(
         'SELECT * FROM Transactions where executionTime >= "$fromDate" AND executionTime <= "$toDate" ORDER BY executionTime DESC');
-    List<tr.Transaction> listCategories = transactions!.isNotEmpty
+    List<tr.Transaction> listTransactions = transactions!.isNotEmpty
         ? transactions.map((c) => tr.Transaction.fromMap(c)).toList()
         : [];
-    return listCategories;
+    return listTransactions;
+  }
+
+  Future<List<tr.Transaction>> getTransactionsOfFund(
+      String fromDate, String toDate, int fundID) async {
+    var dbClient = await db;
+    var transactions = await dbClient?.rawQuery(
+        'SELECT * FROM Transactions WHERE fundID = $fundID ORDER BY executionTime DESC');
+    List<tr.Transaction> listTransactions = transactions!.isNotEmpty
+        ? transactions.map((c) => tr.Transaction.fromMap(c)).toList()
+        : [];
+    return listTransactions;
   }
 
   Future<List<Event>> getEvents() async {
