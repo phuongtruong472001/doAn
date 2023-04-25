@@ -85,6 +85,19 @@ class BottomSheetSelectTime extends GetView<BaseBottomSheetController> {
                           ),
                         ),
                       ),
+                      const AutoSizeText("Vào lúc "),
+                      TextButton(
+                        onPressed: () => controller.selectTime(context),
+                        child: Obx(
+                          () => AutoSizeText(
+                            controller.time.value.format(context),
+                            style: const TextStyle(
+                              color: Colors.blue,
+                              decoration: TextDecoration.underline,
+                            ),
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                   Row(
@@ -218,10 +231,21 @@ class BaseBottomSheetController extends GetxController {
   void onReady() {}
 
   void doneRepeatTime() {
+    repeatTime.value.timeOfDay = time.value;
     repeatTime.value.dateTime = selectedDate.value;
     repeatTime.value.nameRepeat = listTypeTimeRepeat[typeTime.value];
     repeatTime.value.typeTime = typeTime.value;
     repeatTime.value.quantityTime = int.parse(quantityController.text);
     repeatTime.value.typeRepeat = typeRepeat.value;
+  }
+
+  void selectTime(BuildContext context) async {
+    final TimeOfDay? newTime = await showTimePicker(
+      context: context,
+      initialTime: time.value,
+    );
+    if (newTime != null) {
+      time.value = newTime;
+    }
   }
 }

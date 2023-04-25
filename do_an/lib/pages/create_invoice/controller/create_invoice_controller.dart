@@ -2,6 +2,7 @@ import 'package:do_an/model/invoice.dart';
 import 'package:do_an/model/repeat_time.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:jiffy/jiffy.dart';
 
 import '../../../component/base_bottomsheet.dart';
 import '../../../database/database.dart';
@@ -15,17 +16,6 @@ class CreateInvoiceController extends GetxController {
   var choosedDate = false.obs;
   var selectedDate = DateTime.now().obs;
   DBHelper dbHelper = DBHelper();
-  var time = const TimeOfDay(hour: 7, minute: 15).obs;
-
-  void selectTime(BuildContext context) async {
-    final TimeOfDay? newTime = await showTimePicker(
-      context: context,
-      initialTime: time.value,
-    );
-    if (newTime != null) {
-      time.value = newTime;
-    }
-  }
 
   @override
   void onReady() {}
@@ -63,14 +53,16 @@ class CreateInvoiceController extends GetxController {
 
   void selectDate(BuildContext context) {
     Get.bottomSheet(BottomSheetSelectTime()).then((value) {
-      Get.delete<BaseBottomSheetController>();
       if (value is RepeatTime) {
         invoice.update((val) {
           val!.executionTime = value.dateTime;
           val.nameRepeat = value.nameRepeat;
-          val.typeRepeat = val.typeRepeat;
-          val.typeTime = val.typeTime;
+          val.typeRepeat = value.typeRepeat;
+          val.typeTime = value.typeTime;
+          val.timeOfDay = value.timeOfDay;
         });
+      } else {
+        Get.delete<BaseBottomSheetController>();
       }
     });
   }

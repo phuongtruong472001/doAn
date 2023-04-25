@@ -36,7 +36,7 @@ class Invoice {
     this.allowNegative = 1,
     this.nameRepeat = "",
     this.quantityTime = 0,
-    this.timeOfDay,
+    this.timeOfDay= const TimeOfDay(hour: 7, minute: 15),
     this.typeRepeat = 0,
     this.typeTime = 0,
   });

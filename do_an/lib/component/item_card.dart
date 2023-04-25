@@ -99,8 +99,10 @@ class TransactionWidget extends StatelessWidget {
               ),
             ),
             Text(' ${transaction.value.toString()}',
-                style: const TextStyle(
-                    color: Colors.greenAccent,
+                style: TextStyle(
+                    color: transaction.isIncrease == 5
+                        ? Colors.greenAccent
+                        : Colors.red,
                     fontSize: 14,
                     fontWeight: FontWeight.bold))
           ],

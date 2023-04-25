@@ -103,10 +103,10 @@ class _BuildInputTextState extends State<BuildInputText> {
         return [
           FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9-_\.]')),
         ];
-      // case InputFormatterEnum.currency:
-      //   return [
-      //     NumericTextFormatter(),
-      //   ];
+      case InputFormatterEnum.currency:
+        return [
+          
+        ];
 
       // case InputFormatterEnum.negativeNumber:
       //   return [

@@ -127,14 +127,20 @@ class CreateTransactionController extends GetxController {
 
   void selectDateRepeat(BuildContext context) {
     Get.bottomSheet(BottomSheetSelectTime()).then((value) {
-      Get.delete<BaseBottomSheetController>();
       if (value is RepeatTime) {
         transaction.update((val) {
-          val!.executionTime = value.dateTime;
+          val!.executionTime = Jiffy(value.dateTime)
+              .add(
+                hours: value.timeOfDay!.hour,
+                minutes: value.timeOfDay!.minute,
+              )
+              .dateTime;
           val.typeRepeat = value.typeRepeat;
           val.typeTime = value.typeTime;
           val.isRepeat = true;
         });
+      } else {
+        Get.delete<BaseBottomSheetController>();
       }
     });
   }
