@@ -60,7 +60,7 @@ class DBHelper {
     //  var transactions = await dbClient?.rawQuery(
     //     'INSERT INTO Transactions(value,description,eventId,categoryId,executionTime,fundID,categoryName,eventName,fundName,allowNegative,isIncrease,isRepeat,typeTime,typeRepeat) VALUES(200000,"",0,0,"2023-04-20",0,"Ăn uống","","Tiền mặt",1,1,1,0,0)');
     var transactions = await dbClient?.rawQuery(
-        'SELECT * FROM Transactions where executionTime >= "$fromDate" AND executionTime <= "$toDate" AND description LIKE "%$keySearch%" OR categoryName LIKE "%$keySearch%" ORDER BY executionTime DESC');
+        'SELECT * FROM Transactions where executionTime >= "$fromDate" AND executionTime <= "$toDate" AND (description LIKE "%$keySearch%" OR categoryName LIKE "%$keySearch%") ORDER BY executionTime DESC');
     List<tr.Transaction> listTransactions = transactions!.isNotEmpty
         ? transactions.map((c) => tr.Transaction.fromMap(c)).toList()
         : [];
@@ -234,7 +234,7 @@ class DBHelper {
   Future<bool> editTransaction(tr.Transaction transaction) async {
     var dbClient = await db;
     var status = await dbClient?.rawUpdate(
-      'Update Transactions SET value=${transaction.value}  WHERE id=${transaction.id}',
+      'Update Transactions SET value=${transaction.value} ,description="${transaction.description}",eventId=${transaction.eventId},categoryId=${transaction.categoryId},executionTime="${DateFormat('yyyy-MM-dd kk:mm').format(transaction.executionTime!)}",fundID=${transaction.fundID},categoryName="${transaction.categoryName}",eventName="${transaction.eventName}",fundName="${transaction.fundName}"  WHERE id=${transaction.id}',
     );
     return status == 0;
   }

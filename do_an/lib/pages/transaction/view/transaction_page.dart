@@ -21,6 +21,7 @@ class TracsactionPage extends BaseSearchAppBarWidget<TransactionController> {
       child: baseShimmerLoading(
         () => buildPage(
           backButton: false,
+          showWidgetEmpty: false,
           title: 'title',
           buildBody: Column(
             //mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -31,63 +32,6 @@ class TracsactionPage extends BaseSearchAppBarWidget<TransactionController> {
                   ),
                   child: Column(
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const SizedBox(
-                            width: 40,
-                          ),
-                          Column(
-                            children: [
-                              Column(
-                                children: const [
-                                  AutoSizeText(AppString.balance),
-                                  Text(
-                                    '-8,700,000 đ',
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold),
-                                  )
-                                ],
-                              ),
-                              Container(
-                                padding: const EdgeInsets.all(5),
-                                decoration: BoxDecoration(
-                                    color: const Color.fromARGB(
-                                        255, 200, 200, 200),
-                                    borderRadius: BorderRadius.circular(5)),
-                                child: Row(
-                                  children: const [
-                                    Icon(
-                                      Icons.public,
-                                      color: kPrimaryColor,
-                                    ),
-                                    AutoSizeText(
-                                      AppString.total,
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    Icon(
-                                      Icons.arrow_drop_down,
-                                    )
-                                  ],
-                                ),
-                              )
-                            ],
-                          ),
-                          Container(
-                            alignment: Alignment.topRight,
-                            child: Row(children: [
-                              Container(
-                                  margin: const EdgeInsets.all(5),
-                                  child: const Icon(Icons.search)),
-                              Container(
-                                  margin: const EdgeInsets.all(5),
-                                  child: const Icon(Icons.more_vert)),
-                            ]),
-                          )
-                        ],
-                      ),
                       SizedBox(
                         height: 50,
                         child: TabBar(
@@ -135,22 +79,7 @@ class TracsactionPage extends BaseSearchAppBarWidget<TransactionController> {
     );
   }
 
-  Widget bottomMenu(IconData icon, String content, bool choosed) {
-    return Container(
-        margin: const EdgeInsets.all(10),
-        child: Column(
-          children: [
-            Icon(
-              icon,
-              color: choosed ? Colors.black : Colors.grey,
-            ),
-            Text(
-              content,
-              style: TextStyle(color: choosed ? Colors.black : Colors.grey),
-            )
-          ],
-        ));
-  }
+  
 
   Widget moneyOfDate(String thu, int day, int month, int year, String money) {
     return Container(
