@@ -54,13 +54,25 @@ class DBHelper {
     return listCategories;
   }
 
-  Future<List<tr.Transaction>> getTransactions(
-      String fromDate, String toDate) async {
+  Future<List<tr.Transaction>> getTransactions(String fromDate, String toDate,
+      {String keySearch = ""}) async {
     var dbClient = await db;
     //  var transactions = await dbClient?.rawQuery(
     //     'INSERT INTO Transactions(value,description,eventId,categoryId,executionTime,fundID,categoryName,eventName,fundName,allowNegative,isIncrease,isRepeat,typeTime,typeRepeat) VALUES(200000,"",0,0,"2023-04-20",0,"Ăn uống","","Tiền mặt",1,1,1,0,0)');
     var transactions = await dbClient?.rawQuery(
-        'SELECT * FROM Transactions where executionTime >= "$fromDate" AND executionTime <= "$toDate" ORDER BY executionTime DESC');
+        'SELECT * FROM Transactions where executionTime >= "$fromDate" AND executionTime <= "$toDate" AND description LIKE "%$keySearch%" OR categoryName LIKE "%$keySearch%" ORDER BY executionTime DESC');
+    List<tr.Transaction> listTransactions = transactions!.isNotEmpty
+        ? transactions.map((c) => tr.Transaction.fromMap(c)).toList()
+        : [];
+    return listTransactions;
+  }
+
+  Future<List<tr.Transaction>> getTransactionsByName(String keySearch) async {
+    var dbClient = await db;
+    //  var transactions = await dbClient?.rawQuery(
+    //     'INSERT INTO Transactions(value,description,eventId,categoryId,executionTime,fundID,categoryName,eventName,fundName,allowNegative,isIncrease,isRepeat,typeTime,typeRepeat) VALUES(200000,"",0,0,"2023-04-20",0,"Ăn uống","","Tiền mặt",1,1,1,0,0)');
+    var transactions = await dbClient?.rawQuery(
+        'SELECT * FROM Transactions WHERE Transactions.description LIKE "%$keySearch%" OR Transactions.categoryName LIKE "%$keySearch%"  ORDER BY Transactions.executionTime DESC');
     List<tr.Transaction> listTransactions = transactions!.isNotEmpty
         ? transactions.map((c) => tr.Transaction.fromMap(c)).toList()
         : [];

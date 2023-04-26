@@ -49,6 +49,10 @@ dependencies:
   fl_chart: ^0.62.0
   flutter_masked_text2: ^0.9.1
   flutter_format_money_vietnam: ^0.0.2
+  loading_overlay_pro: ^2.1.1
+  shimmer: ^2.0.0
+  pull_to_refresh: ^2.0.0
+  keyboard_actions: ^3.4.0
   
 dev_dependencies:
   flutter_test:

@@ -2,23 +2,27 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:do_an/base/colors.dart';
 import 'package:do_an/base/dimen.dart';
 import 'package:do_an/base/strings.dart';
+import 'package:do_an/base_ui/base_ui_src.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../component/item_card.dart';
+import '../../../component/util_widget.dart';
 import '../controller/transaction_controller.dart';
 
-class TracsactionPage extends GetView<TransactionController> {
+class TracsactionPage extends BaseSearchAppBarWidget<TransactionController> {
   const TracsactionPage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget buildWidgets() {
     return DefaultTabController(
       initialIndex: 1,
       length: 3,
-      child: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
+      child: baseShimmerLoading(
+        () => buildPage(
+          backButton: false,
+          title: 'title',
+          buildBody: Column(
             //mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Container(
@@ -99,20 +103,31 @@ class TracsactionPage extends GetView<TransactionController> {
                       )
                     ],
                   )),
-              Obx(
-                () => ListView.builder(
-                  itemBuilder: (context, index) => GestureDetector(
-                    onTap: () =>
-                        controller.goToDetail(controller.transactions[index]),
-                    child: TransactionWidget(
-                      controller.transactions[index],
+              Expanded(
+                child: UtilWidget.buildSmartRefresher(
+                  refreshController: controller.refreshController,
+                  onRefresh: controller.onRefresh,
+                  onLoadMore: controller.onLoadMore,
+                  enablePullUp: true,
+                  child: ListView.builder(
+                    controller: controller.scrollControllerUpToTop,
+                    padding: EdgeInsets.only(
+                      top: controller.isScrollToTop() ? 0 : 70,
                     ),
+                    shrinkWrap: true,
+                    itemBuilder: (context, index) {
+                      return GestureDetector(
+                        onTap: () =>
+                            controller.goToDetail(controller.rxList[index]),
+                        child: TransactionWidget(
+                          controller.rxList[index],
+                        ),
+                      );
+                    },
+                    itemCount: controller.rxList.length,
                   ),
-                  itemCount: controller.transactions.length,
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
                 ),
-              ),
+              )
             ],
           ).paddingAll(defaultPadding),
         ),
