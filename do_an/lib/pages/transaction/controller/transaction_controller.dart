@@ -1,3 +1,4 @@
+import 'package:do_an/base_controller/base_controller_src.dart';
 import 'package:do_an/model/transaction.dart' as tr;
 import 'package:do_an/routes/routes.dart';
 import 'package:get/get.dart';
@@ -6,9 +7,8 @@ import 'package:jiffy/jiffy.dart';
 
 import '../../../database/database.dart';
 
-class TransactionController extends GetxController {
+class TransactionController extends BaseSearchAppbarController {
   RxInt indexTabbar = 1.obs;
-  RxList<tr.Transaction> transactions = List<tr.Transaction>.empty().obs;
   String fromDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
   String toDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
   var dbHelper = DBHelper();
@@ -49,8 +49,8 @@ class TransactionController extends GetxController {
         toDate = '2023-01-01';
         break;
     }
-    print(fromDate + "-----" + toDate);
-    transactions.value = await dbHelper.getTransactions(fromDate, toDate);
+    print("$fromDate-----$toDate");
+    rxList.value = await dbHelper.getTransactions(fromDate, toDate);
   }
 
   void goToDetail(tr.Transaction transaction) {
@@ -65,6 +65,22 @@ class TransactionController extends GetxController {
     List<tr.Transaction> listTransaction =
         await dbHelper.getTransactions(fromDate, toDate);
     //dbHelper.getTotalValueOfCategory(0, "", "");
-    transactions.value = listTransaction;
+    rxList.value = listTransaction;
+  }
+
+  @override
+  Future<void> onLoadMore() async {
+    refreshController.loadComplete();
+  }
+
+  @override
+  Future<void> onRefresh() async {
+    refreshController.refreshCompleted();
+  }
+
+  @override
+  Future<void> functionSearch() async {
+    rxList.value = await dbHelper.getTransactions(fromDate, toDate,
+        keySearch: textSearchController.text);
   }
 }
