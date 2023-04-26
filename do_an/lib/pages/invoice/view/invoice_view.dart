@@ -82,7 +82,7 @@ class InvoicePage extends GetView<InvoiceController> {
         InkWell(
           ///Chuyển sang màn chi tiết
           onTap: () {
-            Get.toNamed(AppRoutes.detailTransaction, arguments: invoice);
+            Get.toNamed(AppRoutes.detailInvoice, arguments: invoice);
           },
           child: Container(
             height: 200,
