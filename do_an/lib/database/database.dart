@@ -96,7 +96,7 @@ class DBHelper {
 
   Future<List<Invoice>> getInvoices(int allowNegative) async {
     var dbClient = await db;
-    var invoices =  await dbClient?.rawQuery(
+    var invoices = await dbClient?.rawQuery(
         'SELECT * FROM Invoice where Invoice.allowNegative = $allowNegative');
     List<Invoice> listInvoices = invoices!.isNotEmpty
         ? invoices.map((c) => Invoice.fromMap(c)).toList()
@@ -222,9 +222,9 @@ class DBHelper {
   Future<bool> editTransaction(tr.Transaction transaction) async {
     var dbClient = await db;
     var status = await dbClient?.rawUpdate(
-      'Update Transactions SET value=${transaction.value},description=${transaction.description},eventId=${transaction.eventId},categoryId=${transaction.categoryId},executionTime=${transaction.executionTime},fundID=${transaction.fundID},categoryName=${transaction.categoryName},eventName=${transaction.eventName},fundName=${transaction.fundName} WHERE id=${transaction.id}',
+      'Update Transactions SET value=${transaction.value}  WHERE id=${transaction.id}',
     );
-    return status != 0;
+    return status == 0;
   }
 
   //delete records
@@ -318,7 +318,7 @@ class DBHelper {
       if (transaction.isRepeat == true) {
         if (transaction.typeRepeat == 0) {
           var now = DateTime.now();
-          print("endtime" + transaction.endTime.toString());
+          print("endtime${transaction.endTime}");
           var tempDate = Jiffy(transaction.endTime ?? DateTime.now());
           while (Jiffy(now).isAfter(tempDate)) {
             if (transaction.typeTime == 0) {

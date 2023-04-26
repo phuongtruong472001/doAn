@@ -13,18 +13,9 @@ class CreateFundController extends GetxController {
   final valueController = MoneyMaskedTextController(
       thousandSeparator: '.', precision: 0, decimalSeparator: "");
   DBHelper dbHelper = DBHelper();
-  @override
-  void onInit() {
-    super.onInit();
-  }
 
   @override
   void onReady() {}
-
-  @override
-  void onClose() {
-    super.onClose();
-  }
 
   Future<void> createFund() async {
     fund.value.name = fundNameController.text;
@@ -37,7 +28,7 @@ class CreateFundController extends GetxController {
     }
     Get.snackbar(
       "",
-      status ? AppString.success("Ví tiền") : AppString.fail,
+      status ? AppString.addSuccess("Ví tiền") : AppString.fail,
       backgroundColor: status ? Colors.green : Colors.red,
       snackPosition: SnackPosition.BOTTOM,
     );

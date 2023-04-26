@@ -35,7 +35,8 @@ class CreateEventController extends GetxController {
 
   Future<void> createEvent() async {
     event.value.name = nameController.value.text;
-    event.value.estimateValue = int.parse(valueController.value.text.replaceAll('.', ''));
+    event.value.estimateValue =
+        int.parse(valueController.value.text.replaceAll('.', ''));
     event.value.date = selectedDate.value;
     bool status = await dbHelper.addEvent(event.value);
     if (status) {
@@ -45,7 +46,7 @@ class CreateEventController extends GetxController {
     }
     Get.snackbar(
       "",
-      status ? AppString.success("Sự kiện") : AppString.fail,
+      status ? AppString.addSuccess("Sự kiện") : AppString.fail,
       backgroundColor: status ? Colors.green : Colors.red,
       snackPosition: SnackPosition.BOTTOM,
     );

@@ -113,16 +113,29 @@ class CreateTransactionController extends GetxController {
             Jiffy(transaction.value.endTime).add(months: 1).dateTime;
       }
     }
-    bool status = await dbHelper.addTransaction(transaction.value);
+    bool status;
+    if (Get.arguments == null) {
+      status = await dbHelper.addTransaction(transaction.value);
+    } else {
+      status = await dbHelper.editTransaction(transaction.value);
+    }
+    String messege = "";
     if (status) {
+      if (Get.arguments == null) {
+        messege = AppString.addSuccess("Giao dịch");
+      } else {
+        messege = AppString.editSuccess("Giao dịch");
+      }
       TransactionController transactionController =
           Get.find<TransactionController>();
       await transactionController.initData();
       Get.back();
+    } else {
+      messege = AppString.fail;
     }
     Get.snackbar(
       "",
-      status ? AppString.success("Giao dịch") : AppString.fail,
+      messege,
       backgroundColor: status ? Colors.green : Colors.red,
       snackPosition: SnackPosition.BOTTOM,
     );

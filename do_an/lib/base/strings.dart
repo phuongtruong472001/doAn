@@ -83,7 +83,8 @@ class AppString {
   static const String spendingReport = "Báo cáo chi tiêu";
 
   //messege
-  static String success(String name) => "Thêm mới $name thành công";
+  static String addSuccess(String name) => "Thêm mới $name thành công";
+  static String editSuccess(String name) => "Sửa $name thành công";
   static const String fail = "Thêm mới thất bại";
 
   //event

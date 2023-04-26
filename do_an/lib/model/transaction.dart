@@ -31,7 +31,7 @@ class Transaction {
     this.eventName = "",
     this.allowNegative = 1,
     this.isIncrease = 0,
-    this.isRepeat,
+    this.isRepeat=true,
     this.endTime,
     this.typeRepeat = 0,
     this.typeTime = 0,
