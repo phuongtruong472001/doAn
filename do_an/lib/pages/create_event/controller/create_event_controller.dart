@@ -35,7 +35,7 @@ class CreateEventController extends GetxController {
 
   Future<void> createEvent() async {
     event.value.name = nameController.value.text;
-    event.value.estimateValue = int.parse(valueController.value.text);
+    event.value.estimateValue = int.parse(valueController.value.text.replaceAll('.', ''));
     event.value.date = selectedDate.value;
     bool status = await dbHelper.addEvent(event.value);
     if (status) {

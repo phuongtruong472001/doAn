@@ -36,7 +36,7 @@ class Invoice {
     this.allowNegative = 1,
     this.nameRepeat = "",
     this.quantityTime = 0,
-    this.timeOfDay= const TimeOfDay(hour: 7, minute: 15),
+    this.timeOfDay = const TimeOfDay(hour: 7, minute: 15),
     this.typeRepeat = 0,
     this.typeTime = 0,
   });
@@ -62,20 +62,20 @@ class Invoice {
       description:
           json['description'] != null ? json['description'] as String : null,
       eventID: json['eventID'] != null ? json['eventID'] as int : null,
-      categoryID: json['categoryID'] != null ? json['category'] as int : null,
+      categoryID: json['categoryID'] != null ? json['categoryID'] as int : null,
       executionTime: json['executionTime'] != null
-          ? DateTime.fromMillisecondsSinceEpoch(json['executionTime'] as int)
+          ? DateTime.tryParse(json['executionTime'])
           : null,
       fundId: json['fundId'] != null ? json['fundId'] as int : null,
       notificationTime: json['notificationTime'] != null
-          ? DateTime.fromMillisecondsSinceEpoch(json['notificationTime'] as int)
+          ? DateTime.tryParse(json['notificationTime'])
           : null,
       typeOfNotification: json['typeOfNotification'] != null
           ? json['typeOfNotification'] as int
           : null,
       fundName: json['fundName'] ?? "",
       categoryName: json['categoryName'] ?? "",
-      allowNegative: json['allowNegative'],
+      allowNegative: json['allowNegative'] ?? 1,
     );
   }
 

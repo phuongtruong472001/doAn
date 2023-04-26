@@ -32,7 +32,6 @@ class CreateTransactionController extends GetxController {
     choosedDate.value = true;
     if (picked != null && picked != DateTime.now()) {
       selectedDate.value = picked;
-      transaction.value.executionTime = selectedDate.value;
     }
   }
 
@@ -92,11 +91,13 @@ class CreateTransactionController extends GetxController {
 
   Future<void> createTransaction() async {
     if (transaction.value.isIncrease == 5) {
-      transaction.value.value = int.parse(valueController.value.text);
+      transaction.value.value =
+          int.parse(valueController.value.text.replaceAll('.', ''));
     } else {
-      transaction.value.value = int.parse(valueController.value.text) * (-1);
+      transaction.value.value =
+          int.parse(valueController.value.text.replaceAll('.', '')) * (-1);
     }
-
+    transaction.value.executionTime = selectedDate.value;
     transaction.value.description = descriptionController.value.text;
     transaction.value.endTime = transaction.value.executionTime;
     if (transaction.value.typeRepeat == 1) {

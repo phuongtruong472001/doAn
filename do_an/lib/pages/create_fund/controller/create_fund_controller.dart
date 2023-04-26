@@ -15,7 +15,6 @@ class CreateFundController extends GetxController {
   DBHelper dbHelper = DBHelper();
   @override
   void onInit() {
-    initData();
     super.onInit();
   }
 
@@ -27,16 +26,9 @@ class CreateFundController extends GetxController {
     super.onClose();
   }
 
-  void initData() {
-    if (Get.arguments != null && Get.arguments is Fund) {
-      fundNameController.text = Get.arguments.name;
-      valueController.text = Get.arguments.value.toString();
-    }
-  }
-
   Future<void> createFund() async {
     fund.value.name = fundNameController.text;
-    fund.value.value = int.parse(valueController.text);
+    fund.value.value = int.parse(valueController.text.replaceAll('.', ''));
     bool status = await dbHelper.addFund(fund.value);
     if (status) {
       FundController fundController = Get.find<FundController>();

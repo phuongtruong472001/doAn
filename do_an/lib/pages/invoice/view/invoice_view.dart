@@ -47,11 +47,15 @@ class InvoicePage extends GetView<InvoiceController> {
           Expanded(
             child: TabBarView(
               controller: controller.tabController,
-              children: const <Widget>[
-                Center(
-                  child: Text("It's cloudy here"),
+              children: <Widget>[
+                Expanded(
+                  child: Obx(() => ListView.builder(
+                        itemBuilder: (context, index) => Text(
+                            controller.listInvoices[index].value.toString()),
+                        itemCount: controller.listInvoices.length,
+                      )),
                 ),
-                Center(
+                const Center(
                   child: Text("It's cloudy here"),
                 ),
               ],
