@@ -22,7 +22,7 @@ class CreateInvoiceController extends GetxController {
   void onReady() {}
 
   void createInvoice() async {
-    invoice.value.value = int.parse(valueController.text);
+    invoice.value.value = int.parse(valueController.text.replaceAll('.', ''));
     invoice.value.description = descriptionController.text;
     bool status = await dbHelper.addInvoice(invoice.value);
     if (status) {

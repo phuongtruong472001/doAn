@@ -83,9 +83,10 @@ class DBHelper {
     return listFunds;
   }
 
-  Future<List<Invoice>> getInvoices() async {
+  Future<List<Invoice>> getInvoices(int allowNegative) async {
     var dbClient = await db;
-    var invoices = await dbClient?.query('Event');
+    var invoices =  await dbClient?.rawQuery(
+        'SELECT * FROM Invoice where Invoice.allowNegative = $allowNegative');
     List<Invoice> listInvoices = invoices!.isNotEmpty
         ? invoices.map((c) => Invoice.fromMap(c)).toList()
         : [];
