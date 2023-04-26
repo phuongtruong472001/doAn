@@ -1,3 +1,4 @@
+import 'package:do_an/base_controller/base_controller.dart';
 import 'package:do_an/database/database.dart';
 import 'package:do_an/model/fund.dart';
 import 'package:do_an/pages/fund/controller/fund_controller.dart';
@@ -7,24 +8,12 @@ import 'package:get/get.dart';
 
 import '../../../base/strings.dart';
 
-class CreateFundController extends GetxController {
+class CreateFundController extends BaseGetxController {
   Rx<Fund> fund = Fund().obs;
   final fundNameController = TextEditingController();
   final valueController = MoneyMaskedTextController(
       thousandSeparator: '.', precision: 0, decimalSeparator: "");
   DBHelper dbHelper = DBHelper();
-  @override
-  void onInit() {
-    super.onInit();
-  }
-
-  @override
-  void onReady() {}
-
-  @override
-  void onClose() {
-    super.onClose();
-  }
 
   Future<void> createFund() async {
     fund.value.name = fundNameController.text;

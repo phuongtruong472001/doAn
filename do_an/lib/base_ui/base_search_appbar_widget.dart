@@ -50,7 +50,7 @@ abstract class BaseSearchAppBarWidget<T extends BaseSearchAppbarController>
             actionButtonOnpress,
             buildBody,
             showWidgetEmpty,
-            showOffline: showOffline,
+            
           ),
         ),
         floatingActionButton:
@@ -65,9 +65,7 @@ abstract class BaseSearchAppBarWidget<T extends BaseSearchAppbarController>
     String? titleButton,
     actionButtonOnpress,
     Widget buildBody,
-    bool showWidgetEmpty, {
-    bool showOffline = true,
-  }) {
+    bool showWidgetEmpty,) {
     return Align(
       child: controller.rxList.isEmpty && showWidgetEmpty
           ? (!controller.isSearch.value
@@ -112,26 +110,10 @@ abstract class BaseSearchAppBarWidget<T extends BaseSearchAppbarController>
     );
   }
 
-  Column _buildViewEmpty(Widget? buildWidgetEmpty, String? titleEmpty,
+  Widget _buildViewEmpty(Widget? buildWidgetEmpty, String? titleEmpty,
       String? titleButton, actionButtonOnpress) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Expanded(
-          child: SingleChildScrollView(
-            child: (buildWidgetEmpty ??
-                Column(
-                  children: const [
-                    Expanded(
-                      child: Center(
-                        child: Text("không tìm kiếm"),
-                      ),
-                    ),
-                  ],
-                )),
-          ),
-        ),
-      ],
+    return const Center(
+      child: Text("không tìm kiếm"),
     );
   }
 }

@@ -3,9 +3,12 @@ import 'dart:async';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:do_an/base/dimen.dart';
 import 'package:do_an/base/strings.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class UtilWidget {
   static PreferredSizeWidget buildBaseBackgroundAppBar({
@@ -31,6 +34,48 @@ class UtilWidget {
       backgroundColor: Colors.blue[400],
       centerTitle: true,
       actions: actions,
+    );
+  }
+
+  static Widget buildSmartRefresher({
+    required RefreshController refreshController,
+    required Widget child,
+    ScrollController? scrollController,
+    Function()? onRefresh,
+    Function()? onLoadMore,
+    bool enablePullUp = false,
+  }) {
+    return ScrollConfiguration(
+      behavior: ScrollConfiguration.of(Get.context!).copyWith(dragDevices: {
+        PointerDeviceKind.touch,
+        PointerDeviceKind.mouse,
+      }),
+      child: SmartRefresher(
+        enablePullDown: true,
+        enablePullUp: enablePullUp,
+        scrollController: scrollController,
+        header: const MaterialClassicHeader(),
+        controller: refreshController,
+        onRefresh: onRefresh,
+        onLoading: onLoadMore,
+        footer: buildSmartRefresherCustomFooter(),
+        child: child,
+      ),
+    );
+  }
+
+  static Widget buildSmartRefresherCustomFooter() {
+    return CustomFooter(
+      builder: (context, mode) {
+        if (mode == LoadStatus.loading) {
+          return const CupertinoActivityIndicator();
+        } else {
+          return const Opacity(
+            opacity: 0.0,
+            child: CupertinoActivityIndicator(),
+          );
+        }
+      },
     );
   }
 
@@ -142,6 +187,7 @@ class UtilWidget {
       ),
     );
   }
+
   static buildAppBarTitle(String title,
       {bool? textAlignCenter, Color? textColor}) {
     textAlignCenter = textAlignCenter ?? GetPlatform.isAndroid;
