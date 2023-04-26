@@ -17,6 +17,7 @@ class AppString {
   static const String value = "Số tiền";
   static const String hintTime = "Chọn thời gian";
   static const String cash = "Tiền mặt";
+  static const String hintSearch = "Tìm kiếm";
 
   static const String invoice = 'Hóa đơn';
   static const String account = 'Tài khoản';
