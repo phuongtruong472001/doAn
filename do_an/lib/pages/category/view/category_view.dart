@@ -1,34 +1,27 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:do_an/model/category.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 import '../../../base/icons.dart';
+import '../../../base_ui/base_search_appbar_widget.dart';
 import '../controller/category_controller.dart';
 
-class CategoryPage extends GetView<CategoryController> {
+class CategoryPage extends BaseSearchAppBarWidget<CategoryController> {
   const CategoryPage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Obx(
-        () => ListView.builder(
+  Widget buildWidgets() {
+    return baseShimmerLoading(
+      () => buildPage(
+        backButton: false,
+        showWidgetEmpty: false,
+        buildBody: ListView.builder(
           itemBuilder: (context, index) => Card(
             child: item(
-              category: controller.listCategories[index],
+              category: controller.rxList[index],
             ),
           ),
-          itemCount: controller.listCategories.length,
-        ),
-      ),
-      appBar: AppBar(
-        automaticallyImplyLeading: true,
-        title: AutoSizeText(
-          "Chọn danh mục",
-          style: Get.textTheme.bodyMedium!.copyWith(
-            fontWeight: FontWeight.bold,
-          ),
+          itemCount: controller.rxList.length,
         ),
       ),
     );

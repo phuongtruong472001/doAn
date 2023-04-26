@@ -11,7 +11,6 @@ abstract class BaseSearchAppBarWidget<T extends BaseSearchAppbarController>
   const BaseSearchAppBarWidget({Key? key}) : super(key: key);
 
   Widget buildPage({
-    required String title,
     required Widget buildBody,
     String? titleEmpty,
     String? titleBotton,
@@ -23,6 +22,7 @@ abstract class BaseSearchAppBarWidget<T extends BaseSearchAppbarController>
     Widget? buildWidgetEmpty,
     bool showWidgetEmpty = true,
     bool showOffline = true,
+    Function? function,
   }) {
     return Obx(
       () => Scaffold(
@@ -50,11 +50,17 @@ abstract class BaseSearchAppBarWidget<T extends BaseSearchAppbarController>
             actionButtonOnpress,
             buildBody,
             showWidgetEmpty,
-            
           ),
         ),
-        floatingActionButton:
-            controller.showBackToTopButton.value ? _buildToTop() : null,
+        floatingActionButton: function != null
+            ? FloatingActionButton(
+                onPressed: () => function,
+                backgroundColor: Colors.green,
+                child: const Icon(
+                  Icons.add,
+                ),
+              )
+            : null,
       ),
     );
   }
@@ -65,7 +71,8 @@ abstract class BaseSearchAppBarWidget<T extends BaseSearchAppbarController>
     String? titleButton,
     actionButtonOnpress,
     Widget buildBody,
-    bool showWidgetEmpty,) {
+    bool showWidgetEmpty,
+  ) {
     return Align(
       child: controller.rxList.isEmpty && showWidgetEmpty
           ? (!controller.isSearch.value

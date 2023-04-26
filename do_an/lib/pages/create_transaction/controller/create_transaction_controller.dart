@@ -1,3 +1,4 @@
+import 'package:do_an/base_controller/base_controller_src.dart';
 import 'package:do_an/database/database.dart';
 import 'package:do_an/model/transaction.dart';
 import 'package:do_an/pages/transaction/controller/transaction_controller.dart';
@@ -113,32 +114,39 @@ class CreateTransactionController extends GetxController {
             Jiffy(transaction.value.endTime).add(months: 1).dateTime;
       }
     }
-    bool status;
-    if (Get.arguments == null) {
-      status = await dbHelper.addTransaction(transaction.value);
-    } else {
-      status = await dbHelper.editTransaction(transaction.value);
-    }
-    String messege = "";
-    if (status) {
+
+    if (valueController.value.text.isNotEmpty &&
+        transaction.value.categoryId! >= 0) {
+      bool status;
       if (Get.arguments == null) {
-        messege = AppString.addSuccess("Giao dịch");
+        status = await dbHelper.addTransaction(transaction.value);
       } else {
-        messege = AppString.editSuccess("Giao dịch");
+        status = await dbHelper.editTransaction(transaction.value);
       }
-      TransactionController transactionController =
-          Get.find<TransactionController>();
-      await transactionController.initData();
-      Get.back();
+      String messege = "";
+      if (status) {
+        if (Get.arguments == null) {
+          messege = AppString.addSuccess("Giao dịch");
+        } else {
+          messege = AppString.editSuccess("Giao dịch");
+        }
+        TransactionController transactionController =
+            Get.find<TransactionController>();
+        await transactionController.initData();
+        Get.back();
+      } else {
+        messege = AppString.fail;
+      }
+      showSnackBar(
+        messege,
+        backgroundColor: status ? Colors.green : Colors.red,
+      );
     } else {
-      messege = AppString.fail;
+      showSnackBar(
+        "Số tiền và danh mục không thể để trống",
+        backgroundColor: Colors.red,
+      );
     }
-    Get.snackbar(
-      "",
-      messege,
-      backgroundColor: status ? Colors.green : Colors.red,
-      snackPosition: SnackPosition.BOTTOM,
-    );
   }
 
   void selectDateRepeat(BuildContext context) {

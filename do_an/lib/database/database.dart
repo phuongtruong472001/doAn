@@ -45,9 +45,10 @@ class DBHelper {
     return theDb;
   }
 
-  Future<List<Category>> getCategories() async {
+  Future<List<Category>> getCategories({String? keySearch}) async {
     var dbClient = await db;
-    var categories = await dbClient?.query('Category');
+    var categories = await dbClient
+        ?.rawQuery('SELECT * FROM Category where name LIKE "%$keySearch%"');
     List<Category> listCategories = categories!.isNotEmpty
         ? categories.map((c) => Category.fromMap(c)).toList()
         : [];
@@ -90,9 +91,10 @@ class DBHelper {
     return listTransactions;
   }
 
-  Future<List<Event>> getEvents() async {
+  Future<List<Event>> getEvents({String? keySearch}) async {
     var dbClient = await db;
-    var events = await dbClient?.query('Event');
+    var events = await dbClient
+        ?.rawQuery('SELECT * FROM Event where name LIKE "%$keySearch%"');
     List<Event> listEvents =
         events!.isNotEmpty ? events.map((c) => Event.fromjson(c)).toList() : [];
     return listEvents;

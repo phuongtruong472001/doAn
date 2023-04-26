@@ -39,70 +39,85 @@ class CreateEventPage extends GetView<CreateEventController> {
       ),
       body: SafeArea(
         child: SingleChildScrollView(
-          child: Column(children: [
-            InputTextWithLabel(
-              buildInputText: BuildInputText(
-                InputTextModel(
-                  controller: controller.nameController.value,
-                  hintText: AppString.hintNameEvent,
-                  iconNextTextInputAction: TextInputAction.done,
-                  //inputFormatters: InputFormatterEnum.lengthLimitingText,
-                  submitFunc: (v) => {},
+          child: Form(
+            key: controller.formData,
+            child: Column(children: [
+              InputTextWithLabel(
+                buildInputText: BuildInputText(
+                  InputTextModel(
+                    controller: controller.nameController.value,
+                    hintText: AppString.hintNameEvent,
+                    iconNextTextInputAction: TextInputAction.done,
+                    //inputFormatters: InputFormatterEnum.lengthLimitingText,
+                    submitFunc: (v) => {},
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return "Không được để trống";
+                      }
+                      return "";
+                    },
+                  ),
                 ),
+                label: AppString.nameEvent,
               ),
-              label: AppString.nameEvent,
-            ),
-            InputTextWithLabel(
-              buildInputText: BuildInputText(
-                InputTextModel(
-                  controller: controller.valueController,
-                  hintText: AppString.hintValue,
-                  iconNextTextInputAction: TextInputAction.done,
-                  inputFormatters: InputFormatterEnum.currency,
-                  submitFunc: (v) => {},
+              InputTextWithLabel(
+                buildInputText: BuildInputText(
+                  InputTextModel(
+                    controller: controller.valueController,
+                    hintText: AppString.hintValue,
+                    iconNextTextInputAction: TextInputAction.done,
+                    inputFormatters: InputFormatterEnum.currency,
+                    submitFunc: (v) => {},
+                    validator: (value) {
+                      if (value == "0") {
+                        return "Không được để trống";
+                      }
+                      return "";
+                    },
+                  ),
                 ),
+                label: AppString.value,
               ),
-              label: AppString.value,
+              // GestureDetector(
+              //    // onTap: () => controller.chooseFund(),
+              //     child: Card(
+              //       child: Obx(
+              //         () => ListTile(
+              //           leading: const Icon(Icons.book),
+              //           trailing: AutoSizeText(
+              //             "Chọn nguồn tiền",
+              //             style: Get.textTheme.bodyText2!
+              //                 .copyWith(color: kPrimaryColor),
+              //           ),
+              //           title: AutoSizeText(
+              //             controller.event.value.,
+              //           ),
+              //         ),
+              //       ),
+              //     ).paddingSymmetric(vertical: paddingSmall),
+              //   ),
+              GestureDetector(
+                onTap: () => controller.selectDate(context),
+                child: Card(
+                  child: Obx(
+                    () => ListTile(
+                        leading: const Icon(Icons.date_range),
+                        trailing: AutoSizeText(
+                          AppString.hintTime,
+                          style: Get.textTheme.bodyMedium!
+                              .copyWith(color: kPrimaryColor),
+                        ),
+                        title: AutoSizeText(
+                          DateFormat.yMMMd()
+                              .format(controller.selectedDate.value),
+                          style: Get.textTheme.bodyMedium,
+                        )),
+                  ),
+                ).paddingSymmetric(vertical: paddingSmall),
+              ),
+            ]).paddingSymmetric(
+              horizontal: defaultPadding,
             ),
-            // GestureDetector(
-            //    // onTap: () => controller.chooseFund(),
-            //     child: Card(
-            //       child: Obx(
-            //         () => ListTile(
-            //           leading: const Icon(Icons.book),
-            //           trailing: AutoSizeText(
-            //             "Chọn nguồn tiền",
-            //             style: Get.textTheme.bodyText2!
-            //                 .copyWith(color: kPrimaryColor),
-            //           ),
-            //           title: AutoSizeText(
-            //             controller.event.value.,
-            //           ),
-            //         ),
-            //       ),
-            //     ).paddingSymmetric(vertical: paddingSmall),
-            //   ),
-            GestureDetector(
-              onTap: () => controller.selectDate(context),
-              child: Card(
-                child: Obx(
-                  () => ListTile(
-                      leading: const Icon(Icons.date_range),
-                      trailing: AutoSizeText(
-                        AppString.hintTime,
-                        style: Get.textTheme.bodyMedium!
-                            .copyWith(color: kPrimaryColor),
-                      ),
-                      title: AutoSizeText(
-                        DateFormat.yMMMd()
-                            .format(controller.selectedDate.value),
-                        style: Get.textTheme.bodyMedium,
-                      )),
-                ),
-              ).paddingSymmetric(vertical: paddingSmall),
-            ),
-          ]).paddingSymmetric(
-            horizontal: defaultPadding,
           ),
         ),
       ),

@@ -42,7 +42,15 @@ class BaseGetxController extends GetxController {
     isLoadingOverlay.value = false;
   }
 
-  Future<void> showSnackBar<T>(
+  
+
+  @override
+  void onClose() {}
+
+  @override
+  void onInit() {}
+}
+Future<void> showSnackBar<T>(
     String message, {
     Duration duration = const Duration(seconds: 2),
     Widget? mainButton,
@@ -77,10 +85,3 @@ class BaseGetxController extends GetxController {
       duration: message.length > 100 ? 5.seconds : duration,
     ));
   }
-
-  @override
-  void onClose() {}
-
-  @override
-  void onInit() {}
-}

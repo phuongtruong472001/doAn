@@ -1,3 +1,4 @@
+import 'package:do_an/base_controller/base_controller.dart';
 import 'package:do_an/model/invoice.dart';
 import 'package:do_an/model/repeat_time.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +10,7 @@ import '../../../database/database.dart';
 import '../../../routes/routes.dart';
 
 class CreateInvoiceController extends GetxController {
+  final formData = GlobalKey<FormState>();
   final valueController = MoneyMaskedTextController(
       thousandSeparator: '.', precision: 0, decimalSeparator: "");
   final descriptionController = TextEditingController();
@@ -24,9 +26,11 @@ class CreateInvoiceController extends GetxController {
   void createInvoice() async {
     invoice.value.value = int.parse(valueController.text.replaceAll('.', ''));
     invoice.value.description = descriptionController.text;
-    bool status = await dbHelper.addInvoice(invoice.value);
-    if (status) {
-      print("thêm hoá đơn thành công");
+    if (invoice.value.categoryID! >= 0) {
+      bool status = await dbHelper.addInvoice(invoice.value);
+      if (status) {
+        showSnackBar("thêm hoá đơn thành công", backgroundColor: Colors.green);
+      }
     }
   }
 

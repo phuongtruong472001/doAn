@@ -1,12 +1,11 @@
-
-
 import 'package:do_an/model/category.dart';
 import 'package:get/get.dart';
 
+import '../../../base_controller/base_search_appbar_controller.dart';
 import '../../../database/database.dart';
 
-class CategoryController extends GetxController {
-  RxList<Category> listCategories = List<Category>.empty().obs;
+class CategoryController extends BaseSearchAppbarController {
+  var dbHelper = DBHelper();
   @override
   void onInit() async {
     await initData();
@@ -14,9 +13,8 @@ class CategoryController extends GetxController {
   }
 
   Future<void> initData() async {
-    var dbHelper = DBHelper();
     List<Category> categories = await dbHelper.getCategories();
-    listCategories.value = categories;
+    rxList.value = categories;
   }
 
   @override
@@ -29,5 +27,21 @@ class CategoryController extends GetxController {
 
   void onTapItem(Category category) {
     Get.back(result: category);
+  }
+
+  @override
+  Future<void> onLoadMore() async {
+    refreshController.loadComplete();
+  }
+
+  @override
+  Future<void> onRefresh() async {
+    refreshController.refreshCompleted();
+  }
+
+  @override
+  Future<void> functionSearch() async {
+    rxList.value =
+        await dbHelper.getCategories(keySearch: textSearchController.text);
   }
 }

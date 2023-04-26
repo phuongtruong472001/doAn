@@ -22,7 +22,6 @@ class TracsactionPage extends BaseSearchAppBarWidget<TransactionController> {
         () => buildPage(
           backButton: false,
           showWidgetEmpty: false,
-          title: 'title',
           buildBody: Column(
             //mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -78,8 +77,6 @@ class TracsactionPage extends BaseSearchAppBarWidget<TransactionController> {
       ),
     );
   }
-
-  
 
   Widget moneyOfDate(String thu, int day, int month, int year, String money) {
     return Container(

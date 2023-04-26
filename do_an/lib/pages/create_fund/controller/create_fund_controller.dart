@@ -9,6 +9,7 @@ import 'package:get/get.dart';
 import '../../../base/strings.dart';
 
 class CreateFundController extends BaseGetxController {
+  final formData= GlobalKey<FormState>();
   Rx<Fund> fund = Fund().obs;
   final fundNameController = TextEditingController();
   final valueController = MoneyMaskedTextController(
@@ -24,11 +25,9 @@ class CreateFundController extends BaseGetxController {
       await fundController.initData();
       Get.back();
     }
-    Get.snackbar(
-      "",
+     showSnackBar(
       status ? AppString.addSuccess("Ví tiền") : AppString.fail,
       backgroundColor: status ? Colors.green : Colors.red,
-      snackPosition: SnackPosition.BOTTOM,
     );
   }
 }

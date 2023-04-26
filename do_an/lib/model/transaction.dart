@@ -15,9 +15,10 @@ class Transaction {
   int? allowNegative;
   int isIncrease;
   bool? isRepeat;
-  int? typeTime ;
+  int? typeTime;
   int? typeRepeat;
   DateTime? endTime;
+  String imageLink;
   Transaction({
     this.id = 0,
     this.value = 0,
@@ -31,10 +32,11 @@ class Transaction {
     this.eventName = "",
     this.allowNegative = 1,
     this.isIncrease = 0,
-    this.isRepeat=true,
+    this.isRepeat = true,
     this.endTime,
     this.typeRepeat = 0,
     this.typeTime = 0,
+    this.imageLink = "",
   });
 
   Map<String, dynamic> toMap() {
@@ -54,26 +56,26 @@ class Transaction {
 
   factory Transaction.fromMap(Map<String, dynamic> map) {
     return Transaction(
-      id: map['id'] != null ? map['id'] as int : null,
-      value: map['value'] != null ? map['value'] as int : null,
-      description:
-          map['description'] != null ? map['description'] as String : null,
-      eventId: map['eventId'] != null ? map['eventId'] as int : null,
-      categoryId: map['categoryId'] != null ? map['categoryId'] as int : null,
-      executionTime: map['executionTime'] != null
-          ? DateTime.parse(map['executionTime'])
-          : null,
-      fundID: map['fundID'] != null ? map['fundID'] as int : null,
-      eventName: map['eventName'] as String,
-      fundName: map['fundName'] as String,
-      categoryName: map['categoryName'] as String,
-      allowNegative: map['allowNegative'],
-      isIncrease: map["isIncrease"],
-      isRepeat: map["isRepeat"] == 1,
-      endTime: map['endTime'] != null ? DateTime.parse(map['endTime']) : null,
-      typeRepeat: map["typeRepeat"],
-      typeTime: map["typeTime"],
-    );
+        id: map['id'] != null ? map['id'] as int : null,
+        value: map['value'] != null ? map['value'] as int : null,
+        description:
+            map['description'] != null ? map['description'] as String : null,
+        eventId: map['eventId'] != null ? map['eventId'] as int : null,
+        categoryId: map['categoryId'] != null ? map['categoryId'] as int : null,
+        executionTime: map['executionTime'] != null
+            ? DateTime.parse(map['executionTime'])
+            : null,
+        fundID: map['fundID'] != null ? map['fundID'] as int : null,
+        eventName: map['eventName'] as String,
+        fundName: map['fundName'] as String,
+        categoryName: map['categoryName'] as String,
+        allowNegative: map['allowNegative'],
+        isIncrease: map["isIncrease"],
+        isRepeat: map["isRepeat"] == 1,
+        endTime: map['endTime'] != null ? DateTime.parse(map['endTime']) : null,
+        typeRepeat: map["typeRepeat"],
+        typeTime: map["typeTime"],
+        imageLink: map["imageLink"] ?? "");
   }
 
   String toJson() => json.encode(toMap());

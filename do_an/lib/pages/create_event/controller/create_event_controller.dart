@@ -4,10 +4,12 @@ import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:get/get.dart';
 
 import '../../../base/strings.dart';
+import '../../../base_controller/base_controller.dart';
 import '../../../database/database.dart';
 import '../../../model/event.dart';
 
 class CreateEventController extends GetxController {
+  final formData = GlobalKey<FormState>();
   Rx<Event> event = Event().obs;
   var valueController = MoneyMaskedTextController(
       thousandSeparator: '.', precision: 0, decimalSeparator: "");
@@ -44,11 +46,9 @@ class CreateEventController extends GetxController {
       await eventController.initData();
       Get.back();
     }
-    Get.snackbar(
-      "",
+    showSnackBar(
       status ? AppString.addSuccess("Sự kiện") : AppString.fail,
       backgroundColor: status ? Colors.green : Colors.red,
-      snackPosition: SnackPosition.BOTTOM,
     );
   }
 
