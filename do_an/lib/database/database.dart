@@ -45,7 +45,7 @@ class DBHelper {
     return theDb;
   }
 
-  Future<List<Category>> getCategories({String? keySearch}) async {
+  Future<List<Category>> getCategories({String? keySearch=""}) async {
     var dbClient = await db;
     var categories = await dbClient
         ?.rawQuery('SELECT * FROM Category where name LIKE "%$keySearch%"');
@@ -91,10 +91,10 @@ class DBHelper {
     return listTransactions;
   }
 
-  Future<List<Event>> getEvents({String? keySearch}) async {
+  Future<List<Event>> getEvents({String? keySearch = ""}) async {
     var dbClient = await db;
-    var events = await dbClient
-        ?.rawQuery('SELECT * FROM Event where name LIKE "%$keySearch%"');
+    var events = await dbClient?.rawQuery(
+        'SELECT * FROM Event WHERE name LIKE "%$keySearch%" ORDER BY date DESC');
     List<Event> listEvents =
         events!.isNotEmpty ? events.map((c) => Event.fromjson(c)).toList() : [];
     return listEvents;
@@ -238,7 +238,7 @@ class DBHelper {
     var status = await dbClient?.rawUpdate(
       'Update Transactions SET value=${transaction.value} ,description="${transaction.description}",eventId=${transaction.eventId},categoryId=${transaction.categoryId},executionTime="${DateFormat('yyyy-MM-dd kk:mm').format(transaction.executionTime!)}",fundID=${transaction.fundID},categoryName="${transaction.categoryName}",eventName="${transaction.eventName}",fundName="${transaction.fundName}"  WHERE id=${transaction.id}',
     );
-    return status == 0;
+    return status != 0;
   }
 
   //delete records

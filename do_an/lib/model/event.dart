@@ -8,13 +8,15 @@ class Event {
   DateTime? date;
   int? allowNegative;
   int? estimateValue;
+  int value;
   Event({
     this.id,
     this.name,
     this.icon,
     this.date,
-    this.allowNegative=1,
+    this.allowNegative = 1,
     this.estimateValue,
+    this.value = 0,
   });
 
   Map<String, dynamic> tojson() {
@@ -35,6 +37,7 @@ class Event {
       date: json['date'] != null ? DateTime.parse(json['date']) : null,
       allowNegative: json["allowNegative"],
       estimateValue: json['estimateValue'],
+      value: json["value"],
     );
   }
 

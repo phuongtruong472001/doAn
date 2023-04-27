@@ -58,11 +58,7 @@ Future<void> showSnackBar<T>(
     bool? isSuccess,
   }) async {
     Get.showSnackbar(GetSnackBar(
-      backgroundColor: isSuccess != null
-          ? isSuccess
-              ? Colors.green
-              : Colors.red
-          : Colors.white,
+      backgroundColor: backgroundColor??Colors.green,
       messageText: Text(
         message.tr,
         style: Get.textTheme.bodyText1!.copyWith(

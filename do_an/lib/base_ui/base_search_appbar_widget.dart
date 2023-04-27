@@ -2,7 +2,6 @@ import 'package:do_an/base/strings.dart';
 import 'package:do_an/base_ui/base_widget.dart';
 import 'package:do_an/component/util_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 import '../base_controller/base_search_appbar_controller.dart';
 
@@ -21,47 +20,44 @@ abstract class BaseSearchAppBarWidget<T extends BaseSearchAppbarController>
     bool showAppBar = true,
     Widget? buildWidgetEmpty,
     bool showWidgetEmpty = true,
-    bool showOffline = true,
     Function? function,
   }) {
-    return Obx(
-      () => Scaffold(
-        appBar: showAppBar
-            ? UtilWidget.buildBaseBackgroundAppBar(
-                title: UtilWidget.buildSearch(
-                  textEditingController: controller.textSearchController,
-                  hintSearch: hintSearch ?? AppString.hintSearch,
-                  function: () async {
-                    controller.isSearch.value =
-                        controller.textSearchController.text.isNotEmpty;
-                    await controller.functionSearch();
-                  },
-                  isClear: controller.isClear,
-                  autofocus: false,
-                ),
-                backButton: backButton,
-              )
-            : null,
-        body: baseShimmerLoading(
-          () => _buildBody(
-            buildWidgetEmpty,
-            titleEmpty,
-            titleBotton,
-            actionButtonOnpress,
-            buildBody,
-            showWidgetEmpty,
-          ),
+    return Scaffold(
+      appBar: showAppBar
+          ? UtilWidget.buildBaseBackgroundAppBar(
+              title: UtilWidget.buildSearch(
+                textEditingController: controller.textSearchController,
+                hintSearch: hintSearch ?? AppString.hintSearch,
+                function: () async {
+                  controller.isSearch.value =
+                      controller.textSearchController.text.isNotEmpty;
+                  await controller.functionSearch();
+                },
+                isClear: controller.isClear,
+                autofocus: false,
+              ),
+              backButton: backButton,
+            )
+          : null,
+      body: baseShimmerLoading(
+        () => _buildBody(
+          buildWidgetEmpty,
+          titleEmpty,
+          titleBotton,
+          actionButtonOnpress,
+          buildBody,
+          showWidgetEmpty,
         ),
-        floatingActionButton: function != null
-            ? FloatingActionButton(
-                onPressed: () => function,
-                backgroundColor: Colors.green,
-                child: const Icon(
-                  Icons.add,
-                ),
-              )
-            : null,
       ),
+      floatingActionButton: function != null
+          ? FloatingActionButton(
+              onPressed: () => function.call(),
+              backgroundColor: Colors.green,
+              child: const Icon(
+                Icons.add,
+              ),
+            )
+          : null,
     );
   }
 
@@ -74,6 +70,7 @@ abstract class BaseSearchAppBarWidget<T extends BaseSearchAppbarController>
     bool showWidgetEmpty,
   ) {
     return Align(
+      alignment: Alignment.topLeft,
       child: controller.rxList.isEmpty && showWidgetEmpty
           ? (!controller.isSearch.value
               ? _buildViewEmpty(

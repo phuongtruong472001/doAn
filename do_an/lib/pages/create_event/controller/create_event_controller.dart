@@ -40,16 +40,18 @@ class CreateEventController extends GetxController {
     event.value.estimateValue =
         int.parse(valueController.value.text.replaceAll('.', ''));
     event.value.date = selectedDate.value;
-    bool status = await dbHelper.addEvent(event.value);
-    if (status) {
-      EventController eventController = Get.find<EventController>();
-      await eventController.initData();
-      Get.back();
+    if (formData.currentState!.validate()) {
+      bool status = await dbHelper.addEvent(event.value);
+      if (status) {
+        EventController eventController = Get.find<EventController>();
+        await eventController.initData();
+        Get.back();
+      }
+      showSnackBar(
+        status ? AppString.addSuccess("Sự kiện") : AppString.fail,
+        backgroundColor: status ? Colors.green : Colors.red,
+      );
     }
-    showSnackBar(
-      status ? AppString.addSuccess("Sự kiện") : AppString.fail,
-      backgroundColor: status ? Colors.green : Colors.red,
-    );
   }
 
   void initData() {

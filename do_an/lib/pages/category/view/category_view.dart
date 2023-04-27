@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../../../base/icons.dart';
 import '../../../base_ui/base_search_appbar_widget.dart';
+import '../../../component/util_widget.dart';
 import '../controller/category_controller.dart';
 
 class CategoryPage extends BaseSearchAppBarWidget<CategoryController> {
@@ -13,15 +14,21 @@ class CategoryPage extends BaseSearchAppBarWidget<CategoryController> {
   Widget buildWidgets() {
     return baseShimmerLoading(
       () => buildPage(
-        backButton: false,
+        backButton: true,
         showWidgetEmpty: false,
-        buildBody: ListView.builder(
-          itemBuilder: (context, index) => Card(
-            child: item(
-              category: controller.rxList[index],
+        buildBody: UtilWidget.buildSmartRefresher(
+          refreshController: controller.refreshController,
+          onRefresh: controller.onRefresh,
+          onLoadMore: controller.onLoadMore,
+          enablePullUp: true,
+          child: ListView.builder(
+            itemBuilder: (context, index) => Card(
+              child: item(
+                category: controller.rxList[index],
+              ),
             ),
+            itemCount: controller.rxList.length,
           ),
-          itemCount: controller.rxList.length,
         ),
       ),
     );

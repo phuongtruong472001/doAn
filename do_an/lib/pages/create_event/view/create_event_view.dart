@@ -54,7 +54,7 @@ class CreateEventPage extends GetView<CreateEventController> {
                       if (value!.isEmpty) {
                         return "Không được để trống";
                       }
-                      return "";
+                      return null;
                     },
                   ),
                 ),
@@ -72,7 +72,7 @@ class CreateEventPage extends GetView<CreateEventController> {
                       if (value == "0") {
                         return "Không được để trống";
                       }
-                      return "";
+                      return null;
                     },
                   ),
                 ),

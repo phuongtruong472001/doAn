@@ -13,6 +13,7 @@ import '../../../model/repeat_time.dart';
 import '../../../routes/routes.dart';
 
 class CreateTransactionController extends GetxController {
+  final formKey = GlobalKey<FormState>();
   final valueController = MoneyMaskedTextController(
       thousandSeparator: '.', precision: 0, decimalSeparator: "");
   final descriptionController = TextEditingController();
@@ -53,6 +54,7 @@ class CreateTransactionController extends GetxController {
       transaction.value.categoryName = tran.categoryName;
       transaction.value.fundName = tran.fundName;
       selectedDate.value = tran.executionTime!;
+      transaction.value = tran;
     }
   }
 
@@ -115,7 +117,7 @@ class CreateTransactionController extends GetxController {
       }
     }
 
-    if (valueController.value.text.isNotEmpty &&
+    if (formKey.currentState!.validate() &&
         transaction.value.categoryId! >= 0) {
       bool status;
       if (Get.arguments == null) {

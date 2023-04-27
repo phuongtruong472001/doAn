@@ -42,127 +42,136 @@ class CreateTransactionPage extends GetView<CreateTransactionController> {
           ],
         ),
         body: SingleChildScrollView(
-          child: Column(
-            children: [
-              InputTextWithLabel(
-                buildInputText: BuildInputText(
-                  InputTextModel(
-                    controller: controller.valueController,
-                    //currentNode: controller.descriptionNode,
-                    hintText: AppString.hintValue,
-                    iconNextTextInputAction: TextInputAction.done,
-                    inputFormatters: InputFormatterEnum.currency,
-                    submitFunc: (v) => {},
-                  ),
-                ),
-                label: AppString.value,
-              ),
-              InputTextWithLabel(
-                buildInputText: BuildInputText(
-                  InputTextModel(
-                    controller: controller.descriptionController,
-                    // currentNode: controller.descriptionNode,
-                    hintText: AppString.editNote,
-                    iconNextTextInputAction: TextInputAction.done,
-                    submitFunc: (v) => {},
-                    iconLeading: Icons.notes_outlined,
-                  ),
-                ),
-                label: AppString.edit,
-              ),
-              GestureDetector(
-                onTap: () => controller.chooseCategory(),
-                child: Card(
-                  child: Obx(
-                    () => ListTile(
-                        leading: const Icon(Icons.book),
-                        trailing: AutoSizeText(
-                          AppString.selectCategory,
-                          style: Get.textTheme.bodyMedium!
-                              .copyWith(color: kPrimaryColor),
-                        ),
-                        title: AutoSizeText(
-                            controller.transaction.value.categoryName)),
-                  ),
-                ).paddingSymmetric(vertical: paddingSmall),
-              ),
-              if (Get.arguments == true) ...[
-                GestureDetector(
-                  onTap: () => controller.selectDateRepeat(context),
-                  child: Card(
-                    child: ListTile(
-                      leading: const Icon(Icons.book),
-                      trailing: AutoSizeText(
-                        AppString.hintTime,
-                        style: Get.textTheme.bodyMedium!
-                            .copyWith(color: kPrimaryColor),
-                      ),
-                      title: const AutoSizeText(
-                        AppString.notRepeat,
-                      ),
+          child: Form(
+            key: controller.formKey,
+            child: Column(
+              children: [
+                InputTextWithLabel(
+                  buildInputText: BuildInputText(
+                    InputTextModel(
+                      controller: controller.valueController,
+                      //currentNode: controller.descriptionNode,
+                      hintText: AppString.hintValue,
+                      iconNextTextInputAction: TextInputAction.done,
+                      inputFormatters: InputFormatterEnum.currency,
+                      submitFunc: (v) => {},
+                      validator: (value) {
+                        if (value == "0") {
+                          return "Không được để trống";
+                        }
+                        return null;
+                      },
                     ),
-                  ).paddingSymmetric(vertical: paddingSmall),
+                  ),
+                  label: AppString.value,
                 ),
-              ] else ...[
+                InputTextWithLabel(
+                  buildInputText: BuildInputText(
+                    InputTextModel(
+                      controller: controller.descriptionController,
+                      // currentNode: controller.descriptionNode,
+                      hintText: AppString.editNote,
+                      iconNextTextInputAction: TextInputAction.done,
+                      submitFunc: (v) => {},
+                      iconLeading: Icons.notes_outlined,
+                    ),
+                  ),
+                  label: AppString.edit,
+                ),
                 GestureDetector(
-                  onTap: () => controller.selectDate(context),
+                  onTap: () => controller.chooseCategory(),
                   child: Card(
                     child: Obx(
                       () => ListTile(
-                          leading: const Icon(Icons.date_range),
+                          leading: const Icon(Icons.book),
                           trailing: AutoSizeText(
-                            AppString.hintTime,
+                            AppString.selectCategory,
                             style: Get.textTheme.bodyMedium!
                                 .copyWith(color: kPrimaryColor),
                           ),
                           title: AutoSizeText(
-                            DateFormat.yMMMd()
-                                .format(controller.selectedDate.value),
-                            style: Get.textTheme.bodyMedium,
-                          )),
+                              controller.transaction.value.categoryName)),
+                    ),
+                  ).paddingSymmetric(vertical: paddingSmall),
+                ),
+                if (Get.arguments == true) ...[
+                  GestureDetector(
+                    onTap: () => controller.selectDateRepeat(context),
+                    child: Card(
+                      child: ListTile(
+                        leading: const Icon(Icons.book),
+                        trailing: AutoSizeText(
+                          AppString.hintTime,
+                          style: Get.textTheme.bodyMedium!
+                              .copyWith(color: kPrimaryColor),
+                        ),
+                        title: const AutoSizeText(
+                          AppString.notRepeat,
+                        ),
+                      ),
+                    ).paddingSymmetric(vertical: paddingSmall),
+                  ),
+                ] else ...[
+                  GestureDetector(
+                    onTap: () => controller.selectDate(context),
+                    child: Card(
+                      child: Obx(
+                        () => ListTile(
+                            leading: const Icon(Icons.date_range),
+                            trailing: AutoSizeText(
+                              AppString.hintTime,
+                              style: Get.textTheme.bodyMedium!
+                                  .copyWith(color: kPrimaryColor),
+                            ),
+                            title: AutoSizeText(
+                              DateFormat.yMMMd()
+                                  .format(controller.selectedDate.value),
+                              style: Get.textTheme.bodyMedium,
+                            )),
+                      ),
+                    ).paddingSymmetric(vertical: paddingSmall),
+                  ),
+                ],
+                GestureDetector(
+                  onTap: () => controller.chooseFund(),
+                  child: Card(
+                    child: Obx(
+                      () => ListTile(
+                        leading: const Icon(Icons.book),
+                        trailing: AutoSizeText(
+                          AppString.selectFund,
+                          style: Get.textTheme.bodyMedium!
+                              .copyWith(color: kPrimaryColor),
+                        ),
+                        title: AutoSizeText(
+                          controller.transaction.value.fundName,
+                        ),
+                      ),
+                    ),
+                  ).paddingSymmetric(vertical: paddingSmall),
+                ),
+                GestureDetector(
+                  onTap: () => controller.chooseEvent(),
+                  child: Card(
+                    child: Obx(
+                      () => ListTile(
+                        leading: const Icon(Icons.event),
+                        trailing: AutoSizeText(
+                          AppString.selectEvent,
+                          style: Get.textTheme.bodyMedium!
+                              .copyWith(color: kPrimaryColor),
+                        ),
+                        title: AutoSizeText(
+                          controller.transaction.value.eventName,
+                        ),
+                      ),
                     ),
                   ).paddingSymmetric(vertical: paddingSmall),
                 ),
               ],
-              GestureDetector(
-                onTap: () => controller.chooseFund(),
-                child: Card(
-                  child: Obx(
-                    () => ListTile(
-                      leading: const Icon(Icons.book),
-                      trailing: AutoSizeText(
-                        AppString.selectFund,
-                        style: Get.textTheme.bodyMedium!
-                            .copyWith(color: kPrimaryColor),
-                      ),
-                      title: AutoSizeText(
-                        controller.transaction.value.fundName,
-                      ),
-                    ),
-                  ),
-                ).paddingSymmetric(vertical: paddingSmall),
-              ),
-              GestureDetector(
-                onTap: () => controller.chooseEvent(),
-                child: Card(
-                  child: Obx(
-                    () => ListTile(
-                      leading: const Icon(Icons.event),
-                      trailing: AutoSizeText(
-                        AppString.selectEvent,
-                        style: Get.textTheme.bodyMedium!
-                            .copyWith(color: kPrimaryColor),
-                      ),
-                      title: AutoSizeText(
-                        controller.transaction.value.eventName,
-                      ),
-                    ),
-                  ),
-                ).paddingSymmetric(vertical: paddingSmall),
-              ),
-            ],
-          ).paddingSymmetric(
-            horizontal: defaultPadding,
+            ).paddingSymmetric(
+              horizontal: defaultPadding,
+            ),
           ),
         ),
       ),
