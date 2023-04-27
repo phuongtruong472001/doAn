@@ -56,7 +56,7 @@ class ProfilePage extends GetView<ProfileController> {
                         AppRoutes.event,
                         arguments: true,
                       ),
-                      child: menuMet("Sự kiên",
+                      child: menuMet("Sự kiện",
                           Icons.event, Colors.orange),
                     ),
                     menuMet("Contact", Icons.call_outlined, Colors.blue)

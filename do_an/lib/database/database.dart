@@ -45,7 +45,7 @@ class DBHelper {
     return theDb;
   }
 
-  Future<List<Category>> getCategories({String? keySearch=""}) async {
+  Future<List<Category>> getCategories({String? keySearch = ""}) async {
     var dbClient = await db;
     var categories = await dbClient
         ?.rawQuery('SELECT * FROM Category where name LIKE "%$keySearch%"');
@@ -81,10 +81,11 @@ class DBHelper {
   }
 
   Future<List<tr.Transaction>> getTransactionsOfFund(
-      String fromDate, String toDate, int fundID) async {
+      String fromDate, String toDate, int fundID,
+      {String keySearch = ""}) async {
     var dbClient = await db;
     var transactions = await dbClient?.rawQuery(
-        'SELECT * FROM Transactions WHERE fundID = $fundID ORDER BY executionTime DESC');
+        'SELECT * FROM Transactions  WHERE fundID = $fundID AND (description LIKE "%$keySearch%" OR categoryName LIKE "%$keySearch%")  ORDER BY executionTime DESC');
     List<tr.Transaction> listTransactions = transactions!.isNotEmpty
         ? transactions.map((c) => tr.Transaction.fromMap(c)).toList()
         : [];

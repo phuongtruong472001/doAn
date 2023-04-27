@@ -165,6 +165,7 @@ class UtilWidget {
             hintText: hintText ?? "",
             hintStyle: TextStyle(
               color: hintColor ?? Colors.black,
+              fontSize: 16
             ),
             enabledBorder: OutlineInputBorder(
               borderSide: BorderSide(color: borderColor ?? Colors.grey),
@@ -180,7 +181,7 @@ class UtilWidget {
                     Radius.circular(5),
                   ),
             ),
-            contentPadding: const EdgeInsets.all(10)),
+            contentPadding: const EdgeInsets.all(5)),
         onChanged: onChanged,
         onTap: onTap,
         controller: controller,

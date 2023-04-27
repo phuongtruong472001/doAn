@@ -1,11 +1,10 @@
 import 'package:do_an/model/fund.dart';
-import 'package:do_an/model/transaction.dart';
 import 'package:get/get.dart';
 
+import '../../../base_controller/base_search_appbar_controller.dart';
 import '../../../database/database.dart';
 
-class TransactionsOfFundController extends GetxController {
-  RxList<Transaction> transactions = List<Transaction>.empty().obs;
+class TransactionsOfFundController extends BaseSearchAppbarController {
   var dbHelper = DBHelper();
   RxString nameOfFund = "".obs;
   @override
@@ -28,10 +27,26 @@ class TransactionsOfFundController extends GetxController {
       fund = Get.arguments;
       nameOfFund.value = fund.name!;
     }
-    transactions.value = await dbHelper.getTransactionsOfFund(
+    rxList.value = await dbHelper.getTransactionsOfFund(
       "",
       "",
       fund.id ?? 0,
     );
+  }
+
+  @override
+  Future<void> onLoadMore() async {
+    refreshController.loadComplete();
+  }
+
+  @override
+  Future<void> onRefresh() async {
+    refreshController.refreshCompleted();
+  }
+
+  @override
+  Future<void> functionSearch() async {
+    rxList.value = await dbHelper.getTransactionsOfFund("", "", 0,
+        keySearch: textSearchController.text);
   }
 }

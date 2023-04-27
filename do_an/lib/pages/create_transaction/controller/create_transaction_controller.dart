@@ -118,7 +118,8 @@ class CreateTransactionController extends GetxController {
     }
 
     if (formKey.currentState!.validate() &&
-        transaction.value.categoryId! >= 0) {
+        transaction.value.categoryId! >= 0 &&
+        transaction.value.fundID! >= 0) {
       bool status;
       if (Get.arguments == null) {
         status = await dbHelper.addTransaction(transaction.value);
@@ -145,7 +146,7 @@ class CreateTransactionController extends GetxController {
       );
     } else {
       showSnackBar(
-        "Số tiền và danh mục không thể để trống",
+        "Nguồn tiền và danh mục không thể để trống!",
         backgroundColor: Colors.red,
       );
     }
