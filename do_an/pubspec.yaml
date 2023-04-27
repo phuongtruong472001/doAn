@@ -53,6 +53,7 @@ dependencies:
   shimmer: ^2.0.0
   pull_to_refresh: ^2.0.0
   keyboard_actions: ^3.4.0
+  image_picker: ^0.8.7+4
   
 dev_dependencies:
   flutter_test:

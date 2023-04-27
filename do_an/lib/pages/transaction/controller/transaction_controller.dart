@@ -46,7 +46,7 @@ class TransactionController extends BaseSearchAppbarController {
       case 2:
         fromDate = DateFormat('yyyy-MM-dd')
             .format(DateTime(date.year, date.month, date.day + 1));
-        toDate = '2023-01-01';
+        toDate = '2025-01-01';
         break;
     }
     print("$fromDate-----$toDate");

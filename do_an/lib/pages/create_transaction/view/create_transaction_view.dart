@@ -6,7 +6,6 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 import '../../../base/strings.dart';
-import '../../../component/base_bottomsheet.dart';
 import '../../../component/base_input_with_label.dart';
 import '../../../component/input_text_form_field_model.dart';
 import '../../../enum/input_formatter_enum.dart';
@@ -167,6 +166,36 @@ class CreateTransactionPage extends GetView<CreateTransactionController> {
                       ),
                     ),
                   ).paddingSymmetric(vertical: paddingSmall),
+                ),
+                StatefulBuilder(
+                  builder: (context, setState) =>
+                      controller.transaction.value.imageLink.isEmpty
+                          ? Container(
+                              alignment: Alignment.center,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  InkWell(
+                                    onTap: () async {
+                                      await controller.getImage();
+                                      setState(() {});
+                                    },
+                                    child: const AutoSizeText(
+                                      "Thêm hình ảnh",
+                                      style: TextStyle(color: Colors.blue),
+                                    ),
+                                  ),
+                                  Container(
+                                    height: 40.0,
+                                  ),
+                                ],
+                              ),
+                            )
+                          : Image.memory(
+                              controller.bytesImage(
+                                  controller.transaction.value.imageLink),
+                              fit: BoxFit.cover,
+                            ).paddingSymmetric(vertical: paddingSmall),
                 ),
               ],
             ).paddingSymmetric(

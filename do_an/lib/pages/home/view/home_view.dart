@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 
 import '../../../component/base_card.dart';
 import '../../../component/base_header_no_backbutton.dart';
+import '../../../component/chart.dart';
 import '../../../component/item_card.dart';
 import '../../../component/space_bettwen_texts.dart';
 import '../controller/home_controller.dart';
@@ -42,14 +43,18 @@ class HomePage extends GetView<HomeController> {
                       () => ItemCard(
                         Icons.wallet,
                         AppString.total,
-                        subTitle: controller.totalValue.value.toString().toVND(unit: 'đ'),
+                        subTitle: controller.totalValue.value
+                            .toString()
+                            .toVND(unit: 'đ'),
                       ),
                     ),
                     Obx(
                       () => ItemCard(
                         Icons.wallet,
                         AppString.cash,
-                        subTitle: controller.cashValue.value.toString().toVND(unit: 'đ'),
+                        subTitle: controller.cashValue.value
+                            .toString()
+                            .toVND(unit: 'đ'),
                       ),
                     ),
                   ],
@@ -59,6 +64,9 @@ class HomePage extends GetView<HomeController> {
                 title: AppString.spendingReport,
                 subTitle: AppString.viewReport,
               ).paddingSymmetric(vertical: paddingSmall),
+              const WeatherChart2(
+                currentWeather: [1, 34, 6777, 444, 666],
+              ),
             ],
           ).paddingAll(defaultPadding),
         ),

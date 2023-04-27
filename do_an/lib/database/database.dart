@@ -173,7 +173,7 @@ class DBHelper {
   Future<bool> addTransaction(tr.Transaction transaction) async {
     var dbClient = await db;
     var status = await dbClient?.rawInsert(
-      'INSERT INTO Transactions(value,description,eventId,categoryId,executionTime,fundID,categoryName,eventName,fundName,allowNegative,isIncrease,isRepeat,typeTime,typeRepeat,endTime) VALUES(?, ?, ?, ?, ?, ?,?,?,?,?,?,?,?,?,?)',
+      'INSERT INTO Transactions(value,description,eventId,categoryId,executionTime,fundID,categoryName,eventName,fundName,allowNegative,isIncrease,isRepeat,typeTime,typeRepeat,endTime,imageLink) VALUES(?, ?, ?, ?, ?, ?,?,?,?,?,?,?,?,?,?,?)',
       [
         transaction.value,
         transaction.description,
@@ -190,6 +190,7 @@ class DBHelper {
         transaction.typeTime,
         transaction.typeRepeat,
         DateFormat('yyyy-MM-dd kk:mm').format(transaction.endTime!),
+        transaction.imageLink
       ],
     );
     if (status != 0) {

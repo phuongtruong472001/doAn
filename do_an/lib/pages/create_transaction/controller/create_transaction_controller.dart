@@ -1,10 +1,15 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:do_an/base_controller/base_controller_src.dart';
 import 'package:do_an/database/database.dart';
 import 'package:do_an/model/transaction.dart';
 import 'package:do_an/pages/transaction/controller/transaction_controller.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:jiffy/jiffy.dart';
 
 import '../../../base/strings.dart';
@@ -24,6 +29,7 @@ class CreateTransactionController extends GetxController {
   var selectedDate = DateTime.now().obs;
   DBHelper dbHelper = DBHelper();
   int oldValue = 0;
+  Rx<File?> file = Rx<File?>(null);
 
   void selectDate(BuildContext context) async {
     DateTime? picked = await showDatePicker(
@@ -172,5 +178,23 @@ class CreateTransactionController extends GetxController {
         Get.delete<BaseBottomSheetController>();
       }
     });
+  }
+
+  Future<void> getImage() async {
+    final XFile? pickedFile = await ImagePicker().pickImage(
+      source: ImageSource.gallery,
+      maxWidth: 180,
+      maxHeight: 180,
+    );
+    if (pickedFile != null) {
+      file.value = File(pickedFile.path);
+      List<int> imageBytes = file.value!.readAsBytesSync();
+      String base64File = base64Encode(imageBytes);
+      transaction.value.imageLink = base64File;
+    }
+  }
+
+  Uint8List bytesImage(String base64ImageString){
+    return const Base64Decoder().convert(base64ImageString);
   }
 }
