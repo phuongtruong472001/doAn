@@ -23,6 +23,7 @@ class CreateTransactionController extends GetxController {
   var choosedDate = false.obs;
   var selectedDate = DateTime.now().obs;
   DBHelper dbHelper = DBHelper();
+  int oldValue = 0;
 
   void selectDate(BuildContext context) async {
     DateTime? picked = await showDatePicker(
@@ -54,6 +55,7 @@ class CreateTransactionController extends GetxController {
       transaction.value.categoryName = tran.categoryName;
       transaction.value.fundName = tran.fundName;
       selectedDate.value = tran.executionTime!;
+      oldValue = tran.value!;
       transaction.value = tran;
     }
   }
@@ -124,7 +126,7 @@ class CreateTransactionController extends GetxController {
       if (Get.arguments == null) {
         status = await dbHelper.addTransaction(transaction.value);
       } else {
-        status = await dbHelper.editTransaction(transaction.value);
+        status = await dbHelper.editTransaction(transaction.value, oldValue);
       }
       String messege = "";
       if (status) {

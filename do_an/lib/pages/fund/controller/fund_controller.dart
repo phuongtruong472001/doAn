@@ -1,12 +1,13 @@
 import 'package:do_an/model/fund.dart';
 import 'package:get/get.dart';
+import 'package:sqflite/sqflite.dart';
 
 import '../../../database/database.dart';
 import '../../../routes/routes.dart';
 
 class FundController extends GetxController {
   RxList<Fund> funds = List<Fund>.empty().obs;
-   RxInt totalValue = 0.obs;
+  RxInt totalValue = 0.obs;
   @override
   void onInit() async {
     await initData();

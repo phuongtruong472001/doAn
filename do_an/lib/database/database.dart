@@ -234,11 +234,18 @@ class DBHelper {
     return status == 1;
   }
 
-  Future<bool> editTransaction(tr.Transaction transaction) async {
+  Future<bool> editTransaction(tr.Transaction transaction, int oldValue) async {
     var dbClient = await db;
     var status = await dbClient?.rawUpdate(
       'Update Transactions SET value=${transaction.value} ,description="${transaction.description}",eventId=${transaction.eventId},categoryId=${transaction.categoryId},executionTime="${DateFormat('yyyy-MM-dd kk:mm').format(transaction.executionTime!)}",fundID=${transaction.fundID},categoryName="${transaction.categoryName}",eventName="${transaction.eventName}",fundName="${transaction.fundName}"  WHERE id=${transaction.id}',
     );
+    transaction.value = transaction.value! - oldValue;
+    if (status != 0) {
+      updateFund(transaction);
+      if (transaction.eventId! >= 0) {
+        updateEvent(transaction);
+      }
+    }
     return status != 0;
   }
 
