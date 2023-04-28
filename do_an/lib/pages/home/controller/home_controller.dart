@@ -2,6 +2,7 @@ import 'package:do_an/base_controller/base_controller.dart';
 import 'package:do_an/database/database.dart';
 import 'package:do_an/model/spending.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 
 class HomeController extends BaseGetxController {
   RxInt totalValue = 0.obs;
@@ -23,15 +24,16 @@ class HomeController extends BaseGetxController {
     await dbHelper.autoGenerateTransaction();
     totalValue.value = await dbHelper.getTotalValue("", "");
     cashValue.value = await dbHelper.getTotalValueOfCash();
-    await getValueOfMonth();
+    spedings.value = await getValueOfMonth();
   }
 
-  Future<void> getValueOfMonth() async {
+  Future<List<Spending>> getValueOfMonth() async {
     int month = DateTime.now().month;
+    List<Spending> spendingTemp = [];
     for (int i = 1; i <= month; i++) {
       int pepper = await dbHelper.getTransactionsByMonth(i, 1);
       int receive = await dbHelper.getTransactionsByMonth(i, 0);
-      spedings.add(
+      spendingTemp.add(
         Spending(
           dateTime: DateTime(DateTime.now().year, i),
           pepper: pepper,
@@ -39,5 +41,6 @@ class HomeController extends BaseGetxController {
         ),
       );
     }
+    return spendingTemp;
   }
 }

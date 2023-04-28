@@ -276,6 +276,13 @@ class DBHelper {
     var status = await dbClient?.rawInsert(
       'DELETE FROM  Transaction WHERE id=${transaction.id}',
     );
+    if (status != 0) {
+      transaction.value = transaction.value! * (-1);
+      await updateFund(transaction);
+      if (transaction.eventId! >= 0) {
+        updateEvent(transaction);
+      }
+    }
     return status != 0;
   }
   //update record
