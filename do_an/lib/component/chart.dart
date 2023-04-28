@@ -1,239 +1,87 @@
-import 'package:fl_chart/fl_chart.dart';
+/// dart import
+/// Package import
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
-//Color test
-//MultiLine chart
+/// Chart import
+import 'package:syncfusion_flutter_charts/charts.dart';
 
-List<Color> gradientColors = [
-  const Color(0xFFE80054),
-  const Color(0xFF50E4FF),
-];
+import '../model/spending.dart';
 
-class WeatherChart2 extends StatelessWidget {
-  const WeatherChart2({Key? key, required this.currentWeather})
-      : super(key: key);
-  final List<int> currentWeather;
+/// Local imports
+/// Renders the chart with default trackball sample.
+class LineChart extends StatelessWidget {
+  /// Creates the chart with default trackball sample.
+  const LineChart({Key? key, required this.spending}) : super(key: key);
+  final List<Spending> spending;
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 200,
-      color: Colors.white,
-      padding: const EdgeInsets.symmetric(horizontal: 12),
-      width: Get.width,
-      child: LineChart(
-        lineCharData,
-        swapAnimationDuration: const Duration(
-          milliseconds: 150,
-        ),
-        swapAnimationCurve: Curves.linear,
+    return _buildInfiniteScrollingChart();
+  }
+
+  /// Returns the cartesian chart with default trackball.
+  SfCartesianChart _buildInfiniteScrollingChart() {
+    return SfCartesianChart(
+      primaryXAxis: DateTimeAxis(
+          labelStyle: Get.textTheme.bodyText1!.copyWith(color: Colors.black),
+          // majorTickLines: const MajorTickLines(color: Colors.red),
+          majorGridLines: const MajorGridLines(width: 0),
+          intervalType: DateTimeIntervalType.auto,
+          dateFormat: DateFormat.yM()),
+      primaryYAxis: NumericAxis(
+          isVisible: false,
+          labelStyle: Get.textTheme.bodyText1!.copyWith(color: Colors.black)),
+      //can scroll
+      zoomPanBehavior: ZoomPanBehavior(
+        enablePanning: true,
+      ),
+      plotAreaBorderColor: Colors.black,
+      series: getSeries(),
+      tooltipBehavior: TooltipBehavior(enable: true),
+      trackballBehavior: TrackballBehavior(
+        shouldAlwaysShow: true,
+        enable: true,
+        activationMode: ActivationMode.none,
+        tooltipSettings: const InteractiveTooltip(
+            format: 'point.x : point.y', color: Colors.transparent),
       ),
     );
   }
 
-  //LineCharData
-  LineChartData get lineCharData {
-    List<double> xValues = spot1().map((e) => e.x).toList();
-    List<double> yValues = spot1().map((e) => e.y).toList();
-    xValues.sort(
-      (a, b) => a.compareTo(b),
-    );
-    yValues.sort(
-      (a, b) => a.compareTo(b),
-    );
-
-    final double minX = xValues.first;
-    final double minY = yValues.first;
-    final double maxX = xValues.last;
-    final double maxY = yValues.last;
-    final showToolTipsIndex = spot1().map((e) => e.x.toInt()).toList();
-
-    return LineChartData(
-      //Danh sách các đối tượng được thể hiện trên đồ thị
-      lineBarsData: listLineCharBarData,
-      backgroundColor: Colors.transparent,
-      //Các giá trị này có thể set theo giá trị đầu vào của spots
-      minX: minX,
-      maxX: maxX,
-      maxY: maxY * 1.4,
-      minY: 0,
-      // clipData: FlClipData.all(),
-      //Cấu hình hiển thị lưới trong đồ thị
-      gridData: FlGridData(
-        show: false,
-      ),
-      //Hiển thị dữ liệu tương ứng trên đồ thị ( giá trị của trục Y )
-      showingTooltipIndicators: showToolTipsIndex
-          .map((element) => ShowingTooltipIndicators([
-                LineBarSpot(
-                  lineChartBarData1,
-                  listLineCharBarData.indexOf(lineChartBarData1),
-                  lineChartBarData1.spots[element],
-                )
-              ]))
-          .toList(),
-      //Cấu hình border xung quanh đồ thị
-      borderData: FlBorderData(show: false, border: const Border()),
-      lineTouchData: LineTouchData(
-        enabled: true,
-        //set false để luôn luôn hiển thị trên đồ thị
-        handleBuiltInTouches: false,
-        getTouchedSpotIndicator:
-            (LineChartBarData barData, List<int> spotIndexes) {
-          return spotIndexes.map((index) {
-            return TouchedSpotIndicatorData(
-              //Đường thể hiện hình chiếu vuông góc với trục X
-              FlLine(
-                color: Colors.transparent,
-              ),
-              //Cấu hình hình dạng của các điểm trên đồ thị
-              FlDotData(
-                show: true,
-                getDotPainter: (spot, percent, barData, index) =>
-                    FlDotCirclePainter(
-                  color: Colors.black,
-                  radius: 3,
-                  strokeWidth: 0.4,
-                  strokeColor: Colors.white,
-                ),
-              ),
-            );
-          }).toList();
-        },
-        //Cấu hình widget thể hiện cho dữ liệu
-        touchTooltipData: LineTouchTooltipData(
-          tooltipBgColor: Colors.transparent,
-          tooltipRoundedRadius: 8,
-          tooltipPadding: EdgeInsets.zero,
-          getTooltipItems: (List<LineBarSpot> lineBarsSpot) => lineBarsSpot
-              .map((lineBarSpot) => LineTooltipItem(
-                    lineBarSpot.y.toString(),
-                    Get.textTheme.bodyText1!.copyWith(color: Colors.black),
-                  ))
-              .toList(),
+  List<ChartSeries<Spending, DateTime>> getSeries() {
+    return <ChartSeries<Spending, DateTime>>[
+      SplineSeries<Spending, DateTime>(
+        dataSource: spending,
+        color: Colors.red,
+        enableTooltip: true,
+        xValueMapper: (sales, _) => sales.dateTime,
+        yValueMapper: (sales, _) => sales.receive,
+        dataLabelSettings: DataLabelSettings(
+          isVisible: true,
+          color: Colors.black,
+          textStyle: Get.textTheme.bodyText1!.copyWith(color: Colors.white),
+          labelPosition: ChartDataLabelPosition
+              .outside, // Places the data labels outside the pie area
+          // By setting the below property to none value, does not hides the data label that are getting hidden due to intersection
+          labelIntersectAction: LabelIntersectAction.none,
         ),
       ),
-      //Cấu hình tiêu đề cho các cột.
-      titlesData: setTitleChart,
-      // betweenBarsData: listBetweenBarsData,
-    );
-  }
-
-  //Danh sách biểu đồ được thể hiện trên đồ thị
-  List<LineChartBarData> get listLineCharBarData => [
-        lineChartBarData1,
-        lineChartBarData2,
-        // lineChartBarData3,
-      ];
-
-  LineChartBarData get lineChartBarData1 {
-    final showToolTipsIndex = spot1().map((e) => e.x.toInt()).toList();
-    return LineChartBarData(
-      barWidth: 2,
-      shadow: const BoxShadow(
-          color: Colors.white,
-          blurRadius: 4,
-          spreadRadius: 1.3,
-          offset: Offset(0, -3)),
-      spots: spot1(),
-      color: Colors.green,
-      isCurved: true,
-      curveSmoothness: 0.4,
-      showingIndicators: showToolTipsIndex,
-      dotData: FlDotData(
-        show: false,
-      ),
-    );
-  }
-
-  LineChartBarData get lineChartBarData2 {
-    final showToolTipsIndex = spot2().map((e) => e.x.toInt()).toList();
-    return LineChartBarData(
-      barWidth: 2,
-      shadow: const BoxShadow(
-          color: Colors.white,
-          blurRadius: 4,
-          spreadRadius: 1.3,
-          offset: Offset(0, -3)),
-      spots: spot2(),
-      color: Colors.red,
-      isCurved: true,
-      curveSmoothness: 0.4,
-      showingIndicators: showToolTipsIndex,
-      dotData: FlDotData(
-        show: false,
-      ),
-    );
-  }
-
-  //FlSpotData
-  List<FlSpot> spot1() {
-    return [
-      for (int i = 0; i < currentWeather.length; i++)
-        FlSpot(i.toDouble(), currentWeather[i].toDouble())
+      SplineSeries<Spending, DateTime>(
+          dataSource: spending,
+          color: Colors.green,
+          enableTooltip: true,
+          xValueMapper: (sales, _) => sales.dateTime,
+          yValueMapper: (sales, _) => sales.pepper,
+          dataLabelSettings: DataLabelSettings(
+              isVisible: true,
+              color: Colors.black,
+              textStyle: Get.textTheme.bodyText1!.copyWith(color: Colors.white),
+              labelPosition: ChartDataLabelPosition
+                  .outside, // Places the data labels outside the pie area
+              // By setting the below property to none value, does not hides the data label that are getting hidden due to intersection
+              labelIntersectAction: LabelIntersectAction.none)),
     ];
-  }
-
-  List<FlSpot> spot2() {
-    return [
-      for (int i = 0; i < currentWeather.length; i++)
-        FlSpot(i.toDouble(), currentWeather[i].toDouble() + 1000)
-    ];
-  }
-
-  FlTitlesData get setTitleChart => FlTitlesData(
-        bottomTitles: AxisTitles(
-          sideTitles: bottomTitles(),
-        ),
-        topTitles: AxisTitles(
-          sideTitles: SideTitles(
-            showTitles: false,
-          ),
-        ),
-        rightTitles: AxisTitles(
-          sideTitles: SideTitles(
-            showTitles: false,
-          ),
-        ),
-        leftTitles: AxisTitles(
-          axisNameSize: 20,
-          // axisNameWidget: Text(
-          //   'Cột',
-          //   style: Get.textTheme.bodyText1,
-          // ),
-          sideTitles: SideTitles(
-            showTitles: false,
-          ),
-        ),
-      );
-
-  SideTitles leftTitle() {
-    return SideTitles(
-      showTitles: false,
-      reservedSize: 24,
-      getTitlesWidget: (value, meta) => SideTitleWidget(
-        axisSide: meta.axisSide,
-        angle: 0,
-        child: Text(
-          value.toInt().toString(),
-          style: Get.textTheme.bodyText2,
-        ),
-      ),
-    );
-  }
-
-  SideTitles bottomTitles() {
-    return SideTitles(
-      showTitles: true,
-      reservedSize: 24,
-      getTitlesWidget: (value, meta) => SideTitleWidget(
-        axisSide: meta.axisSide,
-        angle: 0,
-        child: Text(
-          value.toInt().toString(),
-          style: Get.textTheme.bodyText2,
-        ),
-      ),
-    );
   }
 }

@@ -68,16 +68,12 @@ class DBHelper {
     return listTransactions;
   }
 
-  Future<List<tr.Transaction>> getTransactionsByName(String keySearch) async {
+  Future<int> getTransactionsByMonth(int month, int isIncrease) async {
     var dbClient = await db;
-    //  var transactions = await dbClient?.rawQuery(
-    //     'INSERT INTO Transactions(value,description,eventId,categoryId,executionTime,fundID,categoryName,eventName,fundName,allowNegative,isIncrease,isRepeat,typeTime,typeRepeat) VALUES(200000,"",0,0,"2023-04-20",0,"Ăn uống","","Tiền mặt",1,1,1,0,0)');
     var transactions = await dbClient?.rawQuery(
-        'SELECT * FROM Transactions WHERE Transactions.description LIKE "%$keySearch%" OR Transactions.categoryName LIKE "%$keySearch%"  ORDER BY Transactions.executionTime DESC');
-    List<tr.Transaction> listTransactions = transactions!.isNotEmpty
-        ? transactions.map((c) => tr.Transaction.fromMap(c)).toList()
-        : [];
-    return listTransactions;
+        "SELECT SUM(value) as Total FROM Transactions WHERE isIncrease = $isIncrease AND strftime('%Y', executionTime) = strftime('%Y', CURRENT_DATE) AND CAST(strftime('%m', executionTime) AS INTEGER) = $month");
+    int sumValues = (transactions?[0]["Total"] ?? 0) as int;
+    return sumValues;
   }
 
   Future<List<tr.Transaction>> getTransactionsOfFund(

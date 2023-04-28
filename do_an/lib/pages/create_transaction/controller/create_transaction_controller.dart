@@ -56,7 +56,7 @@ class CreateTransactionController extends GetxController {
   void initData() {
     if (Get.arguments is Transaction) {
       Transaction tran = Get.arguments;
-      valueController.text = tran.value.toString();
+      valueController.text = (tran.value! * (-1)).toString();
       descriptionController.text = tran.description!;
       transaction.value.categoryName = tran.categoryName;
       transaction.value.fundName = tran.fundName;
@@ -72,7 +72,7 @@ class CreateTransactionController extends GetxController {
         transaction.update((val) {
           val!.categoryId = value.id;
           val.categoryName = value.name;
-          val.isIncrease = value.typeCategory;
+          val.isIncrease = value.typeCategory == 5 ? 1 : 0;
         });
       }
     });
@@ -101,7 +101,7 @@ class CreateTransactionController extends GetxController {
   }
 
   Future<void> createTransaction() async {
-    if (transaction.value.isIncrease == 5) {
+    if (transaction.value.isIncrease == 1) {
       transaction.value.value =
           int.parse(valueController.value.text.replaceAll('.', ''));
     } else {
@@ -194,7 +194,7 @@ class CreateTransactionController extends GetxController {
     }
   }
 
-  Uint8List bytesImage(String base64ImageString){
+  Uint8List bytesImage(String base64ImageString) {
     return const Base64Decoder().convert(base64ImageString);
   }
 }
