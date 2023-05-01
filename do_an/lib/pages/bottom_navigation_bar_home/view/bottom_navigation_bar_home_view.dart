@@ -11,6 +11,7 @@ import 'package:get/get.dart';
 
 import '../../home/controller/home_controller.dart';
 import '../../home/view/home_view.dart';
+import '../../notification/controller/notification_controller.dart';
 import '../../transaction/controller/transaction_controller.dart';
 import '../../transaction/view/transaction_page.dart';
 import '../controller/bottom_navigation_bar_home_controller.dart';
@@ -21,9 +22,11 @@ class BottomNavigationBarHomePage
 
   @override
   Widget build(BuildContext context) {
+    Get.put(NotificationController());
     Get.put(BottomNavigationBarHomeController());
     Get.put(TransactionController());
     Get.put(HomeController());
+
     final iconList = [
       IconWithTitle(
         iconLink: ImageAsset.icHome,
@@ -71,12 +74,32 @@ class BottomNavigationBarHomePage
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Image.asset(
-                  iconList[index].iconLink,
-                  height: 20,
-                  fit: BoxFit.cover,
-                  color: color,
-                ).paddingAll(5),
+                Stack(
+                  children: [
+                    Image.asset(
+                      iconList[index].iconLink,
+                      height: 20,
+                      fit: BoxFit.cover,
+                      color: color,
+                    ).paddingAll(5),
+                     (index == 2 &&
+                            controller.notificationController.events.isNotEmpty)
+                        ? Positioned(
+                            top: 1,
+                            right: 2,
+                            child: AutoSizeText(
+                              "1",
+                              style: Get.textTheme.bodySmall!.copyWith(
+                                  color: Colors.red,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          )
+                        : const SizedBox(
+                            width: 1,
+                            height: 1,
+                          )
+                  ],
+                ),
                 const SizedBox(height: 4),
                 AutoSizeText(
                   iconList[index].title,

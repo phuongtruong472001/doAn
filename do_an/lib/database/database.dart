@@ -68,6 +68,16 @@ class DBHelper {
     return listTransactions;
   }
 
+  Future<List<tr.Transaction>> getTransactionsRepeat() async {
+    var dbClient = await db;
+    var transactions = await dbClient?.rawQuery(
+        'SELECT * FROM Transactions where isRepeat=1 ORDER BY executionTime ASC');
+    List<tr.Transaction> listTransactions = transactions!.isNotEmpty
+        ? transactions.map((c) => tr.Transaction.fromMap(c)).toList()
+        : [];
+    return listTransactions;
+  }
+
   Future<int> getTransactionsByMonth(int month, int isIncrease) async {
     var dbClient = await db;
     var transactions = await dbClient?.rawQuery(
@@ -95,6 +105,22 @@ class DBHelper {
     List<Event> listEvents =
         events!.isNotEmpty ? events.map((c) => Event.fromjson(c)).toList() : [];
     return listEvents;
+  }
+
+  Future<List<Event>> getEventsOutOfDate() async {
+    var dbClient = await db;
+    String now = DateFormat('yyyy-MM-dd').format(DateTime.now());
+    var events = await dbClient?.rawQuery(
+        'SELECT * FROM Event WHERE date >= "$now" AND isNotified=0 ORDER BY date DESC');
+    List<Event> listEvents =
+        events!.isNotEmpty ? events.map((c) => Event.fromjson(c)).toList() : [];
+    return listEvents;
+  }
+
+  Future<void> updateEventOutOfDate(Event event) async {
+    var dbClient = await db;
+    await dbClient
+        ?.rawQuery('UPDATE Event SET isNotified= 1 WHERE id=${event.id}');
   }
 
   Future<List<Fund>> getFunds() async {
@@ -132,13 +158,14 @@ class DBHelper {
   Future<bool> addEvent(Event event) async {
     var dbClient = await db;
     var status = await dbClient?.rawInsert(
-      'INSERT INTO Event(name,icon,date,estimateValue,allowNegative) VALUES(?, ?, ?, ?,?)',
+      'INSERT INTO Event(name,icon,date,estimateValue,allowNegative,isNotified) VALUES(?, ?, ?, ?,?,?)',
       [
         event.name,
         event.icon,
         event.date!.toIso8601String(),
         event.estimateValue,
-        event.allowNegative
+        event.allowNegative,
+        event.isNotified ? 1 : 0
       ],
     );
     return status != 0;
@@ -218,9 +245,9 @@ class DBHelper {
   Future<bool> editEvent(Event event) async {
     var dbClient = await db;
     var status = await dbClient?.rawUpdate(
-      'Update Event SET name=${event.name},icon=${event.icon},date=${event.date},estimate =${event.estimateValue} WHERE id=${event.id}',
+      'Update Event SET name="${event.name}",icon="${event.icon}",date="${event.date!.toIso8601String()}",estimateValue =${event.estimateValue} WHERE id=${event.id}',
     );
-    return status == 1;
+    return status != 0;
   }
 
   Future<bool> editInvoice(Invoice invoice) async {
@@ -338,41 +365,38 @@ class DBHelper {
   }
 
   Future<void> autoGenerateTransaction() async {
-    List<tr.Transaction> transactions =
-        await getTransactions("2023-01-01", "2023-05-01");
+    List<tr.Transaction> transactions = await getTransactionsRepeat();
     for (tr.Transaction transaction in transactions) {
-      if (transaction.isRepeat == true) {
-        if (transaction.typeRepeat == 0) {
-          var now = DateTime.now();
-          print("endtime${transaction.endTime}");
-          var tempDate = Jiffy(transaction.endTime ?? DateTime.now());
-          while (Jiffy(now).isAfter(tempDate)) {
-            if (transaction.typeTime == 0) {
-              tempDate = Jiffy(tempDate).add(duration: const Duration(days: 1));
-            } else if (transaction.typeTime == 1) {
-              tempDate = Jiffy(tempDate).add(weeks: 1);
-            } else {
-              tempDate = Jiffy(tempDate).add(months: 1);
-            }
-
-            if (Jiffy(now).isAfter(Jiffy(tempDate))) {
-              transaction.endTime = tempDate.dateTime;
-              tr.Transaction tempTransaction = transaction;
-              tempTransaction.executionTime = tempDate.dateTime;
-              tempTransaction.isRepeat = false;
-              await addTransaction(tempTransaction);
-            } else {
-              break;
-            }
+      if (transaction.typeRepeat == 0) {
+        var now = DateTime.now();
+        print("endtime${transaction.endTime}");
+        var tempDate = Jiffy(transaction.endTime ?? DateTime.now());
+        while (Jiffy(now).isAfter(tempDate)) {
+          if (transaction.typeTime == 0) {
+            tempDate = Jiffy(tempDate).add(duration: const Duration(days: 1));
+          } else if (transaction.typeTime == 1) {
+            tempDate = Jiffy(tempDate).add(weeks: 1);
+          } else {
+            tempDate = Jiffy(tempDate).add(months: 1);
           }
-        } else {
-          if (Jiffy(transaction.endTime).isSameOrAfter(Jiffy(DateTime.now()))) {
+
+          if (Jiffy(now).isAfter(Jiffy(tempDate))) {
+            transaction.endTime = tempDate.dateTime;
             tr.Transaction tempTransaction = transaction;
-            tempTransaction.executionTime = transaction.endTime;
-            transaction.isRepeat = false;
+            tempTransaction.executionTime = tempDate.dateTime;
             tempTransaction.isRepeat = false;
             await addTransaction(tempTransaction);
+          } else {
+            break;
           }
+        }
+      } else {
+        if (Jiffy(transaction.endTime).isSameOrAfter(Jiffy(DateTime.now()))) {
+          tr.Transaction tempTransaction = transaction;
+          tempTransaction.executionTime = transaction.endTime;
+          transaction.isRepeat = false;
+          tempTransaction.isRepeat = false;
+          await addTransaction(tempTransaction);
         }
       }
     }

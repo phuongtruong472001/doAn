@@ -21,6 +21,11 @@ class CreateEventController extends GetxController {
 
   @override
   void onReady() {}
+  @override
+  void onInit() {
+    initData();
+    super.onInit();
+  }
 
   void selectDate(BuildContext context) async {
     DateTime? picked = await showDatePicker(
@@ -41,24 +46,38 @@ class CreateEventController extends GetxController {
         int.parse(valueController.value.text.replaceAll('.', ''));
     event.value.date = selectedDate.value;
     if (formData.currentState!.validate()) {
-      bool status = await dbHelper.addEvent(event.value);
+      bool status;
+      if (Get.arguments != null) {
+        status = await dbHelper.editEvent(event.value);
+      } else {
+        status = await dbHelper.addEvent(event.value);
+      }
+      String messege = "";
       if (status) {
+        if (Get.arguments == null) {
+          messege = AppString.addSuccess("Sự kiện");
+        } else {
+          messege = AppString.editSuccess("Sự kiện");
+        }
         EventController eventController = Get.find<EventController>();
         await eventController.initData();
         Get.back();
+      } else {
+        messege = AppString.fail;
       }
       showSnackBar(
-        status ? AppString.addSuccess("Sự kiện") : AppString.fail,
+        messege,
         backgroundColor: status ? Colors.green : Colors.red,
       );
     }
   }
 
   void initData() {
-    if (Get.arguments != null && Get.arguments is Event) {
+    if (Get.arguments is Event) {
+      event.value = Get.arguments;
       nameController.value.text = Get.arguments.name;
-      valueController.text = Get.arguments.estimateValue;
-      selectedDate.value = DateTime.parse(Get.arguments.date);
+      valueController.text = Get.arguments.estimateValue.toString();
+      selectedDate.value = Get.arguments.date;
     }
   }
 

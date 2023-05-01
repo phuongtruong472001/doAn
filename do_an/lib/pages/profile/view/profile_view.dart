@@ -54,10 +54,8 @@ class ProfilePage extends GetView<ProfileController> {
                     GestureDetector(
                       onTap: () => Get.toNamed(
                         AppRoutes.event,
-                        arguments: true,
                       ),
-                      child: menuMet("Sự kiện",
-                          Icons.event, Colors.orange),
+                      child: menuMet("Sự kiện", Icons.event, Colors.orange),
                     ),
                     menuMet("Contact", Icons.call_outlined, Colors.blue)
                   ],

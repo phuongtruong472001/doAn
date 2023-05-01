@@ -22,7 +22,7 @@ class EventController extends BaseSearchAppbarController {
   }
 
   void onTapItem(Event event) {
-    if (Get.arguments) {
+    if (Get.arguments != null) {
       Get.back(result: event);
     } else {
       Get.toNamed(AppRoutes.createEvent, arguments: event);

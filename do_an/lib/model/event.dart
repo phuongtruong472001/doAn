@@ -9,6 +9,7 @@ class Event {
   int? allowNegative;
   int? estimateValue;
   int value;
+  bool isNotified;
   Event({
     this.id,
     this.name,
@@ -17,6 +18,7 @@ class Event {
     this.allowNegative = 1,
     this.estimateValue,
     this.value = 0,
+    this.isNotified = false,
   });
 
   Map<String, dynamic> tojson() {
@@ -35,9 +37,10 @@ class Event {
       name: json['name'] != null ? json['name'] as String : null,
       icon: json['icon'] != null ? json['icon'] as String : null,
       date: json['date'] != null ? DateTime.parse(json['date']) : null,
-      allowNegative: json["allowNegative"],
-      estimateValue: json['estimateValue'],
-      value: json["value"],
+      allowNegative: json["allowNegative"] ?? 1,
+      estimateValue: json['estimateValue'] ?? 0,
+      value: json["value"] ?? 0,
+      isNotified: json["isNotified"] == 1,
     );
   }
 

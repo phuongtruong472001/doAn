@@ -3,6 +3,7 @@ import 'package:do_an/base/dimen.dart';
 import 'package:do_an/component/item_card.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 import '../controller/notification_controller.dart';
 
@@ -11,34 +12,35 @@ class NotificationPage extends GetView<NotificationController> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
-        children: [
-          Center(
-            child: AutoSizeText(
-              "Thông báo",
-              style: Get.textTheme.bodyLarge!.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ).paddingAll(defaultPadding),
-          Expanded(
-            child: ListView.builder(
-              itemBuilder: (context, index) => Card(
-                child: ItemCard(
-                  Icons.book,
-                  "Sự kiện ",
-                  subTitle: "Diễn ra vào hôm qua",
-                  title: "Tiền mặt",
-                  isTreeLine: true,
+    return SafeArea(
+      child: Scaffold(
+        body: Column(
+          children: [
+            Center(
+              child: AutoSizeText(
+                "Thông báo",
+                style: Get.textTheme.bodyLarge!.copyWith(
+                  fontWeight: FontWeight.bold,
                 ),
               ),
-              itemCount: 20,
-              shrinkWrap: true,
-              //physics: const NeverScrollableScrollPhysics(),
+            ).paddingAll(defaultPadding),
+            Expanded(
+              child: ListView.builder(
+                itemBuilder: (context, index) => Card(
+                  child: ItemCard(
+                    Icons.book,
+                    controller.allEvents[index].name ?? "",
+                    title:
+                        "Diễn ra vào ${DateFormat('kk:mm dd-MM-yyyy').format(controller.allEvents[index].date ?? DateTime.now())}",
+                  ),
+                ),
+                itemCount: controller.allEvents.length,
+                shrinkWrap: true,
+                //physics: const NeverScrollableScrollPhysics(),
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
