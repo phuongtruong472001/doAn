@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 import '../base/colors.dart';
+import '../base/icons.dart';
 
 class ItemCard extends StatelessWidget {
   ItemCard(
@@ -67,47 +68,48 @@ class TransactionWidget extends StatelessWidget {
           color: Colors.white,
           border: Border.symmetric(
               horizontal: BorderSide(color: Color(0x22000000), width: .5))),
-      child: InkWell(
-        child: Row(
-          children: [
-            const CircleAvatar(
-              child: Icon(Icons.water),
+      child: Row(
+        children: [
+          CircleAvatar(
+            backgroundColor: Colors.white,
+            child: Image.asset(
+              "${ImageAsset.linkIconCategory}${transaction.categoryId}.png",
             ),
-            const SizedBox(width: 15),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    transaction.categoryName.toString(),
+          ),
+          const SizedBox(width: 15),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  transaction.categoryName.toString(),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleMedium!
+                      .copyWith(fontWeight: FontWeight.bold),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 5),
+                  child: Text(
+                    "${transaction.description!} lúc ${DateFormat('kk:mm dd-MM-yyyy').format(transaction.executionTime!)}",
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: Theme.of(context)
-                        .textTheme
-                        .titleMedium!
-                        .copyWith(fontWeight: FontWeight.bold),
+                    style: const TextStyle(fontSize: 12),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 5),
-                    child: Text(
-                      "${transaction.description!} lúc ${DateFormat('kk:mm dd-MM-yyyy').format(transaction.executionTime!)}",
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(fontSize: 12),
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
-            Text(' ${transaction.value.toString().toVND(unit: 'đ')}',
-                style: TextStyle(
-                    color: transaction.isIncrease == 5
-                        ? Colors.greenAccent
-                        : Colors.red,
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold))
-          ],
-        ),
+          ),
+          Text(' ${transaction.value.toString().toVND(unit: 'đ')}',
+              style: TextStyle(
+                  color: transaction.isIncrease == 5
+                      ? Colors.greenAccent
+                      : Colors.red,
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold))
+        ],
       ),
     );
   }

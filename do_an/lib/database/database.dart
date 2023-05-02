@@ -261,7 +261,7 @@ class DBHelper {
   Future<bool> editTransaction(tr.Transaction transaction, int oldValue) async {
     var dbClient = await db;
     var status = await dbClient?.rawUpdate(
-      'Update Transactions SET value=${transaction.value} ,description="${transaction.description}",eventId=${transaction.eventId},categoryId=${transaction.categoryId},executionTime="${DateFormat('yyyy-MM-dd kk:mm').format(transaction.executionTime!)}",fundID=${transaction.fundID},categoryName="${transaction.categoryName}",eventName="${transaction.eventName}",fundName="${transaction.fundName}"  WHERE id=${transaction.id}',
+      'Update Transactions SET value=${transaction.value} ,description="${transaction.description}",eventId=${transaction.eventId},categoryId=${transaction.categoryId},executionTime="${DateFormat('yyyy-MM-dd kk:mm').format(transaction.executionTime!)}",fundID=${transaction.fundID},categoryName="${transaction.categoryName}",eventName="${transaction.eventName}",fundName="${transaction.fundName}",imageLink="${transaction.imageLink}"  WHERE id=${transaction.id}',
     );
     transaction.value = transaction.value! - oldValue;
     if (status != 0) {

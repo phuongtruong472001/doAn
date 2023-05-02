@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:do_an/base/dimen.dart';
+import 'package:do_an/base/icons.dart';
 import 'package:do_an/base/strings.dart';
 import 'package:do_an/routes/routes.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +17,8 @@ class FundPage extends GetView<FundController> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: true,
-        title: AutoSizeText(Get.arguments == null ? AppString.myFund  : AppString.selectFund),
+        title: AutoSizeText(
+            Get.arguments == null ? AppString.myFund : AppString.selectFund),
         actions: [
           if (Get.arguments == null) ...[
             const Icon(Icons.notifications),
@@ -45,7 +47,9 @@ class FundPage extends GetView<FundController> {
                         leading: const Icon(Icons.sports_basketball_rounded),
                         title: const AutoSizeText(AppString.total),
                         subtitle: AutoSizeText(
-                          controller.totalValue.value.toString().toVND(unit: 'đ'),
+                          controller.totalValue.value
+                              .toString()
+                              .toVND(unit: 'đ'),
                         ),
                       )),
                 ),
@@ -56,7 +60,8 @@ class FundPage extends GetView<FundController> {
                 itemBuilder: (context, index) => GestureDetector(
                   onTap: () => controller.onTapItem(controller.funds[index]),
                   child: ListTile(
-                    leading: const Icon(Icons.sports_basketball_rounded),
+                    leading: Image.asset(ImageAsset.linkIconFund +
+                        controller.funds[index].icon!),
                     title: AutoSizeText(
                       controller.funds[index].name ?? "",
                     ),

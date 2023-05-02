@@ -28,7 +28,7 @@ class NotificationPage extends GetView<NotificationController> {
               child: ListView.builder(
                 itemBuilder: (context, index) => Card(
                   child: ItemCard(
-                    Icons.book,
+                    Icons.notifications,
                     controller.allEvents[index].name ?? "",
                     title:
                         "Diễn ra vào ${DateFormat('kk:mm dd-MM-yyyy').format(controller.allEvents[index].date ?? DateTime.now())}",

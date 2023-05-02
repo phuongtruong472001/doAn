@@ -77,6 +77,28 @@ class CreateFundPage extends GetView<CreateFundController> {
                   ),
                   label: AppString.value,
                 ),
+                Obx(
+                  () => DropdownButton<String>(
+                    value: controller.listWallet[controller.typeWallet.value],
+                    elevation: 16,
+                    style: const TextStyle(color: Colors.deepPurple),
+                    underline: Container(
+                      height: 2,
+                      color: Colors.deepPurpleAccent,
+                    ),
+                    onChanged: (String? value) {
+                      controller.typeWallet.value =
+                          controller.listWallet.indexOf(value ?? '');
+                    },
+                    items: controller.listWallet
+                        .map<DropdownMenuItem<String>>((element) {
+                      return DropdownMenuItem<String>(
+                        value: element,
+                        child: AutoSizeText(element),
+                      );
+                    }).toList(),
+                  ),
+                ),
               ],
             ).paddingSymmetric(
               horizontal: defaultPadding,

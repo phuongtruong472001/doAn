@@ -9,15 +9,23 @@ import 'package:get/get.dart';
 import '../../../base/strings.dart';
 
 class CreateFundController extends BaseGetxController {
-  final formData= GlobalKey<FormState>();
+  final formData = GlobalKey<FormState>();
   Rx<Fund> fund = Fund().obs;
   final fundNameController = TextEditingController();
   final valueController = MoneyMaskedTextController(
       thousandSeparator: '.', precision: 0, decimalSeparator: "");
   DBHelper dbHelper = DBHelper();
+  List<String> listWallet = [
+    "Ví cơ bản",
+    "Ví tín dụng",
+    "Ví liên kết",
+    "Ví tiết kiệm"
+  ];
+  RxInt typeWallet = 0.obs;
 
   Future<void> createFund() async {
     fund.value.name = fundNameController.text;
+    fund.value.icon = "${typeWallet.value}.png";
     fund.value.value = int.parse(valueController.text.replaceAll('.', ''));
     bool status = await dbHelper.addFund(fund.value);
     if (status) {
@@ -25,7 +33,7 @@ class CreateFundController extends BaseGetxController {
       await fundController.initData();
       Get.back();
     }
-     showSnackBar(
+    showSnackBar(
       status ? AppString.addSuccess("Ví tiền") : AppString.fail,
       backgroundColor: status ? Colors.green : Colors.red,
     );
