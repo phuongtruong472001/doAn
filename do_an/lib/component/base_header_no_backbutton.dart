@@ -32,7 +32,7 @@ class BaseHeaderNoBackButton extends StatelessWidget {
             if (icon != null) ...[
               IconButton(
                 icon: Icon(icon ?? Icons.history_sharp),
-                onPressed: () => function,
+                onPressed: () => function!.call(),
               )
             ]
           ],

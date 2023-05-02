@@ -72,7 +72,7 @@ class TracsactionPage extends BaseSearchAppBarWidget<TransactionController> {
                 ),
               )
             ],
-          ).paddingAll(defaultPadding),
+          ).paddingAll(paddingSmall),
         ),
       ),
     );

@@ -2,13 +2,14 @@ import 'package:do_an/base_controller/base_controller.dart';
 import 'package:do_an/database/database.dart';
 import 'package:do_an/model/spending.dart';
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:get_storage/get_storage.dart';
 
 class HomeController extends BaseGetxController {
   RxInt totalValue = 0.obs;
   RxInt cashValue = 0.obs;
   DBHelper dbHelper = DBHelper();
   RxList<Spending> spedings = RxList<Spending>.empty();
+  final box = GetStorage();
   @override
   void onInit() async {
     showLoading();

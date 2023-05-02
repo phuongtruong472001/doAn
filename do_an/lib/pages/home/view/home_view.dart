@@ -6,6 +6,7 @@ import 'package:do_an/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_format_money_vietnam/flutter_format_money_vietnam.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 import '../../../component/base_card.dart';
 import '../../../component/base_header_no_backbutton.dart';
@@ -25,10 +26,15 @@ class HomePage extends BaseGetWidget<HomeController> {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                const BaseHeaderNoBackButton(
-                  content: 'Hello Truong Phuong',
-                  icon: Icons.settings,
+                BaseHeaderNoBackButton(
+                  content: 'Hello ${controller.box.read("name")}',
+                  icon: Icons.logout,
                   title: 'Good Morning',
+                  function: () {
+                    final box = GetStorage();
+                    box.remove("name");
+                    Get.offAllNamed(AppRoutes.editName);
+                  },
                 ).paddingSymmetric(vertical: paddingSmall),
                 CardBase(
                   Column(

@@ -1,4 +1,5 @@
 class AppRoutes {
+  static const String editName = '/edit_name';
   static const String home = '/home';
   static const String pageBuilder = '/page_builder';
   static const String createTransaction = '/create_transaction';

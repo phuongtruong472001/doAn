@@ -1,3 +1,5 @@
+import 'package:do_an/pages/add_name/binding/add_name_binding.dart';
+import 'package:do_an/pages/add_name/view/add_name_view.dart';
 import 'package:do_an/pages/bottom_navigation_bar_home/binding/bottom_navigation_bar_home_binding.dart';
 import 'package:do_an/pages/bottom_navigation_bar_home/view/bottom_navigation_bar_home_view.dart';
 import 'package:do_an/pages/category/binding/category_binding.dart';
@@ -30,6 +32,11 @@ import 'routes.dart';
 
 class RoutePage {
   static var route = [
+    GetPage(
+      name: AppRoutes.editName,
+      page: () => const AddName(),
+      binding: AddNameBinding(),
+    ),
     GetPage(
       name: AppRoutes.pageBuilder,
       page: () => const BottomNavigationBarHomePage(),
