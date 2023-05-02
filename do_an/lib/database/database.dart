@@ -316,11 +316,13 @@ class DBHelper {
 
   Future<bool> deleteTransaction(tr.Transaction transaction) async {
     var dbClient = await db;
-    var status = await dbClient?.rawInsert(
-      'DELETE FROM  Transaction WHERE id=${transaction.id}',
+    var status = await dbClient?.rawDelete(
+      'DELETE FROM Transactions WHERE id=${transaction.id}',
     );
     if (status != 0) {
-      transaction.value = transaction.value! * (-1);
+      if (transaction.isIncrease != 1) {
+        transaction.value = transaction.value! * (-1);
+      }
       await updateFund(transaction);
       if (transaction.eventId! >= 0) {
         updateEvent(transaction);

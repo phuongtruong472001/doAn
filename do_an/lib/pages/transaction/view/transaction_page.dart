@@ -68,7 +68,10 @@ class TracsactionPage extends BaseSearchAppBarWidget<TransactionController> {
                             SlidableAction(
                               // An action can be bigger than the others.
                               flex: 1,
-                              onPressed: (context) {},
+                              onPressed: (context) {
+                                controller.deleteTransaction(
+                                    controller.rxList[index]);
+                              },
                               backgroundColor: Colors.red,
                               foregroundColor: Colors.white,
                               icon: Icons.delete,

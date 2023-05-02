@@ -38,17 +38,17 @@ class EventPage extends BaseSearchAppBarWidget<EventController> {
                           .format(controller.rxList[index].date)),
                       if (controller.rxList[index].allowNegative == 1) ...[
                         const AutoSizeText(
-                          AppString.notComplete,
+                          AppString.happenning,
                           style: TextStyle(
-                            color: Colors.red,
+                            color: Colors.green,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                       ] else ...[
                         const AutoSizeText(
-                          AppString.complete,
+                          AppString.completed,
                           style: TextStyle(
-                            color: Colors.green,
+                            color: Colors.red,
                             fontWeight: FontWeight.bold,
                           ),
                         ),

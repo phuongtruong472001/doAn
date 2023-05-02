@@ -19,7 +19,9 @@ class AppString {
   static const String cash = "Tiền mặt";
   static const String hintSearch = "Tìm kiếm";
   static const String complete = "HOÀN THÀNH";
+  static const String completed = "ĐÃ HOÀN THÀNH";
   static const String notComplete = "CHƯA HOÀN THÀNH";
+  static const String happenning = "ĐANG DIỄN RA";
 
   static const String invoice = 'Hóa đơn';
   static const String account = 'Tài khoản';

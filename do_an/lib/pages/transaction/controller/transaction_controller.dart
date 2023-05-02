@@ -4,6 +4,7 @@ import 'package:do_an/routes/routes.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:jiffy/jiffy.dart';
+import 'package:sqflite/sqlite_api.dart';
 
 import '../../../database/database.dart';
 
@@ -82,5 +83,12 @@ class TransactionController extends BaseSearchAppbarController {
   Future<void> functionSearch() async {
     rxList.value = await dbHelper.getTransactions(fromDate, toDate,
         keySearch: textSearchController.text);
+  }
+
+  void deleteTransaction(tr.Transaction transaction) async {
+    bool status = await dbHelper.deleteTransaction(transaction);
+    if (status) {
+      initData();
+    }
   }
 }

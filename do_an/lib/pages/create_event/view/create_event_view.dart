@@ -35,7 +35,12 @@ class CreateEventPage extends GetView<CreateEventController> {
                     controller.event.value.allowNegative == 1
                         ? AppString.complete
                         : AppString.notComplete,
-                    style: Get.textTheme.bodyLarge,
+                    style: Get.textTheme.bodyLarge!.copyWith(
+                      color: controller.event.value.allowNegative != 1
+                          ? Colors.red
+                          : Colors.green,
+                      fontWeight: FontWeight.bold,
+                    ),
                   )),
             ),
           TextButton(
