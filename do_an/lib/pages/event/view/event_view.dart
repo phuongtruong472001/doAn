@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:do_an/base/dimen.dart';
+import 'package:do_an/base/strings.dart';
 import 'package:do_an/component/util_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_format_money_vietnam/flutter_format_money_vietnam.dart';
@@ -31,12 +32,32 @@ class EventPage extends BaseSearchAppBarWidget<EventController> {
                   title: AutoSizeText(
                     controller.rxList[index].name ?? "",
                   ),
-                  trailing: AutoSizeText(DateFormat('kk:mm dd-MM-yyyy')
-                      .format(controller.rxList[index].date)),
+                  trailing: Column(
+                    children: [
+                      AutoSizeText(DateFormat('kk:mm dd-MM-yyyy')
+                          .format(controller.rxList[index].date)),
+                      if (controller.rxList[index].allowNegative == 1) ...[
+                        const AutoSizeText(
+                          AppString.notComplete,
+                          style: TextStyle(
+                            color: Colors.red,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ] else ...[
+                        const AutoSizeText(
+                          AppString.complete,
+                          style: TextStyle(
+                            color: Colors.green,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ]
+                    ],
+                  ),
                   subtitle: AutoSizeText(
                     "Đã chi ${controller.rxList[index].value.toString().toVND()}/${controller.rxList[index].estimateValue.toString().toVND()} số tiền dự kiến",
                   ),
-                  
                 ).paddingAll(paddingSmall),
               ),
             ),

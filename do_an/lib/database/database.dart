@@ -98,6 +98,15 @@ class DBHelper {
     return listTransactions;
   }
 
+  Future<List<Event>> getEventsNegative({String? keySearch = ""}) async {
+    var dbClient = await db;
+    var events = await dbClient?.rawQuery(
+        'SELECT * FROM Event WHERE name LIKE "%$keySearch%" AND allowNegative=1 ORDER BY date DESC');
+    List<Event> listEvents =
+        events!.isNotEmpty ? events.map((c) => Event.fromjson(c)).toList() : [];
+    return listEvents;
+  }
+
   Future<List<Event>> getEvents({String? keySearch = ""}) async {
     var dbClient = await db;
     var events = await dbClient?.rawQuery(
@@ -121,6 +130,12 @@ class DBHelper {
     var dbClient = await db;
     await dbClient
         ?.rawQuery('UPDATE Event SET isNotified= 1 WHERE id=${event.id}');
+  }
+
+  Future<void> updateEventAllowNegative(int id, int status) async {
+    var dbClient = await db;
+    await dbClient
+        ?.rawQuery('Update Event SET allowNegative=$status WHERE id=$id');
   }
 
   Future<List<Fund>> getFunds() async {
@@ -158,14 +173,15 @@ class DBHelper {
   Future<bool> addEvent(Event event) async {
     var dbClient = await db;
     var status = await dbClient?.rawInsert(
-      'INSERT INTO Event(name,icon,date,estimateValue,allowNegative,isNotified) VALUES(?, ?, ?, ?,?,?)',
+      'INSERT INTO Event(name,icon,date,estimateValue,allowNegative,isNotified,value) VALUES(?, ?, ?, ?,?,?,?)',
       [
         event.name,
         event.icon,
         event.date!.toIso8601String(),
         event.estimateValue,
         event.allowNegative,
-        event.isNotified ? 1 : 0
+        event.isNotified ? 1 : 0,
+        0
       ],
     );
     return status != 0;
@@ -219,7 +235,7 @@ class DBHelper {
     if (status != 0) {
       await updateFund(transaction);
       if (transaction.eventId! >= 0) {
-        updateEvent(transaction);
+        await updateEvent(transaction);
       }
     }
     return status != 0;
@@ -318,8 +334,12 @@ class DBHelper {
     tr.Transaction transaction,
   ) async {
     var dbClient = await db;
-    await dbClient?.rawInsert(
-      'Update Event SET value=value+ ${transaction.value} WHERE id=${transaction.eventId}',
+    int value = transaction.value!;
+    if (transaction.isIncrease != 1) {
+      value = transaction.value! * (-1);
+    }
+    await dbClient?.rawUpdate(
+      'Update Event SET value=value+ $value WHERE id=${transaction.eventId}',
     );
   }
 

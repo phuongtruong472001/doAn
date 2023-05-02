@@ -18,6 +18,7 @@ class CreateEventController extends GetxController {
   var choosedDate = false.obs;
   var selectedDate = DateTime.now().obs;
   DBHelper dbHelper = DBHelper();
+  EventController eventController = Get.find<EventController>();
 
   @override
   void onReady() {}
@@ -59,7 +60,7 @@ class CreateEventController extends GetxController {
         } else {
           messege = AppString.editSuccess("Sự kiện");
         }
-        EventController eventController = Get.find<EventController>();
+
         await eventController.initData();
         Get.back();
       } else {
@@ -81,14 +82,15 @@ class CreateEventController extends GetxController {
     }
   }
 
-  // void chooseFund() {
-  //   Get.toNamed(AppRoutes.fund, arguments: true)!.then((value) {
-  //     if (value != null) {
-  //       event.update((val) {
-  //         val!.fundID = value.id;
-  //         val.fundName = value.name;
-  //       });
-  //     }
-  //   });
-  // }
+  void completeEvent() async {
+    int status;
+    if (event.value.allowNegative == 1) {
+      status = 0;
+    } else {
+      status = 1;
+    }
+    dbHelper.updateEventAllowNegative(event.value.id!, status);
+    Get.back();
+    await eventController.initData();
+  }
 }

@@ -7,7 +7,7 @@ class Event {
   String? icon;
   DateTime? date;
   int? allowNegative;
-  int? estimateValue;
+  int estimateValue;
   int value;
   bool isNotified;
   Event({
@@ -16,7 +16,7 @@ class Event {
     this.icon,
     this.date,
     this.allowNegative = 1,
-    this.estimateValue,
+    this.estimateValue = 0,
     this.value = 0,
     this.isNotified = false,
   });

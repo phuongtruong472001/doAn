@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_format_money_vietnam/flutter_format_money_vietnam.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
@@ -27,14 +28,23 @@ class CreateEventPage extends GetView<CreateEventController> {
         ),
         centerTitle: true,
         actions: [
-          Center(
-              child: InkWell(
-            onTap: () => controller.createEvent(),
+          if (Get.arguments != null)
+            TextButton(
+              onPressed: () => controller.completeEvent(),
+              child: Obx(() => AutoSizeText(
+                    controller.event.value.allowNegative == 1
+                        ? AppString.complete
+                        : AppString.notComplete,
+                    style: Get.textTheme.bodyLarge,
+                  )),
+            ),
+          TextButton(
+            onPressed: () => controller.createEvent(),
             child: AutoSizeText(
               Get.arguments == null ? AppString.save : AppString.edit,
               style: Get.textTheme.bodyLarge,
             ),
-          )),
+          ),
         ],
       ),
       body: SafeArea(
@@ -115,6 +125,17 @@ class CreateEventPage extends GetView<CreateEventController> {
                   ),
                 ).paddingSymmetric(vertical: paddingSmall),
               ),
+              Visibility(
+                visible: controller.event.value.value >
+                        controller.event.value.estimateValue &&
+                    Get.arguments != null,
+                child: AutoSizeText(
+                  "Đã chi tiêu vượt mức ${(controller.event.value.value - controller.event.value.estimateValue).toString().toVND()}",
+                  style: const TextStyle(
+                    color: Colors.red,
+                  ),
+                ),
+              )
             ]).paddingSymmetric(
               horizontal: defaultPadding,
             ),

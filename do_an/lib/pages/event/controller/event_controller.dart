@@ -30,7 +30,12 @@ class EventController extends BaseSearchAppbarController {
   }
 
   Future<void> initData() async {
-    List<Event> events = await dbHelper.getEvents();
+    List<Event> events = [];
+    if (Get.arguments != null) {
+      events = await dbHelper.getEventsNegative();
+    } else {
+      events = await dbHelper.getEvents();
+    }
     rxList.value = events;
   }
 
@@ -46,7 +51,13 @@ class EventController extends BaseSearchAppbarController {
 
   @override
   Future<void> functionSearch() async {
-    rxList.value =
-        await dbHelper.getEvents(keySearch: textSearchController.text);
+    List<Event> events = [];
+    if (Get.arguments != null) {
+      events = await dbHelper.getEventsNegative(
+          keySearch: textSearchController.text);
+    } else {
+      events = await dbHelper.getEvents(keySearch: textSearchController.text);
+    }
+    rxList.value = events;
   }
 }

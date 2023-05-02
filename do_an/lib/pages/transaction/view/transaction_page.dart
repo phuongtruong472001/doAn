@@ -4,6 +4,7 @@ import 'package:do_an/base/dimen.dart';
 import 'package:do_an/base/strings.dart';
 import 'package:do_an/base_ui/base_ui_src.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
 
 import '../../../component/item_card.dart';
@@ -59,11 +60,28 @@ class TracsactionPage extends BaseSearchAppBarWidget<TransactionController> {
                     ),
                     shrinkWrap: true,
                     itemBuilder: (context, index) {
-                      return GestureDetector(
-                        onTap: () =>
-                            controller.goToDetail(controller.rxList[index]),
-                        child: TransactionWidget(
-                          controller.rxList[index],
+                      return Slidable(
+                        key: const ValueKey(0),
+                        endActionPane: ActionPane(
+                          motion: const ScrollMotion(),
+                          children: [
+                            SlidableAction(
+                              // An action can be bigger than the others.
+                              flex: 1,
+                              onPressed: (context) {},
+                              backgroundColor: Colors.red,
+                              foregroundColor: Colors.white,
+                              icon: Icons.delete,
+                              label: 'Xóa',
+                            ),
+                          ],
+                        ),
+                        child: GestureDetector(
+                          onTap: () =>
+                              controller.goToDetail(controller.rxList[index]),
+                          child: TransactionWidget(
+                            controller.rxList[index],
+                          ),
                         ),
                       );
                     },
@@ -74,46 +92,6 @@ class TracsactionPage extends BaseSearchAppBarWidget<TransactionController> {
             ],
           ).paddingAll(paddingSmall),
         ),
-      ),
-    );
-  }
-
-  Widget moneyOfDate(String thu, int day, int month, int year, String money) {
-    return Container(
-      decoration: const BoxDecoration(
-          border: Border(
-              bottom:
-                  BorderSide(width: 1.0, color: Color.fromARGB(128, 0, 0, 0)))),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Row(
-              //crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                    margin: const EdgeInsets.all(5),
-                    child: Text(
-                      '$day',
-                      style: const TextStyle(fontSize: 40),
-                    )),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(thu),
-                    Text(
-                      'tháng $month $year',
-                      style: const TextStyle(
-                          fontSize: 11,
-                          color: Color.fromARGB(255, 113, 113, 113)),
-                    )
-                  ],
-                )
-              ]),
-          Text(
-            money,
-            style: const TextStyle(fontWeight: FontWeight.bold),
-          )
-        ],
       ),
     );
   }
