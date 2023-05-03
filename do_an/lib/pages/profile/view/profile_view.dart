@@ -16,25 +16,19 @@ class ProfilePage extends GetView<ProfileController> {
           padding: const EdgeInsets.all(paddingSmall),
           child: Column(
             children: [
-              const ListTile(
-                leading: CircleAvatar(
+              ListTile(
+                leading: const CircleAvatar(
                   foregroundColor: Colors.blue,
                 ),
                 title: Text(
-                  "Nguyễn Tiến Duy",
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-                subtitle: Text(
-                  "0969 696 969",
-                  style: TextStyle(color: Color.fromARGB(128, 0, 0, 0)),
+                  controller.box.read("name"),
+                  style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
               ),
               Container(
                 margin: const EdgeInsets.only(top: 10),
                 child: Column(
                   children: [
-                    menuMet(
-                        "My Account", Icons.credit_card_outlined, Colors.blue),
                     GestureDetector(
                       onTap: () => Get.toNamed(
                         AppRoutes.invoice,
@@ -61,7 +55,7 @@ class ProfilePage extends GetView<ProfileController> {
                   ],
                 ),
               ),
-              Spacer(),
+              const Spacer(),
               // Container(
               //   height: 50,
               //   decoration: BoxDecoration(

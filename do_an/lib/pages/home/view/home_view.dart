@@ -31,8 +31,7 @@ class HomePage extends BaseGetWidget<HomeController> {
                   icon: Icons.logout,
                   title: 'Good Morning',
                   function: () {
-                    final box = GetStorage();
-                    box.remove("name");
+                    controller.box.remove("name");
                     Get.offAllNamed(AppRoutes.editName);
                   },
                 ).paddingSymmetric(vertical: paddingSmall),
@@ -74,6 +73,20 @@ class HomePage extends BaseGetWidget<HomeController> {
                 ).paddingSymmetric(vertical: paddingSmall),
                 LineChart(
                   spending: controller.spedings,
+                ),
+                const SpaceBetweenLetter(
+                  title: AppString.recentTransactions,
+                  subTitle: "",
+                ).paddingSymmetric(vertical: paddingSmall),
+                ListView.builder(
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    return TransactionWidget(
+                      controller.rxList[index],
+                    );
+                  },
+                  itemCount: controller.rxList.length,
                 ),
               ],
             ).paddingAll(defaultPadding),

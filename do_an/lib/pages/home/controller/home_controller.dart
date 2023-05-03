@@ -1,6 +1,7 @@
 import 'package:do_an/base_controller/base_controller.dart';
 import 'package:do_an/database/database.dart';
 import 'package:do_an/model/spending.dart';
+import 'package:do_an/model/transaction.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
@@ -10,6 +11,7 @@ class HomeController extends BaseGetxController {
   DBHelper dbHelper = DBHelper();
   RxList<Spending> spedings = RxList<Spending>.empty();
   final box = GetStorage();
+  RxList<Transaction> rxList = RxList<Transaction>();
   @override
   void onInit() async {
     showLoading();
@@ -25,6 +27,8 @@ class HomeController extends BaseGetxController {
     await dbHelper.autoGenerateTransaction();
     totalValue.value = await dbHelper.getTotalValue("", "");
     cashValue.value = await dbHelper.getTotalValueOfCash();
+    rxList.value =
+        await dbHelper.getTop5Recent();
     spedings.value = await getValueOfMonth();
   }
 

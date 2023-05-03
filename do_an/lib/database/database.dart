@@ -68,6 +68,18 @@ class DBHelper {
     return listTransactions;
   }
 
+  Future<List<tr.Transaction>> getTop5Recent() async {
+    var dbClient = await db;
+   String  now =
+        DateFormat('yyyy-MM-dd').format(DateTime.now());
+  var transactions = await dbClient?.rawQuery(
+        'SELECT * FROM Transactions where executionTime <= "$now"  ORDER BY executionTime DESC LIMIT 5');
+    List<tr.Transaction> listTransactions = transactions!.isNotEmpty
+        ? transactions.map((c) => tr.Transaction.fromMap(c)).toList()
+        : [];
+    return listTransactions;
+  }
+
   Future<List<tr.Transaction>> getTransactionsRepeat() async {
     var dbClient = await db;
     var transactions = await dbClient?.rawQuery(

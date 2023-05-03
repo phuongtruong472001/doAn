@@ -86,6 +86,7 @@ class AppString {
   static const String viewAll = "Xem tất cả";
   static const String viewReport = "Xem báo cáo";
   static const String spendingReport = "Báo cáo chi tiêu";
+  static const String recentTransactions = "Giao dịch gần đây";
 
   //messege
   static String addSuccess(String name) => "Thêm mới $name thành công";

@@ -4,9 +4,10 @@ import 'package:do_an/pages/home/controller/home_controller.dart';
 import 'package:do_an/pages/transaction/controller/transaction_controller.dart';
 import 'package:get/get.dart';
 
+import '../../../base_controller/base_controller.dart';
 import '../../notification/controller/notification_controller.dart';
 
-class BottomNavigationBarHomeController extends GetxController {
+class BottomNavigationBarHomeController extends BaseGetxController {
   RxInt indexTab = 0.obs;
   late NotificationController notificationController;
   @override
@@ -23,12 +24,16 @@ class BottomNavigationBarHomeController extends GetxController {
     switch (index) {
       case 0:
         HomeController homeController = Get.find<HomeController>();
-        homeController.initData();
+        showLoading();
+        await homeController.initData();
+        hideLoading();
         break;
       case 1:
         TransactionController transactionController =
             Get.find<TransactionController>();
-        transactionController.initData();
+        showLoading();
+        await transactionController.initData();
+        hideLoading();
         break;
       case 2:
         if (notificationController.events.isNotEmpty) {

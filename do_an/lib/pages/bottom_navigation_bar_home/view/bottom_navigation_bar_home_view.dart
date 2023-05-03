@@ -4,6 +4,7 @@ import 'package:do_an/base/colors.dart';
 import 'package:do_an/base/icons.dart';
 import 'package:do_an/base/strings.dart';
 import 'package:do_an/pages/notification/view/notification_view.dart';
+import 'package:do_an/pages/profile/controller/profile_controller.dart';
 import 'package:do_an/pages/profile/view/profile_view.dart';
 import 'package:do_an/routes/routes.dart';
 import 'package:flutter/material.dart';
@@ -26,6 +27,7 @@ class BottomNavigationBarHomePage
     Get.put(BottomNavigationBarHomeController());
     Get.put(TransactionController());
     Get.put(HomeController());
+    Get.put(ProfileController());
 
     final iconList = [
       IconWithTitle(
@@ -82,7 +84,7 @@ class BottomNavigationBarHomePage
                       fit: BoxFit.cover,
                       color: color,
                     ).paddingAll(5),
-                     (index == 2 &&
+                    (index == 2 &&
                             controller.notificationController.events.isNotEmpty)
                         ? Positioned(
                             top: 1,
