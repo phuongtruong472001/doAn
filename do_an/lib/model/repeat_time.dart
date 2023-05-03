@@ -15,6 +15,7 @@ class RepeatTime {
   TimeOfDay? timeOfDay;
   int quantityTime;
   int typeTime;
+  bool isRepeat;
   RepeatTime({
     this.typeRepeat = 0,
     this.nameRepeat = "",
@@ -22,6 +23,7 @@ class RepeatTime {
     this.timeOfDay,
     this.quantityTime = 1,
     this.typeTime = 0,
+    this.isRepeat = false,
   });
 
   factory RepeatTime.fromJson(Map<String, dynamic> map) {

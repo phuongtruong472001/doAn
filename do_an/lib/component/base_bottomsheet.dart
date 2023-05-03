@@ -32,162 +32,229 @@ class BottomSheetSelectTime extends GetView<BaseBottomSheetController> {
             decoration: BoxDecoration(
                 color: Colors.white, borderRadius: BorderRadius.circular(20)),
             child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Obx(
-                    () => DropdownButton<String>(
-                      value: controller
-                          .listTypeTimeRepeat[controller.typeTime.value],
-                      elevation: 16,
-                      style: const TextStyle(color: Colors.deepPurple),
-                      underline: Container(
-                        height: 2,
-                        color: Colors.deepPurpleAccent,
-                      ),
-                      onChanged: (String? value) {
-                        controller.typeTime.value =
-                            controller.listTypeTimeRepeat.indexOf(value ?? '');
-                        switch (controller.typeTime.value) {
-                          case 0:
-                            controller.amountName.value = "ngày";
-                            break;
-                          case 1:
-                            controller.amountName.value = "tuần";
-                            break;
-                          case 2:
-                            controller.amountName.value = "tháng";
-                            break;
-                        }
-                      },
-                      items: controller.listTypeTimeRepeat
-                          .map<DropdownMenuItem<String>>((element) {
-                        return DropdownMenuItem<String>(
-                          value: element,
-                          child: AutoSizeText(element),
-                        );
-                      }).toList(),
-                    ),
-                  ),
-                  Row(
-                    children: [
-                      const AutoSizeText("Từ ngày "),
-                      TextButton(
-                        onPressed: () => controller.selectDate(context),
-                        child: Obx(
-                          () => AutoSizeText(
-                            DateFormat('dd/MM/yyyy')
-                                .format(controller.selectedDate.value),
-                            style: const TextStyle(
-                              color: Colors.blue,
-                              decoration: TextDecoration.underline,
-                            ),
-                          ),
+                child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    const AutoSizeText("Lặp lại"),
+                    Obx(
+                      () => Switch(
+                        thumbIcon: MaterialStateProperty.resolveWith<Icon?>(
+                          (Set<MaterialState> states) {
+                            // Thumb icon when the switch is selected.
+                            if (states.contains(MaterialState.selected)) {
+                              return const Icon(Icons.check);
+                            }
+                            return const Icon(Icons.close);
+                          },
                         ),
+                        value: controller.isRepeat.value,
+                        onChanged: (bool value) {
+                          controller.isRepeat.value = value;
+                        },
                       ),
-                      const AutoSizeText("Vào lúc "),
-                      TextButton(
-                        onPressed: () => controller.selectTime(context),
-                        child: Obx(
-                          () => AutoSizeText(
-                            controller.time.value.format(context),
-                            style: const TextStyle(
-                              color: Colors.blue,
-                              decoration: TextDecoration.underline,
+                    )
+                  ],
+                ),
+                Obx(
+                  () => (!controller.isRepeat.value)
+                      ? Column(
+                          children: [
+                            Row(
+                              children: [
+                                const AutoSizeText("Vui lòng chọn ngày"),
+                                TextButton(
+                                  onPressed: () =>
+                                      controller.selectDate(context),
+                                  child: Obx(
+                                    () => AutoSizeText(
+                                      DateFormat('dd/MM/yyyy').format(
+                                          controller.selectedDate.value),
+                                      style: const TextStyle(
+                                        color: Colors.blue,
+                                        decoration: TextDecoration.underline,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      const AutoSizeText("Mỗi "),
-                      SizedBox(
-                        width: 80,
-                        height: 30,
-                        child: TextField(
-                          controller: controller.quantityController,
-                          inputFormatters: [
-                            FilteringTextInputFormatter.allow(
-                              RegExp(r'[0-9]'),
-                            ),
-                            LengthLimitingTextInputFormatter(3),
+                            Row(
+                              children: [
+                                const AutoSizeText("Vào lúc "),
+                                TextButton(
+                                  onPressed: () =>
+                                      controller.selectTime(context),
+                                  child: Obx(
+                                    () => AutoSizeText(
+                                      controller.time.value.format(context),
+                                      style: const TextStyle(
+                                        color: Colors.blue,
+                                        decoration: TextDecoration.underline,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            )
                           ],
-                          keyboardType: TextInputType.number,
+                        )
+                      : Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            DropdownButton<String>(
+                              value: controller.listTypeTimeRepeat[
+                                  controller.typeTime.value],
+                              elevation: 16,
+                              style: const TextStyle(color: Colors.deepPurple),
+                              underline: Container(
+                                height: 2,
+                                color: Colors.deepPurpleAccent,
+                              ),
+                              onChanged: (String? value) {
+                                controller.typeTime.value = controller
+                                    .listTypeTimeRepeat
+                                    .indexOf(value ?? '');
+                                switch (controller.typeTime.value) {
+                                  case 0:
+                                    controller.amountName.value = "ngày";
+                                    break;
+                                  case 1:
+                                    controller.amountName.value = "tuần";
+                                    break;
+                                  case 2:
+                                    controller.amountName.value = "tháng";
+                                    break;
+                                }
+                              },
+                              items: controller.listTypeTimeRepeat
+                                  .map<DropdownMenuItem<String>>((element) {
+                                return DropdownMenuItem<String>(
+                                  value: element,
+                                  child: AutoSizeText(element),
+                                );
+                              }).toList(),
+                            ),
+                            Row(
+                              children: [
+                                const AutoSizeText("Từ ngày "),
+                                TextButton(
+                                  onPressed: () =>
+                                      controller.selectDate(context),
+                                  child: Obx(
+                                    () => AutoSizeText(
+                                      DateFormat('dd/MM/yyyy').format(
+                                          controller.selectedDate.value),
+                                      style: const TextStyle(
+                                        color: Colors.blue,
+                                        decoration: TextDecoration.underline,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                const AutoSizeText("Vào lúc "),
+                                TextButton(
+                                  onPressed: () =>
+                                      controller.selectTime(context),
+                                  child: Obx(
+                                    () => AutoSizeText(
+                                      controller.time.value.format(context),
+                                      style: const TextStyle(
+                                        color: Colors.blue,
+                                        decoration: TextDecoration.underline,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                const AutoSizeText("Mỗi "),
+                                SizedBox(
+                                  width: 80,
+                                  height: 30,
+                                  child: TextField(
+                                    controller: controller.quantityController,
+                                    inputFormatters: [
+                                      FilteringTextInputFormatter.allow(
+                                        RegExp(r'[0-9]'),
+                                      ),
+                                      LengthLimitingTextInputFormatter(3),
+                                    ],
+                                    keyboardType: TextInputType.number,
+                                  ),
+                                ),
+                                AutoSizeText(controller.amountName.value),
+                              ],
+                            ),
+                            AutoSizeText(
+                                "vào cùng 1 ngày hàng ${controller.amountName.value}"),
+                            DropdownButton<String>(
+                              value: controller
+                                  .listTypeRepeat[controller.typeRepeat.value],
+                              elevation: 16,
+                              style: const TextStyle(color: Colors.deepPurple),
+                              underline: Container(
+                                height: 2,
+                                color: Colors.deepPurpleAccent,
+                              ),
+                              onChanged: (String? value) {
+                                controller.typeRepeat.value = controller
+                                    .listTypeRepeat
+                                    .indexOf(value ?? '');
+                                switch (controller.typeRepeat.value) {
+                                  case 0:
+                                    controller.amountName.value = "ngày";
+                                    break;
+                                  case 1:
+                                    controller.amountName.value = "tuần";
+                                    break;
+                                  case 2:
+                                    controller.amountName.value = "tháng";
+                                    break;
+                                }
+                              },
+                              items: controller.listTypeRepeat
+                                  .map<DropdownMenuItem<String>>((element) {
+                                return DropdownMenuItem<String>(
+                                  value: element,
+                                  child: AutoSizeText(element),
+                                );
+                              }).toList(),
+                            ),
+                            Row(
+                              children: [
+                                TextButton(
+                                  onPressed: () {
+                                    Get.back();
+                                  },
+                                  child: const AutoSizeText(
+                                    AppString.cancel,
+                                  ),
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    controller.doneRepeatTime();
+                                    Get.back(
+                                        result: controller.repeatTime.value);
+                                  },
+                                  child: const AutoSizeText(
+                                    AppString.accept,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
                         ),
-                      ),
-                      Obx(
-                        () => AutoSizeText(controller.amountName.value),
-                      ),
-                    ],
-                  ),
-                  Obx(
-                    () => AutoSizeText(
-                        "vào cùng 1 ngày hàng ${controller.amountName.value}"),
-                  ),
-                  Obx(
-                    () => DropdownButton<String>(
-                      value: controller
-                          .listTypeRepeat[controller.typeRepeat.value],
-                      elevation: 16,
-                      style: const TextStyle(color: Colors.deepPurple),
-                      underline: Container(
-                        height: 2,
-                        color: Colors.deepPurpleAccent,
-                      ),
-                      onChanged: (String? value) {
-                        controller.typeRepeat.value =
-                            controller.listTypeRepeat.indexOf(value ?? '');
-                        switch (controller.typeRepeat.value) {
-                          case 0:
-                            controller.amountName.value = "ngày";
-                            break;
-                          case 1:
-                            controller.amountName.value = "tuần";
-                            break;
-                          case 2:
-                            controller.amountName.value = "tháng";
-                            break;
-                        }
-                      },
-                      items: controller.listTypeRepeat
-                          .map<DropdownMenuItem<String>>((element) {
-                        return DropdownMenuItem<String>(
-                          value: element,
-                          child: AutoSizeText(element),
-                        );
-                      }).toList(),
-                    ),
-                  ),
-                  Row(
-                    children: [
-                      TextButton(
-                        onPressed: () {
-                          Get.back();
-                        },
-                        child: const AutoSizeText(
-                          AppString.cancel,
-                        ),
-                      ),
-                      TextButton(
-                        onPressed: () {
-                          controller.doneRepeatTime();
-                          Get.back(result: controller.repeatTime.value);
-                        },
-                        child: const AutoSizeText(
-                          AppString.accept,
-                        ),
-                      ),
-                    ],
-                  )
-                ],
-              ).paddingAll(
-                defaultPadding,
-              ),
+                )
+              ],
+            )).paddingAll(
+              defaultPadding,
             ),
-          ).paddingSymmetric(horizontal: defaultPadding),
-        ),
+          ),
+        ).paddingSymmetric(horizontal: defaultPadding),
       ],
     );
   }
@@ -212,6 +279,7 @@ class BaseBottomSheetController extends GetxController {
   Rx<TimeOfDay> time = const TimeOfDay(hour: 7, minute: 15).obs;
   RxInt typeTime = 0.obs;
   RxInt typeRepeat = 0.obs;
+  RxBool isRepeat = false.obs;
   RxString amountName = "ngày".obs;
 
   void selectDate(BuildContext context) async {
@@ -237,6 +305,7 @@ class BaseBottomSheetController extends GetxController {
     repeatTime.value.typeTime = typeTime.value;
     repeatTime.value.quantityTime = int.parse(quantityController.text);
     repeatTime.value.typeRepeat = typeRepeat.value;
+    repeatTime.value.isRepeat = isRepeat.value;
   }
 
   void selectTime(BuildContext context) async {

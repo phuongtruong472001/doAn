@@ -172,7 +172,7 @@ class CreateTransactionController extends GetxController {
               .dateTime;
           val.typeRepeat = value.typeRepeat;
           val.typeTime = value.typeTime;
-          val.isRepeat = true;
+          val.isRepeat = value.isRepeat;
         });
       } else {
         Get.delete<BaseBottomSheetController>();

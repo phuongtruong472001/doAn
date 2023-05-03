@@ -14,7 +14,7 @@ class Transaction {
   String categoryName;
   int? allowNegative;
   int isIncrease;
-  bool? isRepeat;
+  bool isRepeat;
   int? typeTime;
   int? typeRepeat;
   DateTime? endTime;

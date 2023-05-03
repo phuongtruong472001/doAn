@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
+import '../../../base/icons.dart';
 import '../../../base/strings.dart';
 import '../../../component/base_input_with_label.dart';
 import '../../../component/input_text_form_field_model.dart';
@@ -75,14 +76,20 @@ class CreateTransactionPage extends GetView<CreateTransactionController> {
                       iconLeading: Icons.notes_outlined,
                     ),
                   ),
-                  label: AppString.edit,
+                  label: AppString.createNote,
                 ),
                 GestureDetector(
                   onTap: () => controller.chooseCategory(),
                   child: Card(
                     child: Obx(
                       () => ListTile(
-                          leading: const Icon(Icons.book),
+                          leading: controller.transaction.value.categoryId! >= 0
+                              ? Image.asset(
+                                  "${ImageAsset.linkIconCategory}${controller.transaction.value.categoryId!}.png",
+                                  width: 40,
+                                  height: 40,
+                                )
+                              : null,
                           trailing: AutoSizeText(
                             AppString.selectCategory,
                             style: Get.textTheme.bodyMedium!
@@ -98,15 +105,14 @@ class CreateTransactionPage extends GetView<CreateTransactionController> {
                   onTap: () => controller.selectDateRepeat(context),
                   child: Card(
                     child: ListTile(
-                      leading: const Icon(Icons.book),
                       trailing: AutoSizeText(
                         AppString.hintTime,
                         style: Get.textTheme.bodyMedium!
                             .copyWith(color: kPrimaryColor),
                       ),
-                      title: const AutoSizeText(
-                        AppString.notRepeat,
-                      ),
+                      title:  Obx(() =>AutoSizeText(
+                      controller.transaction.value.isRepeat?"Lặp lại": DateFormat('kk:mm dd-MM-yyyy').format( controller.selectedDate.value),
+                      ) ),
                     ),
                   ).paddingSymmetric(vertical: paddingSmall),
                 ),
@@ -136,7 +142,13 @@ class CreateTransactionPage extends GetView<CreateTransactionController> {
                   child: Card(
                     child: Obx(
                       () => ListTile(
-                        leading: const Icon(Icons.book),
+                        leading: controller.transaction.value.fundID! >= 0
+                            ? Image.asset(
+                                "${ImageAsset.linkIconFund}${controller.transaction.value.fundID!}.png",
+                                width: 40,
+                                height: 40,
+                              )
+                            : null,
                         trailing: AutoSizeText(
                           AppString.selectFund,
                           style: Get.textTheme.bodyMedium!
