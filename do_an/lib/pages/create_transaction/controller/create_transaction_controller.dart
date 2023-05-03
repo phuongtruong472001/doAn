@@ -114,14 +114,16 @@ class CreateTransactionController extends GetxController {
     if (transaction.value.typeRepeat == 1) {
       if (transaction.value.typeTime == 0) {
         transaction.value.endTime = Jiffy(transaction.value.endTime)
-            .add(duration: const Duration(days: 1))
+            .add(duration: Duration(days: transaction.value.amount))
             .dateTime;
       } else if (transaction.value.typeTime == 1) {
-        transaction.value.endTime =
-            Jiffy(transaction.value.endTime).add(weeks: 1).dateTime;
+        transaction.value.endTime = Jiffy(transaction.value.endTime)
+            .add(weeks: transaction.value.amount)
+            .dateTime;
       } else {
-        transaction.value.endTime =
-            Jiffy(transaction.value.endTime).add(months: 1).dateTime;
+        transaction.value.endTime = Jiffy(transaction.value.endTime)
+            .add(months: transaction.value.amount)
+            .dateTime;
       }
     }
 
@@ -173,6 +175,7 @@ class CreateTransactionController extends GetxController {
           val.typeRepeat = value.typeRepeat;
           val.typeTime = value.typeTime;
           val.isRepeat = value.isRepeat;
+          val.amount = value.amount;
         });
       } else {
         Get.delete<BaseBottomSheetController>();

@@ -224,31 +224,30 @@ class BottomSheetSelectTime extends GetView<BaseBottomSheetController> {
                                 );
                               }).toList(),
                             ),
-                            Row(
-                              children: [
-                                TextButton(
-                                  onPressed: () {
-                                    Get.back();
-                                  },
-                                  child: const AutoSizeText(
-                                    AppString.cancel,
-                                  ),
-                                ),
-                                TextButton(
-                                  onPressed: () {
-                                    controller.doneRepeatTime();
-                                    Get.back(
-                                        result: controller.repeatTime.value);
-                                  },
-                                  child: const AutoSizeText(
-                                    AppString.accept,
-                                  ),
-                                ),
-                              ],
-                            ),
                           ],
                         ),
-                )
+                ),
+                Row(
+                  children: [
+                    TextButton(
+                      onPressed: () {
+                        Get.back();
+                      },
+                      child: const AutoSizeText(
+                        AppString.cancel,
+                      ),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        controller.doneRepeatTime();
+                        Get.back(result: controller.repeatTime.value);
+                      },
+                      child: const AutoSizeText(
+                        AppString.accept,
+                      ),
+                    ),
+                  ],
+                ),
               ],
             )).paddingAll(
               defaultPadding,
@@ -306,6 +305,7 @@ class BaseBottomSheetController extends GetxController {
     repeatTime.value.quantityTime = int.parse(quantityController.text);
     repeatTime.value.typeRepeat = typeRepeat.value;
     repeatTime.value.isRepeat = isRepeat.value;
+    repeatTime.value.amount = int.parse(quantityController.text);
   }
 
   void selectTime(BuildContext context) async {

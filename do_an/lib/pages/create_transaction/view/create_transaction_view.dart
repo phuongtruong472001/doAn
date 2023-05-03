@@ -110,9 +110,13 @@ class CreateTransactionPage extends GetView<CreateTransactionController> {
                         style: Get.textTheme.bodyMedium!
                             .copyWith(color: kPrimaryColor),
                       ),
-                      title:  Obx(() =>AutoSizeText(
-                      controller.transaction.value.isRepeat?"Lặp lại": DateFormat('kk:mm dd-MM-yyyy').format( controller.selectedDate.value),
-                      ) ),
+                      title: Obx(() => AutoSizeText(
+                            controller.transaction.value.isRepeat
+                                ? "Lặp lại vào lúc ${DateFormat('kk:mm dd-MM-yyyy').format(controller.transaction.value.executionTime!)}"
+                                : DateFormat('kk:mm dd-MM-yyyy').format(
+                                    controller
+                                        .transaction.value.executionTime!),
+                          )),
                     ),
                   ).paddingSymmetric(vertical: paddingSmall),
                 ),

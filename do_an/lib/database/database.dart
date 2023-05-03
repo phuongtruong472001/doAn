@@ -70,9 +70,8 @@ class DBHelper {
 
   Future<List<tr.Transaction>> getTop5Recent() async {
     var dbClient = await db;
-   String  now =
-        DateFormat('yyyy-MM-dd').format(DateTime.now());
-  var transactions = await dbClient?.rawQuery(
+    String now = DateFormat('yyyy-MM-dd').format(DateTime.now());
+    var transactions = await dbClient?.rawQuery(
         'SELECT * FROM Transactions where executionTime <= "$now"  ORDER BY executionTime DESC LIMIT 5');
     List<tr.Transaction> listTransactions = transactions!.isNotEmpty
         ? transactions.map((c) => tr.Transaction.fromMap(c)).toList()
@@ -224,7 +223,7 @@ class DBHelper {
   Future<bool> addTransaction(tr.Transaction transaction) async {
     var dbClient = await db;
     var status = await dbClient?.rawInsert(
-      'INSERT INTO Transactions(value,description,eventId,categoryId,executionTime,fundID,categoryName,eventName,fundName,allowNegative,isIncrease,isRepeat,typeTime,typeRepeat,endTime,imageLink) VALUES(?, ?, ?, ?, ?, ?,?,?,?,?,?,?,?,?,?,?)',
+      'INSERT INTO Transactions(value,description,eventId,categoryId,executionTime,fundID,categoryName,eventName,fundName,allowNegative,isIncrease,isRepeat,typeTime,typeRepeat,endTime,imageLink,amount) VALUES(?, ?, ?, ?, ?, ?,?,?,?,?,?,?,?,?,?,?,?)',
       [
         transaction.value,
         transaction.description,
@@ -241,7 +240,8 @@ class DBHelper {
         transaction.typeTime,
         transaction.typeRepeat,
         DateFormat('yyyy-MM-dd kk:mm').format(transaction.endTime!),
-        transaction.imageLink
+        transaction.imageLink,
+        transaction.amount
       ],
     );
     if (status != 0) {
@@ -289,7 +289,7 @@ class DBHelper {
   Future<bool> editTransaction(tr.Transaction transaction, int oldValue) async {
     var dbClient = await db;
     var status = await dbClient?.rawUpdate(
-      'Update Transactions SET value=${transaction.value} ,description="${transaction.description}",eventId=${transaction.eventId},categoryId=${transaction.categoryId},executionTime="${DateFormat('yyyy-MM-dd kk:mm').format(transaction.executionTime!)}",fundID=${transaction.fundID},categoryName="${transaction.categoryName}",eventName="${transaction.eventName}",fundName="${transaction.fundName}",imageLink="${transaction.imageLink}"  WHERE id=${transaction.id}',
+      'Update Transactions SET value=${transaction.value} ,description="${transaction.description}",eventId=${transaction.eventId},categoryId=${transaction.categoryId},executionTime="${DateFormat('yyyy-MM-dd kk:mm').format(transaction.executionTime!)}",fundID=${transaction.fundID},categoryName="${transaction.categoryName}",eventName="${transaction.eventName}",fundName="${transaction.fundName}",imageLink="${transaction.imageLink}",amount=${transaction.amount}  WHERE id=${transaction.id}',
     );
     transaction.value = transaction.value! - oldValue;
     if (status != 0) {
@@ -412,11 +412,12 @@ class DBHelper {
         var tempDate = Jiffy(transaction.endTime ?? DateTime.now());
         while (Jiffy(now).isAfter(tempDate)) {
           if (transaction.typeTime == 0) {
-            tempDate = Jiffy(tempDate).add(duration: const Duration(days: 1));
+            tempDate = Jiffy(tempDate)
+                .add(duration: Duration(days: transaction.amount));
           } else if (transaction.typeTime == 1) {
-            tempDate = Jiffy(tempDate).add(weeks: 1);
+            tempDate = Jiffy(tempDate).add(weeks: transaction.amount);
           } else {
-            tempDate = Jiffy(tempDate).add(months: 1);
+            tempDate = Jiffy(tempDate).add(months: transaction.amount);
           }
 
           if (Jiffy(now).isAfter(Jiffy(tempDate))) {
