@@ -320,12 +320,17 @@ class DBHelper {
       'DELETE FROM Transactions WHERE id=${transaction.id}',
     );
     if (status != 0) {
-      if (transaction.isIncrease != 1) {
-        transaction.value = transaction.value! * (-1);
+      int value = transaction.value!;
+      if (transaction.isIncrease == 1) {
+        value = transaction.value! * (-1);
       }
+      transaction.value =
+          transaction.value! * (-1); //cộng lại những giao dịch âm
       await updateFund(transaction);
       if (transaction.eventId! >= 0) {
-        updateEvent(transaction);
+        await dbClient?.rawUpdate(
+          'Update Event SET value=value+$value WHERE id=${transaction.eventId}',
+        );
       }
     }
     return status != 0;

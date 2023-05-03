@@ -60,8 +60,9 @@ class FundPage extends GetView<FundController> {
                 itemBuilder: (context, index) => GestureDetector(
                   onTap: () => controller.onTapItem(controller.funds[index]),
                   child: ListTile(
-                    leading: Image.asset(ImageAsset.linkIconFund +
-                        controller.funds[index].icon!),
+                    leading: Image.asset(
+                      ImageAsset.linkIconFund + controller.funds[index].icon!,
+                    ),
                     title: AutoSizeText(
                       controller.funds[index].name ?? "",
                     ),
