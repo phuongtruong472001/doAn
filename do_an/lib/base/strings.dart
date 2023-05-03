@@ -24,7 +24,7 @@ class AppString {
   static const String happenning = "ĐANG DIỄN RA";
 
   static const String invoice = 'Hóa đơn';
-  static const String account = 'Tài khoản';
+  static const String event = 'Sự kiện';
   static const String password = 'Mật khẩu';
 
   static const String history = "Lịch sử";

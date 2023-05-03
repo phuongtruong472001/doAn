@@ -26,13 +26,14 @@ class NotificationPage extends GetView<NotificationController> {
             ).paddingAll(defaultPadding),
             Expanded(
               child: ListView.builder(
-                itemBuilder: (context, index) => Card(
-                  child: ItemCard(
-                    Icons.notifications,
-                    controller.allEvents[index].name ?? "",
-                    title:
-                        "Diễn ra vào ${DateFormat('kk:mm dd-MM-yyyy').format(controller.allEvents[index].date ?? DateTime.now())}",
-                  ),
+                itemBuilder: (context, index) => ItemCard(
+                  Icons.notifications,
+                  controller.allEvents[index].name ?? "",
+                  color: controller.allEvents[index].isNotified
+                      ? Colors.white
+                      : const Color.fromARGB(255, 241, 238, 238),
+                  title:
+                      "Diễn ra vào ${DateFormat('kk:mm dd-MM-yyyy').format(controller.allEvents[index].date ?? DateTime.now())}",
                 ),
                 itemCount: controller.allEvents.length,
                 shrinkWrap: true,

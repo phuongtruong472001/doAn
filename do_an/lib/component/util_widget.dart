@@ -111,7 +111,7 @@ class UtilWidget {
       },
       prefixIcon: const Icon(
         Icons.search,
-        color: Colors.white,
+        color: Colors.black,
         size: 20,
       ),
       suffixIcon: Obx(() => Visibility(

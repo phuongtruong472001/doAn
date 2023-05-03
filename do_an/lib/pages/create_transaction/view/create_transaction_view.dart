@@ -93,44 +93,44 @@ class CreateTransactionPage extends GetView<CreateTransactionController> {
                     ),
                   ).paddingSymmetric(vertical: paddingSmall),
                 ),
-                if (Get.arguments == true) ...[
-                  GestureDetector(
-                    onTap: () => controller.selectDateRepeat(context),
-                    child: Card(
-                      child: ListTile(
-                        leading: const Icon(Icons.book),
-                        trailing: AutoSizeText(
-                          AppString.hintTime,
-                          style: Get.textTheme.bodyMedium!
-                              .copyWith(color: kPrimaryColor),
-                        ),
-                        title: const AutoSizeText(
-                          AppString.notRepeat,
-                        ),
+                // if (Get.arguments == true) ...[
+                GestureDetector(
+                  onTap: () => controller.selectDateRepeat(context),
+                  child: Card(
+                    child: ListTile(
+                      leading: const Icon(Icons.book),
+                      trailing: AutoSizeText(
+                        AppString.hintTime,
+                        style: Get.textTheme.bodyMedium!
+                            .copyWith(color: kPrimaryColor),
                       ),
-                    ).paddingSymmetric(vertical: paddingSmall),
-                  ),
-                ] else ...[
-                  GestureDetector(
-                    onTap: () => controller.selectDate(context),
-                    child: Card(
-                      child: Obx(
-                        () => ListTile(
-                            leading: const Icon(Icons.date_range),
-                            trailing: AutoSizeText(
-                              AppString.hintTime,
-                              style: Get.textTheme.bodyMedium!
-                                  .copyWith(color: kPrimaryColor),
-                            ),
-                            title: AutoSizeText(
-                              DateFormat.yMMMd()
-                                  .format(controller.selectedDate.value),
-                              style: Get.textTheme.bodyMedium,
-                            )),
+                      title: const AutoSizeText(
+                        AppString.notRepeat,
                       ),
-                    ).paddingSymmetric(vertical: paddingSmall),
-                  ),
-                ],
+                    ),
+                  ).paddingSymmetric(vertical: paddingSmall),
+                ),
+                // ] else ...[
+                //   GestureDetector(
+                //     onTap: () => controller.selectDate(context),
+                //     child: Card(
+                //       child: Obx(
+                //         () => ListTile(
+                //             leading: const Icon(Icons.date_range),
+                //             trailing: AutoSizeText(
+                //               AppString.hintTime,
+                //               style: Get.textTheme.bodyMedium!
+                //                   .copyWith(color: kPrimaryColor),
+                //             ),
+                //             title: AutoSizeText(
+                //               DateFormat.yMMMd()
+                //                   .format(controller.selectedDate.value),
+                //               style: Get.textTheme.bodyMedium,
+                //             )),
+                //       ),
+                //     ).paddingSymmetric(vertical: paddingSmall),
+                //   ),
+                // ],
                 GestureDetector(
                   onTap: () => controller.chooseFund(),
                   child: Card(

@@ -77,27 +77,34 @@ class CreateFundPage extends GetView<CreateFundController> {
                   ),
                   label: AppString.value,
                 ),
-                Obx(
-                  () => DropdownButton<String>(
-                    value: controller.listWallet[controller.typeWallet.value],
-                    elevation: 16,
-                    style: const TextStyle(color: Colors.deepPurple),
-                    underline: Container(
-                      height: 2,
-                      color: Colors.deepPurpleAccent,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const AutoSizeText("Chọn loại ví"),
+                    Obx(
+                      () => DropdownButton<String>(
+                        value:
+                            controller.listWallet[controller.typeWallet.value],
+                        elevation: 16,
+                        style: const TextStyle(color: Colors.blueAccent),
+                        underline: Container(
+                          height: 2,
+                          color: Colors.blueAccent,
+                        ),
+                        onChanged: (String? value) {
+                          controller.typeWallet.value =
+                              controller.listWallet.indexOf(value ?? '');
+                        },
+                        items: controller.listWallet
+                            .map<DropdownMenuItem<String>>((element) {
+                          return DropdownMenuItem<String>(
+                            value: element,
+                            child: AutoSizeText(element),
+                          );
+                        }).toList(),
+                      ),
                     ),
-                    onChanged: (String? value) {
-                      controller.typeWallet.value =
-                          controller.listWallet.indexOf(value ?? '');
-                    },
-                    items: controller.listWallet
-                        .map<DropdownMenuItem<String>>((element) {
-                      return DropdownMenuItem<String>(
-                        value: element,
-                        child: AutoSizeText(element),
-                      );
-                    }).toList(),
-                  ),
+                  ],
                 ),
               ],
             ).paddingSymmetric(

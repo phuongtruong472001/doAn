@@ -3,9 +3,9 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:do_an/base/colors.dart';
 import 'package:do_an/base/icons.dart';
 import 'package:do_an/base/strings.dart';
+import 'package:do_an/pages/event/controller/event_controller.dart';
+import 'package:do_an/pages/event/view/event_view.dart';
 import 'package:do_an/pages/notification/view/notification_view.dart';
-import 'package:do_an/pages/profile/controller/profile_controller.dart';
-import 'package:do_an/pages/profile/view/profile_view.dart';
 import 'package:do_an/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -24,10 +24,10 @@ class BottomNavigationBarHomePage
   @override
   Widget build(BuildContext context) {
     Get.put(NotificationController());
+    Get.put(EventController());
     Get.put(BottomNavigationBarHomeController());
     Get.put(TransactionController());
     Get.put(HomeController());
-    Get.put(ProfileController());
 
     final iconList = [
       IconWithTitle(
@@ -44,14 +44,14 @@ class BottomNavigationBarHomePage
       ),
       IconWithTitle(
         iconLink: ImageAsset.icAccount,
-        title: AppString.account,
+        title: AppString.event,
       ),
     ];
     const pages = <Widget>[
       HomePage(),
       TracsactionPage(),
       NotificationPage(),
-      ProfilePage(),
+      EventPage(),
     ];
     buildBody(int value) {
       return pages[value];
@@ -90,7 +90,8 @@ class BottomNavigationBarHomePage
                             top: 1,
                             right: 2,
                             child: AutoSizeText(
-                              "1",
+                              controller.notificationController.events.length
+                                  .toString(),
                               style: Get.textTheme.bodySmall!.copyWith(
                                   color: Colors.red,
                                   fontWeight: FontWeight.bold),
@@ -120,8 +121,8 @@ class BottomNavigationBarHomePage
           splashSpeedInMilliseconds: 300,
           notchSmoothness: NotchSmoothness.defaultEdge,
           gapLocation: GapLocation.center,
-          leftCornerRadius: 32,
-          rightCornerRadius: 32,
+          leftCornerRadius: 8,
+          rightCornerRadius: 8,
           onTap: (index) => controller.onTapped(index),
           shadow: const BoxShadow(
             offset: Offset(0, 1),

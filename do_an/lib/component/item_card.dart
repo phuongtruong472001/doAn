@@ -9,50 +9,53 @@ import '../base/colors.dart';
 import '../base/icons.dart';
 
 class ItemCard extends StatelessWidget {
-  ItemCard(
-    this.icon,
-    this.content, {
-    Key? key,
-    this.title,
-    this.subTitle,
-    this.color,
-    this.isTreeLine = false,
-  }) : super(key: key);
+  ItemCard(this.icon, this.content,
+      {Key? key,
+      this.title,
+      this.subTitle,
+      this.color,
+      this.isTreeLine = false,
+      this.colorCard = Colors.white})
+      : super(key: key);
   late IconData icon;
   late String content;
   late String? title;
   late String? subTitle;
   late Color? color;
   late bool? isTreeLine;
+  late Color colorCard;
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      leading: Icon(icon),
-      title: AutoSizeText(
-        content,
-        style: Get.textTheme.bodyLarge!.copyWith(
-          fontWeight: FontWeight.bold,
+    return Card(
+      color: colorCard,
+      child: ListTile(
+        leading: Icon(icon),
+        title: AutoSizeText(
+          content,
+          style: Get.textTheme.bodyLarge!.copyWith(
+            fontWeight: FontWeight.bold,
+          ),
         ),
+        subtitle: title != null
+            ? AutoSizeText(
+                title ?? "",
+                style: Get.textTheme.bodyMedium!.copyWith(
+                  color: kSecondaryColor,
+                ),
+              )
+            : null,
+        trailing: subTitle != null
+            ? AutoSizeText(
+                subTitle ?? "",
+                style: Get.textTheme.bodyMedium!.copyWith(
+                  color: color,
+                  fontWeight: FontWeight.bold,
+                ),
+              )
+            : null,
+        isThreeLine: isTreeLine ?? false,
       ),
-      subtitle: title != null
-          ? AutoSizeText(
-              title ?? "",
-              style: Get.textTheme.bodyMedium!.copyWith(
-                color: kSecondaryColor,
-              ),
-            )
-          : null,
-      trailing: subTitle != null
-          ? AutoSizeText(
-              subTitle ?? "",
-              style: Get.textTheme.bodyMedium!.copyWith(
-                color: color,
-                fontWeight: FontWeight.bold,
-              ),
-            )
-          : null,
-      isThreeLine: isTreeLine ?? false,
     );
   }
 }
@@ -104,7 +107,7 @@ class TransactionWidget extends StatelessWidget {
           ),
           Text(' ${transaction.value.toString().toVND(unit: 'đ')}',
               style: TextStyle(
-                  color: transaction.isIncrease == 5
+                  color: transaction.isIncrease == 1
                       ? Colors.greenAccent
                       : Colors.red,
                   fontSize: 14,
