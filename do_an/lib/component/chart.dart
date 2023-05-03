@@ -25,14 +25,14 @@ class LineChart extends StatelessWidget {
   SfCartesianChart _buildInfiniteScrollingChart() {
     return SfCartesianChart(
       primaryXAxis: DateTimeAxis(
-          labelStyle: Get.textTheme.bodyText1!.copyWith(color: Colors.black),
+          labelStyle: Get.textTheme.bodyLarge!.copyWith(color: Colors.black),
           // majorTickLines: const MajorTickLines(color: Colors.red),
           majorGridLines: const MajorGridLines(width: 0),
           intervalType: DateTimeIntervalType.auto,
           dateFormat: DateFormat.yM()),
       primaryYAxis: NumericAxis(
           isVisible: false,
-          labelStyle: Get.textTheme.bodyText1!.copyWith(color: Colors.black)),
+          labelStyle: Get.textTheme.bodyLarge!.copyWith(color: Colors.black)),
       //can scroll
       zoomPanBehavior: ZoomPanBehavior(
         enablePanning: true,
@@ -56,12 +56,13 @@ class LineChart extends StatelessWidget {
         dataSource: spending,
         color: Colors.red,
         enableTooltip: true,
+        width: 3,
         xValueMapper: (sales, _) => sales.dateTime,
         yValueMapper: (sales, _) => sales.receive,
         dataLabelSettings: DataLabelSettings(
           isVisible: true,
           color: Colors.black,
-          textStyle: Get.textTheme.bodyText1!.copyWith(color: Colors.white),
+          textStyle: Get.textTheme.bodyLarge!.copyWith(color: Colors.white),
           labelPosition: ChartDataLabelPosition
               .outside, // Places the data labels outside the pie area
           // By setting the below property to none value, does not hides the data label that are getting hidden due to intersection
@@ -70,6 +71,7 @@ class LineChart extends StatelessWidget {
       ),
       SplineSeries<Spending, DateTime>(
           dataSource: spending,
+          width: 3,
           color: Colors.green,
           enableTooltip: true,
           xValueMapper: (sales, _) => sales.dateTime,
@@ -77,7 +79,7 @@ class LineChart extends StatelessWidget {
           dataLabelSettings: DataLabelSettings(
               isVisible: true,
               color: Colors.black,
-              textStyle: Get.textTheme.bodyText1!.copyWith(color: Colors.white),
+              textStyle: Get.textTheme.bodyLarge!.copyWith(color: Colors.white),
               labelPosition: ChartDataLabelPosition
                   .outside, // Places the data labels outside the pie area
               // By setting the below property to none value, does not hides the data label that are getting hidden due to intersection
