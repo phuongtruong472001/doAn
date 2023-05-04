@@ -51,6 +51,7 @@ abstract class BaseSearchAppBarWidget<T extends BaseSearchAppbarController>
       ),
       floatingActionButton: function != null
           ? FloatingActionButton(
+              heroTag: "btnAdd",
               onPressed: () => function.call(),
               backgroundColor: Colors.green,
               child: const Icon(

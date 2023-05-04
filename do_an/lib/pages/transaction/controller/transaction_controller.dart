@@ -1,10 +1,10 @@
 import 'package:do_an/base_controller/base_controller_src.dart';
 import 'package:do_an/model/transaction.dart' as tr;
 import 'package:do_an/routes/routes.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:jiffy/jiffy.dart';
-import 'package:sqflite/sqlite_api.dart';
 
 import '../../../database/database.dart';
 
@@ -86,9 +86,22 @@ class TransactionController extends BaseSearchAppbarController {
   }
 
   void deleteTransaction(tr.Transaction transaction) async {
-    bool status = await dbHelper.deleteTransaction(transaction);
-    if (status) {
-      initData();
-    }
+    Get.dialog(AlertDialog(
+      title: const Text('Please Confirm'),
+      content: const Text('Are you sure to remove the box?'),
+      actions: [
+        // The "Yes" button
+        TextButton(
+            onPressed: () {
+              Get.back();
+            },
+            child: const Text('Yes')),
+        TextButton(onPressed: () {}, child: const Text('No'))
+      ],
+    ));
+    // bool status = await dbHelper.deleteTransaction(transaction);
+    // if (status) {
+    //   initData();
+    // }
   }
 }
