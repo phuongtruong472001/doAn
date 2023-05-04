@@ -11,3 +11,7 @@ const borderRadiusSmall = 8.0;
 
 // size icon
 const defaultSizeIcon = 25.0;
+
+//item of page
+
+const defaultItemOfPage = 25;

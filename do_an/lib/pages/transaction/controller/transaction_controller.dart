@@ -1,3 +1,4 @@
+import 'package:do_an/base/dimen.dart';
 import 'package:do_an/base_controller/base_controller_src.dart';
 import 'package:do_an/model/transaction.dart' as tr;
 import 'package:do_an/routes/routes.dart';
@@ -7,6 +8,7 @@ import 'package:intl/intl.dart';
 import 'package:jiffy/jiffy.dart';
 
 import '../../../database/database.dart';
+import '../../../model/transaction.dart';
 
 class TransactionController extends BaseSearchAppbarController {
   RxInt indexTabbar = 1.obs;
@@ -14,6 +16,8 @@ class TransactionController extends BaseSearchAppbarController {
   String toDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
   var dbHelper = DBHelper();
   DateTime date = DateTime.now();
+  int page = 1;
+  List<Transaction> allTransaction = [];
   @override
   void onInit() {
     initData();
@@ -63,19 +67,24 @@ class TransactionController extends BaseSearchAppbarController {
         DateFormat('yyyy-MM-dd').format(DateTime(date.year, date.month, 1));
     toDate = DateFormat('yyyy-MM-dd')
         .format(Jiffy(fromDate).add(months: 1, days: -1).dateTime);
-    List<tr.Transaction> listTransaction =
-        await dbHelper.getTransactions(fromDate, toDate);
+    allTransaction = await dbHelper.getTransactions(fromDate, toDate);
     //dbHelper.getTotalValueOfCategory(0, "", "");
-    rxList.value = listTransaction;
+    rxList.value = allTransaction.take(defaultItemOfPage * page).toList();
   }
 
   @override
   Future<void> onLoadMore() async {
+    page++;
     refreshController.loadComplete();
+    rxList.add(allTransaction
+        .skip(defaultItemOfPage * page)
+        .take(defaultItemOfPage * (page + 1)));
   }
 
   @override
   Future<void> onRefresh() async {
+    page = 1;
+    await initData();
     refreshController.refreshCompleted();
   }
 
