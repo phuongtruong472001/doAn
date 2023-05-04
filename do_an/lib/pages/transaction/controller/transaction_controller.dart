@@ -85,23 +85,30 @@ class TransactionController extends BaseSearchAppbarController {
         keySearch: textSearchController.text);
   }
 
-  void deleteTransaction(tr.Transaction transaction) async {
-    Get.dialog(AlertDialog(
-      title: const Text('Please Confirm'),
-      content: const Text('Are you sure to remove the box?'),
-      actions: [
-        // The "Yes" button
-        TextButton(
-            onPressed: () {
-              Get.back();
-            },
-            child: const Text('Yes')),
-        TextButton(onPressed: () {}, child: const Text('No'))
-      ],
-    ));
-    // bool status = await dbHelper.deleteTransaction(transaction);
-    // if (status) {
-    //   initData();
-    // }
+  void deleteTransaction(tr.Transaction transaction) {
+    Get.dialog(
+      AlertDialog(
+        title: const Text("Xác nhận"),
+        content: const Text('Bạn có muốn xoá giao dịch này không?'),
+        actions: [
+          // The "Yes" button
+          TextButton(
+              onPressed: () {
+                Get.back();
+              },
+              child: const Text('Huỷ')),
+          TextButton(
+              onPressed: () async {
+                bool status = await dbHelper.deleteTransaction(transaction);
+                if (status) {
+                  Get.back();
+                  showSnackBar("Xoá giao dịch thành công");
+                  await initData();
+                }
+              },
+              child: const Text('Xoá'))
+        ],
+      ),
+    );
   }
 }

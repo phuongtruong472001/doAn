@@ -131,11 +131,33 @@ class CreateTransactionController extends GetxController {
     if (formKey.currentState!.validate() &&
         transaction.value.categoryId! >= 0 &&
         transaction.value.fundID! >= 0) {
-      bool status;
+      bool status = false;
       if (Get.arguments == null) {
         status = await dbHelper.addTransaction(transaction.value);
       } else {
-        status = await dbHelper.editTransaction(transaction.value, oldValue);
+        Get.dialog(
+          AlertDialog(
+            title: const Text("Xác nhận"),
+            content: const Text('Bạn có muốn xoá giao dịch này không?'),
+            actions: [
+              // The "Yes" button
+              TextButton(
+                  onPressed: () {
+                    Get.back();
+                  },
+                  child: const Text('Huỷ')),
+              TextButton(
+                  onPressed: () async {
+                    status = await dbHelper.editTransaction(
+                        transaction.value, oldValue);
+                    if (status) {
+                      Get.back();
+                    }
+                  },
+                  child: const Text('Xoá'))
+            ],
+          ),
+        );
       }
       String messege = "";
       if (status) {
@@ -147,8 +169,7 @@ class CreateTransactionController extends GetxController {
         TransactionController transactionController =
             Get.find<TransactionController>();
         await transactionController.initData();
-        HomeController homeController =
-            Get.find<HomeController>();
+        HomeController homeController = Get.find<HomeController>();
         await homeController.initData();
         Get.back();
       } else {

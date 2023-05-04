@@ -49,9 +49,30 @@ class CreateEventController extends GetxController {
         int.parse(valueController.value.text.replaceAll('.', ''));
     event.value.date = selectedDate.value;
     if (formData.currentState!.validate()) {
-      bool status;
+      bool status = false;
       if (Get.arguments != null) {
-        status = await dbHelper.editEvent(event.value);
+        Get.dialog(
+          AlertDialog(
+            title: const Text("Xác nhận"),
+            content: const Text('Bạn có muốn xoá giao dịch này không?'),
+            actions: [
+              // The "Yes" button
+              TextButton(
+                  onPressed: () {
+                    Get.back();
+                  },
+                  child: const Text('Huỷ')),
+              TextButton(
+                  onPressed: () async {
+                    status = await dbHelper.editEvent(event.value);
+                    if (status) {
+                      Get.back();
+                    }
+                  },
+                  child: const Text('Sửa'))
+            ],
+          ),
+        );
       } else {
         status = await dbHelper.addEvent(event.value);
       }
