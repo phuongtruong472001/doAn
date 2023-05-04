@@ -9,7 +9,9 @@ class EventController extends BaseSearchAppbarController {
   var dbHelper = DBHelper();
   @override
   void onInit() async {
+    showLoading();
     await initData();
+    hideLoading();
     super.onInit();
   }
 

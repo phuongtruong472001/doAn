@@ -71,8 +71,10 @@ class HomePage extends BaseGetWidget<HomeController> {
                   title: AppString.spendingReport,
                   subTitle: AppString.viewReport,
                 ).paddingSymmetric(vertical: paddingSmall),
-                LineChart(
-                  spending: controller.spedings,
+                Card(
+                  child: BarChar(
+                    spending: controller.spedings,
+                  ),
                 ),
                 const SpaceBetweenLetter(
                   title: AppString.recentTransactions,

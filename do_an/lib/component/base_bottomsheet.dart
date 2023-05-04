@@ -40,15 +40,15 @@ class BottomSheetSelectTime extends GetView<BaseBottomSheetController> {
                     const AutoSizeText("Lặp lại"),
                     Obx(
                       () => Switch(
-                        thumbIcon: MaterialStateProperty.resolveWith<Icon?>(
-                          (Set<MaterialState> states) {
-                            // Thumb icon when the switch is selected.
-                            if (states.contains(MaterialState.selected)) {
-                              return const Icon(Icons.check);
-                            }
-                            return const Icon(Icons.close);
-                          },
-                        ),
+                        // thumbIcon: MaterialStateProperty.resolveWith<Icon?>(
+                        //   (Set<MaterialState> states) {
+                        //     // Thumb icon when the switch is selected.
+                        //     if (states.contains(MaterialState.selected)) {
+                        //       return const Icon(Icons.check);
+                        //     }
+                        //     return const Icon(Icons.close);
+                        //   },
+                        // ),
                         value: controller.isRepeat.value,
                         onChanged: (bool value) {
                           controller.isRepeat.value = value;

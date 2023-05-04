@@ -1,3 +1,4 @@
+import 'package:do_an/model/transaction.dart';
 import 'package:do_an/pages/event/controller/event_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text2/flutter_masked_text2.dart';
@@ -19,6 +20,7 @@ class CreateEventController extends GetxController {
   var selectedDate = DateTime.now().obs;
   DBHelper dbHelper = DBHelper();
   EventController eventController = Get.find<EventController>();
+  RxList<Transaction> listTransaction = RxList<Transaction>.empty();
 
   @override
   void onReady() {}
@@ -73,12 +75,14 @@ class CreateEventController extends GetxController {
     }
   }
 
-  void initData() {
+  void initData() async {
     if (Get.arguments is Event) {
       event.value = Get.arguments;
       nameController.value.text = Get.arguments.name;
       valueController.text = Get.arguments.estimateValue.toString();
       selectedDate.value = Get.arguments.date;
+      listTransaction.value =
+          await dbHelper.getTransactionsOfEvent(event.value.id!);
     }
   }
 

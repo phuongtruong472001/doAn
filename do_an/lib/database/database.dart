@@ -70,7 +70,7 @@ class DBHelper {
 
   Future<List<tr.Transaction>> getTop5Recent() async {
     var dbClient = await db;
-    String now = DateFormat('yyyy-MM-dd').format(DateTime.now());
+    String now = DateFormat("yyyy-MM-dd kk:mm").format(DateTime.now());
     var transactions = await dbClient?.rawQuery(
         'SELECT * FROM Transactions where executionTime <= "$now"  ORDER BY executionTime DESC LIMIT 5');
     List<tr.Transaction> listTransactions = transactions!.isNotEmpty
@@ -109,6 +109,18 @@ class DBHelper {
     return listTransactions;
   }
 
+  Future<List<tr.Transaction>> getTransactionsOfEvent(
+    int eventID,
+  ) async {
+    var dbClient = await db;
+    var transactions = await dbClient?.rawQuery(
+        'SELECT * FROM Transactions  WHERE eventId = $eventID  ORDER BY executionTime DESC');
+    List<tr.Transaction> listTransactions = transactions!.isNotEmpty
+        ? transactions.map((c) => tr.Transaction.fromMap(c)).toList()
+        : [];
+    return listTransactions;
+  }
+
   Future<List<Event>> getEventsNegative({String? keySearch = ""}) async {
     var dbClient = await db;
     var events = await dbClient?.rawQuery(
@@ -131,7 +143,7 @@ class DBHelper {
     var dbClient = await db;
     String now = DateFormat('yyyy-MM-dd').format(DateTime.now());
     var events = await dbClient?.rawQuery(
-        'SELECT * FROM Event WHERE date >= "$now" AND isNotified=0 ORDER BY date DESC');
+        'SELECT * FROM Event WHERE date <= "$now" AND isNotified=0 ORDER BY date DESC');
     List<Event> listEvents =
         events!.isNotEmpty ? events.map((c) => Event.fromjson(c)).toList() : [];
     return listEvents;

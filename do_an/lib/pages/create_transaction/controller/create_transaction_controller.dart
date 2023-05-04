@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:do_an/base_controller/base_controller_src.dart';
 import 'package:do_an/database/database.dart';
 import 'package:do_an/model/transaction.dart';
+import 'package:do_an/pages/home/controller/home_controller.dart';
 import 'package:do_an/pages/transaction/controller/transaction_controller.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -146,6 +147,9 @@ class CreateTransactionController extends GetxController {
         TransactionController transactionController =
             Get.find<TransactionController>();
         await transactionController.initData();
+        HomeController homeController =
+            Get.find<HomeController>();
+        await homeController.initData();
         Get.back();
       } else {
         messege = AppString.fail;

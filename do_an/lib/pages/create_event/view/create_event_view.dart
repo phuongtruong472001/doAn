@@ -10,6 +10,7 @@ import '../../../base/dimen.dart';
 import '../../../base/strings.dart';
 import '../../../component/base_input_with_label.dart';
 import '../../../component/input_text_form_field_model.dart';
+import '../../../component/item_card.dart';
 import '../controller/create_event_controller.dart';
 
 class CreateEventPage extends GetView<CreateEventController> {
@@ -56,7 +57,8 @@ class CreateEventPage extends GetView<CreateEventController> {
         child: SingleChildScrollView(
           child: Form(
             key: controller.formData,
-            child: Column(children: [
+            child:
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               InputTextWithLabel(
                 buildInputText: BuildInputText(
                   InputTextModel(
@@ -130,17 +132,44 @@ class CreateEventPage extends GetView<CreateEventController> {
                   ),
                 ).paddingSymmetric(vertical: paddingSmall),
               ),
-              Visibility(
-                visible: controller.event.value.value >
-                        controller.event.value.estimateValue &&
-                    Get.arguments != null,
-                child: AutoSizeText(
-                  "Đã chi tiêu vượt mức ${(controller.event.value.value - controller.event.value.estimateValue).toString().toVND()}",
-                  style: const TextStyle(
-                    color: Colors.red,
+              Row(
+                children: [
+                  AutoSizeText(
+                    "Đã chi tiêu ${(controller.event.value.value.toString().toVND())}",
+                  ),
+                  Visibility(
+                    visible: controller.event.value.value >
+                            controller.event.value.estimateValue &&
+                        Get.arguments != null,
+                    child: AutoSizeText(
+                      " vượt mức ${(controller.event.value.value - controller.event.value.estimateValue).toString().toVND()}",
+                      style: const TextStyle(
+                        color: Colors.red,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+
+              AutoSizeText(
+                "Danh sách các giao dịch của sự kiện '${controller.event.value.name}'",
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
+              Obx(
+                () => Visibility(
+                  visible: controller.listTransaction.isNotEmpty,
+                  child: ListView.builder(
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemBuilder: (context, index) {
+                      return TransactionWidget(
+                        controller.listTransaction[index],
+                      );
+                    },
+                    itemCount: controller.listTransaction.length,
                   ),
                 ),
-              )
+              ),
             ]).paddingSymmetric(
               horizontal: defaultPadding,
             ),

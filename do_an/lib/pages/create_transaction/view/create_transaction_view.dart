@@ -112,10 +112,11 @@ class CreateTransactionPage extends GetView<CreateTransactionController> {
                       ),
                       title: Obx(() => AutoSizeText(
                             controller.transaction.value.isRepeat
-                                ? "Lặp lại vào lúc ${DateFormat('kk:mm dd-MM-yyyy').format(controller.transaction.value.executionTime!)}"
+                                ? "Lặp lại vào lúc ${DateFormat('kk:mm dd-MM-yyyy').format(controller.transaction.value.executionTime??DateTime.now())}"
                                 : DateFormat('kk:mm dd-MM-yyyy').format(
                                     controller
-                                        .transaction.value.executionTime!),
+                                        .transaction.value.executionTime??
+                                        DateTime.now()),
                           )),
                     ),
                   ).paddingSymmetric(vertical: paddingSmall),
