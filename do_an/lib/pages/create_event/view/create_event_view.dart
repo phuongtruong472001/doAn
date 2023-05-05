@@ -121,13 +121,31 @@ class CreateEventPage extends GetView<CreateEventController> {
                       () => ListTile(
                           leading: const Icon(Icons.date_range),
                           trailing: AutoSizeText(
-                            AppString.hintTime,
+                            AppString.hintDay,
                             style: Get.textTheme.bodyMedium!
                                 .copyWith(color: kPrimaryColor),
                           ),
                           title: AutoSizeText(
                             DateFormat.yMMMd()
                                 .format(controller.selectedDate.value),
+                            style: Get.textTheme.bodyMedium,
+                          )),
+                    ),
+                  ).paddingSymmetric(vertical: paddingSmall),
+                ),
+                GestureDetector(
+                  onTap: () => controller.selectTime(context),
+                  child: Card(
+                    child: Obx(
+                      () => ListTile(
+                          leading: const Icon(Icons.date_range),
+                          trailing: AutoSizeText(
+                            AppString.hintHour,
+                            style: Get.textTheme.bodyMedium!
+                                .copyWith(color: kPrimaryColor),
+                          ),
+                          title: AutoSizeText(
+                            controller.time.value.format(context),
                             style: Get.textTheme.bodyMedium,
                           )),
                     ),

@@ -3,11 +3,13 @@ import 'package:do_an/pages/event/controller/event_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 import '../../../base/strings.dart';
 import '../../../base_controller/base_controller.dart';
 import '../../../database/database.dart';
 import '../../../model/event.dart';
+import '../../../service/local_notification_service.dart';
 
 class CreateEventController extends GetxController {
   final formData = GlobalKey<FormState>();
@@ -21,12 +23,17 @@ class CreateEventController extends GetxController {
   DBHelper dbHelper = DBHelper();
   EventController eventController = Get.find<EventController>();
   RxList<Transaction> listTransaction = RxList<Transaction>.empty();
+  late final LocalNotificationService service;
+  Rx<TimeOfDay> time = const TimeOfDay(hour: 7, minute: 15).obs;
 
   @override
   void onReady() {}
   @override
   void onInit() {
     initData();
+    service = LocalNotificationService();
+    service.intialize();
+    listenToNotification();
     super.onInit();
   }
 
@@ -47,7 +54,14 @@ class CreateEventController extends GetxController {
     event.value.name = nameController.value.text;
     event.value.estimateValue =
         int.parse(valueController.value.text.replaceAll('.', ''));
-    event.value.date = selectedDate.value;
+    event.value.date = DateTime(selectedDate.value.year,
+            selectedDate.value.month, selectedDate.value.day)
+        .add(
+      Duration(
+        hours: time.value.hour,
+        minutes: time.value.minute,
+      ),
+    );
     if (formData.currentState!.validate()) {
       bool status = false;
       if (Get.arguments != null) {
@@ -81,8 +95,20 @@ class CreateEventController extends GetxController {
         if (Get.arguments == null) {
           messege = AppString.addSuccess("Sự kiện");
         } else {
+          service.cancelNotification(event.value.id ?? 0);
           messege = AppString.editSuccess("Sự kiện");
         }
+        await service.showScheduledNotification(
+          id: event.value.id ?? 0,
+          title: event.value.name ?? "",
+          body:
+              "Diễn ra vào ${DateFormat("kk:mm dd:MM:yyyy").format(event.value.date ?? DateTime.now())}",
+          dateTime: event.value.date!
+                  .isBefore(DateTime.now().add(const Duration(days: 1)))
+              ? DateTime.now().add(const Duration(minutes: 1))
+              : (event.value.date ?? DateTime.now())
+                  .subtract(const Duration(days: 1)),
+        );
 
         await eventController.initData();
         Get.back();
@@ -117,5 +143,23 @@ class CreateEventController extends GetxController {
     dbHelper.updateEventAllowNegative(event.value.id!, status);
     Get.back();
     await eventController.initData();
+  }
+
+  void listenToNotification() =>
+      service.onNotificationClick.stream.listen(onNoticationListener);
+  void onNoticationListener(String? payload) {
+    if (payload != null && payload.isNotEmpty) {
+      print('payload $payload');
+    }
+  }
+
+  void selectTime(BuildContext context) async {
+    final TimeOfDay? newTime = await showTimePicker(
+      context: context,
+      initialTime: time.value,
+    );
+    if (newTime != null) {
+      time.value = newTime;
+    }
   }
 }

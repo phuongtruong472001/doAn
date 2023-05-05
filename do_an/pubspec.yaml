@@ -57,6 +57,9 @@ dependencies:
   get_storage: ^2.1.1
   eval_ex: ^1.1.7
   decimal: ^2.3.2
+  flutter_local_notifications: ^9.6.0
+  timezone: ^0.8.0
+  rxdart: ^0.27.4
 
 dev_dependencies:
   flutter_test:

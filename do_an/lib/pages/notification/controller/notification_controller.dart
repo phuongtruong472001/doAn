@@ -14,11 +14,6 @@ class NotificationController extends GetxController {
   @override
   void onReady() {}
 
-  @override
-  void onClose() {
-    super.onClose();
-  }
-
   Future<void> initData() async {
     DBHelper db = DBHelper();
     events.value = await db.getEventsOutOfDate();
