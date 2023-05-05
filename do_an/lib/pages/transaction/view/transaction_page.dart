@@ -21,6 +21,40 @@ class TracsactionPage extends BaseSearchAppBarWidget<TransactionController> {
       length: 3,
       child: baseShimmerLoading(
         () => buildPage(
+          actionExtra: Obx(
+            () => Container(
+              height: 40,
+              width: 40,
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                shape: BoxShape.circle,
+              ),
+              child: IconButton(
+                icon: Stack(
+                  clipBehavior: Clip.none,
+                  children: <Widget>[
+                    const Icon(
+                      Icons.filter_alt_outlined,
+                      color: kPrimaryColor,
+                    ),
+                    if (controller.isFilter.value)
+                      const Positioned(
+                        top: 10,
+                        right: -3.0,
+                        child: Icon(
+                          Icons.check_circle,
+                          size: 12,
+                          color: kPrimaryColor,
+                        ),
+                      )
+                  ],
+                ),
+                onPressed: controller.showFilterPage,
+              ),
+            ).paddingOnly(
+              left: paddingSmall,
+            ),
+          ),
           backButton: false,
           showWidgetEmpty: false,
           buildBody: Column(

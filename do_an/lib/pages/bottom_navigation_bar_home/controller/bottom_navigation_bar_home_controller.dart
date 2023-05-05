@@ -31,9 +31,7 @@ class BottomNavigationBarHomeController extends BaseGetxController {
       case 1:
         TransactionController transactionController =
             Get.find<TransactionController>();
-        showLoading();
-        await transactionController.initData();
-        hideLoading();
+        transactionController.onInit();
         break;
       case 2:
         if (notificationController.events.isNotEmpty) {

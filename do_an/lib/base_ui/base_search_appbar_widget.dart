@@ -37,6 +37,7 @@ abstract class BaseSearchAppBarWidget<T extends BaseSearchAppbarController>
                 autofocus: false,
               ),
               backButton: backButton,
+              actions: [actionExtra]
             )
           : null,
       body: baseShimmerLoading(

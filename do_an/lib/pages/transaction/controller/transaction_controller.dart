@@ -8,7 +8,6 @@ import 'package:intl/intl.dart';
 import 'package:jiffy/jiffy.dart';
 
 import '../../../database/database.dart';
-import '../../../model/transaction.dart';
 
 class TransactionController extends BaseSearchAppbarController {
   RxInt indexTabbar = 1.obs;
@@ -17,20 +16,17 @@ class TransactionController extends BaseSearchAppbarController {
   var dbHelper = DBHelper();
   DateTime date = DateTime.now();
   int page = 1;
-  List<Transaction> allTransaction = [];
+
   @override
-  void onInit() {
-    initData();
+  void onInit() async {
+    showLoading();
+    await initData();
+    hideLoading();
     super.onInit();
   }
 
   @override
   void onReady() {}
-
-  @override
-  void onClose() {
-    super.onClose();
-  }
 
   void onTapped(int index) async {
     indexTabbar.value = index;
@@ -55,7 +51,8 @@ class TransactionController extends BaseSearchAppbarController {
         break;
     }
     print("$fromDate-----$toDate");
-    rxList.value = await dbHelper.getTransactions(fromDate, toDate);
+    rxList.value =
+        await dbHelper.getTransactions(fromDate, toDate, 0, defaultItemOfPage);
   }
 
   void goToDetail(tr.Transaction transaction) {
@@ -67,18 +64,19 @@ class TransactionController extends BaseSearchAppbarController {
         DateFormat('yyyy-MM-dd').format(DateTime(date.year, date.month, 1));
     toDate = DateFormat('yyyy-MM-dd')
         .format(Jiffy(fromDate).add(months: 1, days: -1).dateTime);
-    allTransaction = await dbHelper.getTransactions(fromDate, toDate);
+    rxList.value =
+        await dbHelper.getTransactions(fromDate, toDate, 0, defaultItemOfPage);
     //dbHelper.getTotalValueOfCategory(0, "", "");
-    rxList.value = allTransaction.take(defaultItemOfPage * page).toList();
   }
 
   @override
   Future<void> onLoadMore() async {
     page++;
+    List<tr.Transaction> transactions = await dbHelper.getTransactions(
+        fromDate, toDate, defaultItemOfPage * page, defaultItemOfPage);
+
+    rxList.add(transactions);
     refreshController.loadComplete();
-    rxList.add(allTransaction
-        .skip(defaultItemOfPage * page)
-        .take(defaultItemOfPage * (page + 1)));
   }
 
   @override
@@ -90,7 +88,8 @@ class TransactionController extends BaseSearchAppbarController {
 
   @override
   Future<void> functionSearch() async {
-    rxList.value = await dbHelper.getTransactions(fromDate, toDate,
+    rxList.value = await dbHelper.getTransactions(
+        fromDate, toDate, 0, defaultItemOfPage,
         keySearch: textSearchController.text);
   }
 
@@ -120,4 +119,25 @@ class TransactionController extends BaseSearchAppbarController {
       ),
     );
   }
+  // void showFilterPage() {
+  //   Get.bottomSheet(
+  //     const FilterBillPage(),
+  //     isScrollControlled: true,
+  //   ).then((value) async {
+  //     if (value != null) {
+  //       if (value is BillsRequest) {
+  //         isFilter.value = true;
+  //         billsRequest = value;
+  //       } else if (value == AppConst.keyFromFilterPage) {
+  //         billsRequest = BillsRequest();
+  //         isFilter.value = false;
+  //       }
+  //       pageNumber = AppConst.defaultPage;
+  //       listOrderModel.clear();
+  //       await getListOrder(
+  //         isRefresh: true,
+  //       );
+  //     }
+  //   });
+  // }
 }
