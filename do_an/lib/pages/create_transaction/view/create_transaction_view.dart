@@ -54,6 +54,7 @@ class CreateTransactionPage extends GetView<CreateTransactionController> {
                       hintText: AppString.hintValue,
                       iconNextTextInputAction: TextInputAction.done,
                       inputFormatters: InputFormatterEnum.currency,
+                      textInputType:TextInputType.number,
                       submitFunc: (v) => {},
                       validator: (value) {
                         if (value == "0") {

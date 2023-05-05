@@ -1,6 +1,8 @@
 import 'package:do_an/base/dimen.dart';
 import 'package:do_an/base_controller/base_controller_src.dart';
+import 'package:do_an/model/filter.dart';
 import 'package:do_an/model/transaction.dart' as tr;
+import 'package:do_an/pages/filter/view/filter_view.dart';
 import 'package:do_an/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -16,6 +18,7 @@ class TransactionController extends BaseSearchAppbarController {
   var dbHelper = DBHelper();
   DateTime date = DateTime.now();
   int page = 1;
+  RxBool isFilter = false.obs;
 
   @override
   void onInit() async {
@@ -119,25 +122,18 @@ class TransactionController extends BaseSearchAppbarController {
       ),
     );
   }
-  // void showFilterPage() {
-  //   Get.bottomSheet(
-  //     const FilterBillPage(),
-  //     isScrollControlled: true,
-  //   ).then((value) async {
-  //     if (value != null) {
-  //       if (value is BillsRequest) {
-  //         isFilter.value = true;
-  //         billsRequest = value;
-  //       } else if (value == AppConst.keyFromFilterPage) {
-  //         billsRequest = BillsRequest();
-  //         isFilter.value = false;
-  //       }
-  //       pageNumber = AppConst.defaultPage;
-  //       listOrderModel.clear();
-  //       await getListOrder(
-  //         isRefresh: true,
-  //       );
-  //     }
-  //   });
-  // }
+
+  void showFilterPage() {
+    Get.bottomSheet(
+      const FilterPage(),
+      isScrollControlled: true,
+    ).then((value) async {
+      if (value is FilterItem) {
+        isFilter.value = true;
+        fromDate = value.fromDate;
+        toDate = value.toDate;
+        onInit();
+      }
+    });
+  }
 }

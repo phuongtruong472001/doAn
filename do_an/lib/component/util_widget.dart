@@ -7,6 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_rounded_date_picker/flutter_rounded_date_picker.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -163,10 +164,8 @@ class UtilWidget {
             filled: true,
             suffixIcon: suffixIcon,
             hintText: hintText ?? "",
-            hintStyle: TextStyle(
-              color: hintColor ?? Colors.black,
-              fontSize: 16
-            ),
+            hintStyle:
+                TextStyle(color: hintColor ?? Colors.black, fontSize: 16),
             enabledBorder: OutlineInputBorder(
               borderSide: BorderSide(color: borderColor ?? Colors.grey),
               borderRadius: borderRadius ??
@@ -199,6 +198,84 @@ class UtilWidget {
         color: textColor ?? Colors.black,
       ),
       maxLines: 2,
+    );
+  }
+
+  static Future<DateTime?> buildDateTimePicker({
+    required DateTime dateTimeInit,
+    DateTime? minTime,
+    DateTime? maxTime,
+  }) async {
+    DateTime? newDateTime = await showRoundedDatePicker(
+      context: Get.context!,
+      height: 310,
+      locale: const Locale('vi', 'VN'),
+      initialDate: dateTimeInit,
+      firstDate: minTime ?? DateTime.utc(DateTime.now().year - 10),
+      lastDate: maxTime,
+      // barrierDismissible: true,
+      theme: ThemeData(
+        primaryColor: Colors.blue,
+        dialogBackgroundColor: Colors.blue,
+        primarySwatch: Colors.deepOrange,
+        disabledColor: Colors.grey,
+        textTheme: TextTheme(
+          bodySmall: Get.textTheme.bodyLarge!.copyWith(color: Colors.grey),
+          bodyMedium: Get.textTheme.bodyLarge,
+        ),
+      ),
+      styleDatePicker: MaterialRoundedDatePickerStyle(
+        paddingMonthHeader: const EdgeInsets.all(15),
+        textStyleMonthYearHeader: Get.textTheme.bodyLarge,
+        colorArrowNext: Colors.grey,
+        colorArrowPrevious: Colors.grey,
+        textStyleButtonNegative:
+            Get.textTheme.bodyLarge!.copyWith(color: Colors.grey),
+        textStyleButtonPositive:
+            Get.textTheme.bodyLarge!.copyWith(color: Colors.blue),
+      ),
+    );
+    return newDateTime;
+  }
+
+  static Widget buildButton(
+    String title,
+    Function() func, {
+    Color? textColor,
+    Color? color,
+    double? width,
+    double? height,
+    double? borderRadius,
+    double? padding,
+    double? paddingText,
+    double? fontSize,
+    TextAlign? textAlign,
+    AlignmentGeometry? alignment,
+  }) {
+    return GestureDetector(
+      onTap: func,
+      child: SizedBox(
+        width: width ?? double.infinity,
+        height: height ?? 50,
+        child: Container(
+          width: width ?? Get.width,
+          height: height ?? Get.height,
+          decoration: BoxDecoration(
+            color: color ?? Colors.white,
+            border: Border.all(
+              color: Colors.blue,
+            ),
+            borderRadius: const BorderRadius.all(
+              Radius.circular(
+                8,
+              ),
+            ),
+          ),
+          child: Center(
+            child: AutoSizeText(title),
+          ),
+        ),
+      ),
     );
   }
 }
