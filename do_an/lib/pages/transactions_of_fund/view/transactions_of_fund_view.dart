@@ -20,7 +20,8 @@ class TransactionsOfFundPage
         buildBody: UtilWidget.buildSmartRefresher(
           refreshController: controller.refreshController,
           onRefresh: controller.onRefresh,
-          onLoadMore: controller.onLoadMore,
+          onLoadMore: controller.onLoadMore,  
+          enablePullUp: true,
           child: Obx(
             () => ListView.builder(
               itemBuilder: (context, index) => TransactionWidget(

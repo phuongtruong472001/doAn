@@ -15,7 +15,7 @@ class TransactionController extends BaseSearchAppbarController {
   String toDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
   var dbHelper = DBHelper();
   DateTime date = DateTime.now();
-  int page = 1;
+  int page = 0;
 
   @override
   void onInit() async {
@@ -75,13 +75,13 @@ class TransactionController extends BaseSearchAppbarController {
     List<tr.Transaction> transactions = await dbHelper.getTransactions(
         fromDate, toDate, defaultItemOfPage * page, defaultItemOfPage);
 
-    rxList.add(transactions);
+    rxList.addAll(transactions);
     refreshController.loadComplete();
   }
 
   @override
   Future<void> onRefresh() async {
-    page = 1;
+    page = 0;
     await initData();
     refreshController.refreshCompleted();
   }
