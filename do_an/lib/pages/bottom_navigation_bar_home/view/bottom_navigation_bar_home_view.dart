@@ -114,7 +114,10 @@ class BottomNavigationBarHomePage
           gapLocation: GapLocation.center,
           leftCornerRadius: 8,
           rightCornerRadius: 8,
-          onTap: (index) => controller.onTapped(index),
+          onTap: (index) {
+            controller.indexTab.value = index;
+            controller.onTapped(index);
+          },
           shadow: const BoxShadow(
             offset: Offset(0, 1),
             blurRadius: 12,

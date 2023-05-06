@@ -1,5 +1,6 @@
 import 'package:do_an/database/database.dart';
 import 'package:do_an/model/event.dart';
+import 'package:do_an/pages/event/controller/event_controller.dart';
 import 'package:do_an/pages/home/controller/home_controller.dart';
 import 'package:do_an/pages/transaction/controller/transaction_controller.dart';
 import 'package:get/get.dart';
@@ -20,7 +21,6 @@ class BottomNavigationBarHomeController extends BaseGetxController {
   void onReady() {}
 
   void onTapped(int index) async {
-    indexTab.value = index;
     // switch (index) {
     //   case 0:
     //     HomeController homeController = Get.find<HomeController>();
@@ -50,6 +50,9 @@ class BottomNavigationBarHomeController extends BaseGetxController {
         await dbHelper.updateEventOutOfDate(event);
       }
     }
+    if (index == 3) {
+      EventController eventController = Get.find<EventController>();
+      eventController.initData();
+    }
   }
-
 }

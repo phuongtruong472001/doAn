@@ -65,10 +65,10 @@ class CreateEventController extends GetxController {
     if (formData.currentState!.validate()) {
       bool status = false;
       if (Get.arguments != null) {
-        Get.dialog(
+      await  Get.dialog(
           AlertDialog(
             title: const Text("Xác nhận"),
-            content: const Text('Bạn có muốn xoá giao dịch này không?'),
+            content: const Text('Bạn có muốn sửa sự kiện này không?'),
             actions: [
               // The "Yes" button
               TextButton(
