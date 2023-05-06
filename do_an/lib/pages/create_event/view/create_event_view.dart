@@ -85,7 +85,7 @@ class CreateEventPage extends GetView<CreateEventController> {
                       hintText: AppString.hintValue,
                       iconNextTextInputAction: TextInputAction.done,
                       inputFormatters: InputFormatterEnum.currency,
-                      textInputType:TextInputType.number,
+                      textInputType: TextInputType.number,
                       submitFunc: (v) => {},
                       validator: (value) {
                         if (value == "0") {
@@ -174,9 +174,12 @@ class CreateEventPage extends GetView<CreateEventController> {
                           ),
                         ],
                       ),
-                      AutoSizeText(
-                        "Danh sách các giao dịch của sự kiện '${controller.event.value.name}'",
-                        style: const TextStyle(fontWeight: FontWeight.bold),
+                      Visibility(
+                        visible: controller.listTransaction.isNotEmpty,
+                        child: AutoSizeText(
+                          "Danh sách các giao dịch của sự kiện '${controller.event.value.name}'",
+                          style: const TextStyle(fontWeight: FontWeight.bold),
+                        ),
                       ),
                       Obx(
                         () => Visibility(

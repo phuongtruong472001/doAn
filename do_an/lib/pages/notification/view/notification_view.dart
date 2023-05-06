@@ -11,6 +11,9 @@ class NotificationPage extends GetView<NotificationController> {
   const NotificationPage({Key? key}) : super(key: key);
 
   @override
+  NotificationController get controller => Get.put(NotificationController());
+
+  @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(

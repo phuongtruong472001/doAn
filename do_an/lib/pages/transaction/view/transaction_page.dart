@@ -13,7 +13,8 @@ import '../controller/transaction_controller.dart';
 
 class TracsactionPage extends BaseSearchAppBarWidget<TransactionController> {
   const TracsactionPage({Key? key}) : super(key: key);
-
+  @override
+  TransactionController get controller => Get.put(TransactionController());
   @override
   Widget buildWidgets() {
     return DefaultTabController(

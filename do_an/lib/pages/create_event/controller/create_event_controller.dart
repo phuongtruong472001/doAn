@@ -134,15 +134,35 @@ class CreateEventController extends GetxController {
   }
 
   void completeEvent() async {
-    int status;
-    if (event.value.allowNegative == 1) {
-      status = 0;
-    } else {
-      status = 1;
-    }
-    dbHelper.updateEventAllowNegative(event.value.id!, status);
-    Get.back();
-    await eventController.initData();
+    int status = event.value.allowNegative!;
+    Get.dialog(
+      AlertDialog(
+        title: const Text("Xác nhận"),
+        content: Text(status == 0
+            ? 'Bạn có muốn đánh dấu sự kiện này thành chưa hoàn thành không?'
+            : 'Bạn có muốn hoàn thành sự kiện này không?'),
+        actions: [
+          // The "Yes" button
+          TextButton(
+              onPressed: () {
+                Get.back();
+              },
+              child: const Text('Huỷ')),
+          TextButton(
+              onPressed: () async {
+                if (event.value.allowNegative == 1) {
+                  status = 0;
+                } else {
+                  status = 1;
+                }
+                dbHelper.updateEventAllowNegative(event.value.id!, status);
+                await eventController.initData();
+                Get.back();
+              },
+              child: const Text('Cập nhật'))
+        ],
+      ),
+    );
   }
 
   void listenToNotification() =>

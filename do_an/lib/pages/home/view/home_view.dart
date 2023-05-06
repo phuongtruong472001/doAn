@@ -6,7 +6,6 @@ import 'package:do_an/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_format_money_vietnam/flutter_format_money_vietnam.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 
 import '../../../component/base_card.dart';
 import '../../../component/base_header_no_backbutton.dart';
@@ -19,6 +18,9 @@ class HomePage extends BaseGetWidget<HomeController> {
   const HomePage({Key? key}) : super(key: key);
 
   @override
+  HomeController get controller => Get.put(HomeController());
+
+  @override
   Widget buildWidgets() {
     return baseShowLoading(
       () => Scaffold(
@@ -29,7 +31,7 @@ class HomePage extends BaseGetWidget<HomeController> {
                 BaseHeaderNoBackButton(
                   content: 'Hello ${controller.box.read("name")}',
                   icon: Icons.logout,
-                  title: 'Good Morning',
+                  title: '',
                   function: () {
                     controller.box.remove("name");
                     Get.offAllNamed(AppRoutes.editName);

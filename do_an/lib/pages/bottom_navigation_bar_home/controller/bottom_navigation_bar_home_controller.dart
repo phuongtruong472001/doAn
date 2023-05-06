@@ -9,10 +9,10 @@ import '../../notification/controller/notification_controller.dart';
 
 class BottomNavigationBarHomeController extends BaseGetxController {
   RxInt indexTab = 0.obs;
-  late NotificationController notificationController;
+  RxInt numbEvent = 0.obs;
+
   @override
   void onInit() {
-    notificationController = Get.find<NotificationController>();
     super.onInit();
   }
 
@@ -21,31 +21,35 @@ class BottomNavigationBarHomeController extends BaseGetxController {
 
   void onTapped(int index) async {
     indexTab.value = index;
-    switch (index) {
-      case 0:
-        HomeController homeController = Get.find<HomeController>();
-        showLoading();
-        await homeController.initData();
-        hideLoading();
-        break;
-      case 1:
-        TransactionController transactionController =
-            Get.find<TransactionController>();
-        transactionController.onInit();
-        break;
-      case 2:
-        if (notificationController.events.isNotEmpty) {
-          await updateData();
-          await notificationController.initData();
-        }
-        break;
+    // switch (index) {
+    //   case 0:
+    //     HomeController homeController = Get.find<HomeController>();
+    //     showLoading();
+    //     await homeController.initData();
+    //     hideLoading();
+    //     break;
+    //   case 1:
+    //     TransactionController transactionController =
+    //         Get.find<TransactionController>();
+    //     transactionController.onInit();
+    //     break;
+    //   case 2:
+    //     NotificationController notificationController =
+    //         Get.find<NotificationController>();
+    //     if (notificationController.events.isNotEmpty) {
+    //       await updateData(notificationController);
+    //       await notificationController.initData();
+    //     }
+    //     break;
+    // }
+
+    if (index == 2) {
+      DBHelper dbHelper = DBHelper();
+      List<Event> events = await dbHelper.getEventsOutOfDate();
+      for (Event event in events) {
+        await dbHelper.updateEventOutOfDate(event);
+      }
     }
   }
 
-  Future<void> updateData() async {
-    DBHelper dbHelper = DBHelper();
-    for (Event event in notificationController.events) {
-      await dbHelper.updateEventOutOfDate(event);
-    }
-  }
 }

@@ -13,7 +13,8 @@ import '../controller/event_controller.dart';
 
 class EventPage extends BaseSearchAppBarWidget<EventController> {
   const EventPage({Key? key}) : super(key: key);
-
+  @override
+  EventController get controller => Get.put(EventController());
   @override
   Widget buildWidgets() {
     return baseShimmerLoading(

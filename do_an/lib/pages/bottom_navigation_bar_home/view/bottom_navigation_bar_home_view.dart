@@ -3,32 +3,25 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:do_an/base/colors.dart';
 import 'package:do_an/base/icons.dart';
 import 'package:do_an/base/strings.dart';
-import 'package:do_an/pages/event/controller/event_controller.dart';
 import 'package:do_an/pages/event/view/event_view.dart';
 import 'package:do_an/pages/notification/view/notification_view.dart';
 import 'package:do_an/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../home/controller/home_controller.dart';
 import '../../home/view/home_view.dart';
-import '../../notification/controller/notification_controller.dart';
-import '../../transaction/controller/transaction_controller.dart';
 import '../../transaction/view/transaction_page.dart';
 import '../controller/bottom_navigation_bar_home_controller.dart';
 
 class BottomNavigationBarHomePage
     extends GetView<BottomNavigationBarHomeController> {
   const BottomNavigationBarHomePage({Key? key}) : super(key: key);
+  @override
+  BottomNavigationBarHomeController get controller =>
+      Get.put(BottomNavigationBarHomeController());
 
   @override
   Widget build(BuildContext context) {
-    Get.put(NotificationController());
-    Get.put(EventController());
-    Get.put(BottomNavigationBarHomeController());
-    Get.put(TransactionController());
-    Get.put(HomeController());
-
     final iconList = [
       IconWithTitle(
         iconLink: ImageAsset.icHome,
@@ -84,14 +77,12 @@ class BottomNavigationBarHomePage
                       fit: BoxFit.cover,
                       color: color,
                     ).paddingAll(5),
-                    (index == 2 &&
-                            controller.notificationController.events.isNotEmpty)
+                    (index == 2 && controller.numbEvent.value != 0)
                         ? Positioned(
                             top: 1,
                             right: 2,
                             child: AutoSizeText(
-                              controller.notificationController.events.length
-                                  .toString(),
+                              controller.numbEvent.value.toString(),
                               style: Get.textTheme.bodySmall!.copyWith(
                                   color: Colors.red,
                                   fontWeight: FontWeight.bold),

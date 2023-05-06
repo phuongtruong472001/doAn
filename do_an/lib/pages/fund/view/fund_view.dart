@@ -19,12 +19,6 @@ class FundPage extends GetView<FundController> {
         automaticallyImplyLeading: true,
         title: AutoSizeText(
             Get.arguments == null ? AppString.myFund : AppString.selectFund),
-        actions: [
-          if (Get.arguments == null) ...[
-            const Icon(Icons.notifications),
-            const AutoSizeText(AppString.edit),
-          ]
-        ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -43,10 +37,17 @@ class FundPage extends GetView<FundController> {
               GestureDetector(
                 onTap: () {},
                 child: Card(
-                  child: Obx(() => ListTile(
-                        leading: const Icon(Icons.sports_basketball_rounded),
-                        title: const AutoSizeText(AppString.total),
-                        subtitle: AutoSizeText(
+                  child: ListTile(
+                      leading: SizedBox(
+                        width: 40,
+                        height: 40,
+                        child: Image.asset(
+                          ImageAsset.icGlobal,
+                        ),
+                      ),
+                      title: const AutoSizeText(AppString.total),
+                      subtitle: Obx(
+                        () => AutoSizeText(
                           controller.totalValue.value
                               .toString()
                               .toVND(unit: 'đ'),
