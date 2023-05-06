@@ -74,7 +74,8 @@ class TracsactionPage extends BaseSearchAppBarWidget<TransactionController> {
                             AutoSizeText(AppString.thisMonth),
                             AutoSizeText(AppString.future),
                           ],
-                          onTap: (value) => controller.onTapped(value),
+                          onTap: (value) async =>
+                              await controller.onTapped(value),
                           labelColor: kPrimaryColor,
                           unselectedLabelColor: kSecondaryColor,
                         ),

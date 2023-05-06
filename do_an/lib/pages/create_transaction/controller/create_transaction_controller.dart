@@ -109,7 +109,7 @@ class CreateTransactionController extends GetxController {
       transaction.value.value =
           int.parse(valueController.value.text.replaceAll('.', '')) * (-1);
     }
-    transaction.value.executionTime = selectedDate.value;
+    //transaction.value.executionTime = selectedDate.value;
     transaction.value.description = descriptionController.value.text;
     transaction.value.endTime = transaction.value.executionTime;
     if (transaction.value.typeRepeat == 1) {
@@ -135,10 +135,10 @@ class CreateTransactionController extends GetxController {
       if (Get.arguments == null) {
         status = await dbHelper.addTransaction(transaction.value);
       } else {
-        Get.dialog(
+        await Get.dialog(
           AlertDialog(
             title: const Text("Xác nhận"),
-            content: const Text('Bạn có muốn xoá giao dịch này không?'),
+            content: const Text('Bạn có muốn sửa giao dịch này không?'),
             actions: [
               // The "Yes" button
               TextButton(
@@ -150,11 +150,9 @@ class CreateTransactionController extends GetxController {
                   onPressed: () async {
                     status = await dbHelper.editTransaction(
                         transaction.value, oldValue);
-                    if (status) {
-                      Get.back();
-                    }
+                    Get.back();
                   },
-                  child: const Text('Xoá'))
+                  child: const Text('Sửa'))
             ],
           ),
         );

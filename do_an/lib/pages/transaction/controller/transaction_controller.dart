@@ -1,6 +1,8 @@
 import 'package:do_an/base/dimen.dart';
 import 'package:do_an/base_controller/base_controller_src.dart';
+import 'package:do_an/model/filter.dart';
 import 'package:do_an/model/transaction.dart' as tr;
+import 'package:do_an/pages/filter/view/filter_view.dart';
 import 'package:do_an/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -16,9 +18,14 @@ class TransactionController extends BaseSearchAppbarController {
   var dbHelper = DBHelper();
   DateTime date = DateTime.now();
   int page = 0;
+  RxBool isFilter = false.obs;
 
   @override
   void onInit() async {
+    fromDate =
+        DateFormat('yyyy-MM-dd').format(DateTime(date.year, date.month, 1));
+    toDate = DateFormat('yyyy-MM-dd')
+        .format(Jiffy(fromDate).add(months: 1, days: -1).dateTime);
     showLoading();
     await initData();
     hideLoading();
@@ -28,7 +35,7 @@ class TransactionController extends BaseSearchAppbarController {
   @override
   void onReady() {}
 
-  void onTapped(int index) async {
+  Future<void> onTapped(int index) async {
     indexTabbar.value = index;
 
     switch (indexTabbar.value) {
@@ -60,10 +67,6 @@ class TransactionController extends BaseSearchAppbarController {
   }
 
   Future<void> initData() async {
-    fromDate =
-        DateFormat('yyyy-MM-dd').format(DateTime(date.year, date.month, 1));
-    toDate = DateFormat('yyyy-MM-dd')
-        .format(Jiffy(fromDate).add(months: 1, days: -1).dateTime);
     rxList.value =
         await dbHelper.getTransactions(fromDate, toDate, 0, defaultItemOfPage);
     //dbHelper.getTotalValueOfCategory(0, "", "");
@@ -74,8 +77,9 @@ class TransactionController extends BaseSearchAppbarController {
     page++;
     List<tr.Transaction> transactions = await dbHelper.getTransactions(
         fromDate, toDate, defaultItemOfPage * page, defaultItemOfPage);
-
-    rxList.addAll(transactions);
+    if (transactions.isNotEmpty) {
+      rxList.add(transactions);
+    }
     refreshController.loadComplete();
   }
 
@@ -119,25 +123,20 @@ class TransactionController extends BaseSearchAppbarController {
       ),
     );
   }
-  // void showFilterPage() {
-  //   Get.bottomSheet(
-  //     const FilterBillPage(),
-  //     isScrollControlled: true,
-  //   ).then((value) async {
-  //     if (value != null) {
-  //       if (value is BillsRequest) {
-  //         isFilter.value = true;
-  //         billsRequest = value;
-  //       } else if (value == AppConst.keyFromFilterPage) {
-  //         billsRequest = BillsRequest();
-  //         isFilter.value = false;
-  //       }
-  //       pageNumber = AppConst.defaultPage;
-  //       listOrderModel.clear();
-  //       await getListOrder(
-  //         isRefresh: true,
-  //       );
-  //     }
-  //   });
-  // }
+
+  void showFilterPage() {
+    Get.bottomSheet(
+      const FilterPage(),
+      //isScrollControlled: true,
+    ).then((value) async {
+      if (value is FilterItem) {
+        isFilter.value = true;
+        fromDate = value.fromDate;
+        toDate = value.toDate;
+        await initData();
+      } else {
+        await onTapped(indexTabbar.value);
+      }
+    });
+  }
 }

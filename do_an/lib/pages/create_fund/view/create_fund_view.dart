@@ -45,6 +45,7 @@ class CreateFundPage extends GetView<CreateFundController> {
                   buildInputText: BuildInputText(
                     InputTextModel(
                       controller: controller.fundNameController,
+                      textInputType:TextInputType.number,
                       hintText: AppString.hintNameFund,
                       iconNextTextInputAction: TextInputAction.done,
                       validator: (value) {
