@@ -25,7 +25,7 @@ class CreateTransactionController extends GetxController {
   final descriptionController = TextEditingController();
 
   final peopleController = TextEditingController();
-  Rx<Transaction> transaction = Transaction().obs;
+  Rx<Transaction> transaction = Transaction(executionTime: DateTime.now()).obs;
   var choosedDate = false.obs;
   var selectedDate = DateTime.now().obs;
   DBHelper dbHelper = DBHelper();

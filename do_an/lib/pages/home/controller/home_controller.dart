@@ -14,9 +14,7 @@ class HomeController extends BaseGetxController {
   RxList<Transaction> rxList = RxList<Transaction>();
   @override
   void onInit() async {
-    showLoading();
     await initData();
-    hideLoading();
     super.onInit();
   }
 
@@ -24,12 +22,13 @@ class HomeController extends BaseGetxController {
   void onReady() {}
 
   Future<void> initData() async {
+    showLoading();
     await dbHelper.autoGenerateTransaction();
     totalValue.value = await dbHelper.getTotalValue("", "");
     cashValue.value = await dbHelper.getTotalValueOfCash();
-    rxList.value =
-        await dbHelper.getTop5Recent();
+    rxList.value = await dbHelper.getTop5Recent();
     spedings.value = await getValueOfMonth();
+    hideLoading();
   }
 
   Future<List<Spending>> getValueOfMonth() async {

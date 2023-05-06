@@ -18,7 +18,7 @@ class EventPage extends BaseSearchAppBarWidget<EventController> {
   Widget buildWidgets() {
     return baseShimmerLoading(
       () => buildPage(
-        backButton: false,
+        backButton: Get.arguments != null,
         showWidgetEmpty: false,
         buildBody: UtilWidget.buildSmartRefresher(
           refreshController: controller.refreshController,

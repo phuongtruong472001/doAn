@@ -21,67 +21,79 @@ class TracsactionPage extends BaseSearchAppBarWidget<TransactionController> {
       length: 3,
       child: baseShimmerLoading(
         () => buildPage(
-          // actionExtra: Obx(
-          //   () => Container(
-          //     height: 40,
-          //     width: 40,
-          //     decoration: const BoxDecoration(
-          //       color: Colors.white,
-          //       shape: BoxShape.circle,
-          //     ),
-          //     child: IconButton(
-          //       icon: Stack(
-          //         clipBehavior: Clip.none,
-          //         children: <Widget>[
-          //           const Icon(
-          //             Icons.filter_alt_outlined,
-          //             color: kPrimaryColor,
-          //           ),
-          //           if (controller.isFilter.value)
-          //             const Positioned(
-          //               top: 10,
-          //               right: -3.0,
-          //               child: Icon(
-          //                 Icons.check_circle,
-          //                 size: 12,
-          //                 color: kPrimaryColor,
-          //               ),
-          //             )
-          //         ],
-          //       ),
-          //       onPressed: controller.showFilterPage,
-          //     ),
-          //   ).paddingOnly(
-          //     left: paddingSmall,
-          //   ),
-          // ),
+          actionExtra: Obx(
+            () => Container(
+              height: 40,
+              width: 40,
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                shape: BoxShape.circle,
+              ),
+              child: IconButton(
+                icon: Stack(
+                  clipBehavior: Clip.none,
+                  children: <Widget>[
+                    const Icon(
+                      Icons.filter_alt_outlined,
+                      color: kPrimaryColor,
+                    ),
+                    if (controller.isFilter.value)
+                      const Positioned(
+                        top: 10,
+                        right: -3.0,
+                        child: Icon(
+                          Icons.check_circle,
+                          size: 12,
+                          color: kPrimaryColor,
+                        ),
+                      )
+                  ],
+                ),
+                onPressed: controller.showFilterPage,
+              ),
+            ).paddingOnly(
+              left: paddingSmall,
+            ),
+          ),
           backButton: false,
           showWidgetEmpty: false,
           buildBody: Column(
             //mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Container(
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
-                  ),
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        height: 50,
-                        child: TabBar(
-                          tabs: const [
-                            AutoSizeText(AppString.lastMonth),
-                            AutoSizeText(AppString.thisMonth),
-                            AutoSizeText(AppString.future),
-                          ],
-                          onTap: (value) async =>
-                              await controller.onTapped(value),
-                          labelColor: kPrimaryColor,
-                          unselectedLabelColor: kSecondaryColor,
-                        ),
-                      )
-                    ],
-                  )),
+              Obx(
+                () => Row(
+                  children: [
+                    Expanded(
+                      child: controller.isFilter.value
+                          ? AutoSizeText(
+                              "Tất cả giao dịch trong khoảng thời gian từ ${controller.fromDate} đến ${controller.toDate}",
+                              style: Get.textTheme.bodyText1!
+                                  .copyWith(fontStyle: FontStyle.italic),
+                            )
+                          : SizedBox(
+                              height: 50,
+                              child: TabBar(
+                                tabs: const [
+                                  AutoSizeText(AppString.lastMonth),
+                                  AutoSizeText(AppString.thisMonth),
+                                  AutoSizeText(AppString.future),
+                                ],
+                                onTap: (value) async =>
+                                    await controller.onTapped(value),
+                                labelColor: kPrimaryColor,
+                                unselectedLabelColor: kSecondaryColor,
+                              ),
+                            ),
+                    ),
+                    Visibility(
+                      visible: controller.isFilter.value,
+                      child: IconButton(
+                          onPressed: () => controller.isFilter.value = false,
+                          icon: Icon(Icons.close)),
+                    )
+                  ],
+                ),
+              ),
               Expanded(
                 child: UtilWidget.buildSmartRefresher(
                   refreshController: controller.refreshController,
