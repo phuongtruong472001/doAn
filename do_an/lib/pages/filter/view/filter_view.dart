@@ -3,16 +3,16 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 import '../../../base/dimen.dart';
-import '../../../base_ui/base_widget.dart';
 import '../../../component/util_widget.dart';
 import '../../../model/filter.dart';
 import '../controller/filter_controller.dart';
 
-class FilterPage extends BaseGetWidget<FilterController> {
+class FilterPage extends GetView<FilterController> {
   const FilterPage({Key? key}) : super(key: key);
-
   @override
-  Widget buildWidgets() {
+  FilterController get controller => Get.put(FilterController());
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
         children: [
@@ -23,18 +23,18 @@ class FilterPage extends BaseGetWidget<FilterController> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  _buildItemTimeSelect(),
+                  _buildItemTimeSelect(context),
                 ],
               ),
             ),
           ),
           _buildBottomAction(),
         ],
-      ),
+      ).paddingAll(defaultPadding),
     );
   }
 
-  Widget _buildItemTimeSelect() {
+  Widget _buildItemTimeSelect(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -42,7 +42,7 @@ class FilterPage extends BaseGetWidget<FilterController> {
           children: [
             Text(
               "Thời gian",
-              style: Get.textTheme.bodyLarge!.copyWith(color: Colors.grey),
+              style: Get.textTheme.bodyLarge,
             ),
             const Spacer(),
             Obx(
@@ -70,7 +70,7 @@ class FilterPage extends BaseGetWidget<FilterController> {
         Container(
           height: 80,
           decoration: BoxDecoration(
-            color: Colors.black,
+            color: Colors.white,
             borderRadius: const BorderRadius.all(Radius.circular(10.0)),
             border: Border.all(color: Colors.black, style: BorderStyle.solid),
           ),
@@ -81,15 +81,13 @@ class FilterPage extends BaseGetWidget<FilterController> {
               Expanded(
                 child: buildButtonDateOption("Từ ngày", controller.fromDateStr,
                     onClick: () async {
-                  final DateTime? picked = await UtilWidget.buildDateTimePicker(
-                    dateTimeInit: controller.fromDateStr.value.isNotEmpty
+                  final DateTime? picked = await showDatePicker(
+                    initialDate: controller.fromDateStr.value.isNotEmpty
                         ? convertStringToDate(controller.fromDateStr.value)
-                        : controller.toDateStr.value.isNotEmpty
-                            ? convertStringToDate(controller.toDateStr.value)
-                            : DateTime.now(),
-                    maxTime: controller.toDateStr.value.isEmpty
-                        ? DateTime.now()
-                        : convertStringToDate(controller.toDateStr.value),
+                        : DateTime.now(),
+                    context: context,
+                    firstDate: DateTime(2023),
+                    lastDate: DateTime(2025),
                   );
                   if (picked != null) {
                     controller.fromDateStr.value =
@@ -102,13 +100,15 @@ class FilterPage extends BaseGetWidget<FilterController> {
               Expanded(
                 child: buildButtonDateOption("Đến ngày", controller.toDateStr,
                     onClick: () async {
-                  final DateTime? picked = await UtilWidget.buildDateTimePicker(
-                    dateTimeInit: controller.toDateStr.value.isEmpty
+                  final DateTime? picked = await showDatePicker(
+                    context: context,
+                    initialDate: controller.toDateStr.value.isEmpty
                         ? DateTime.now()
                         : convertStringToDate(controller.toDateStr.value),
-                    minTime: controller.fromDateStr.value.isNotEmpty
+                    firstDate: controller.fromDateStr.value.isNotEmpty
                         ? convertStringToDate(controller.fromDateStr.value)
-                        : DateTime.utc(DateTime.now().year - 10),
+                        : DateTime.now(),
+                    lastDate: DateTime(2025),
                   );
                   if (picked != null) {
                     controller.toDateStr.value = formatDateTimeToString(picked);
@@ -125,11 +125,11 @@ class FilterPage extends BaseGetWidget<FilterController> {
   }
 
   DateTime convertStringToDate(String dateTime) {
-    return DateFormat("dd/MM/yyyy", "vi_VN").parse("dd/MM/yyyy");
+    return DateTime.parse(dateTime);
   }
 
   String formatDateTimeToString(DateTime dateTime) {
-    return DateFormat("dd/MM/yyyy").format(dateTime);
+    return DateFormat("yyyy-MM-dd").format(dateTime);
   }
 
   Widget buildButtonDateOption(String title, RxString dateStr,

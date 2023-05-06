@@ -22,6 +22,10 @@ class TransactionController extends BaseSearchAppbarController {
 
   @override
   void onInit() async {
+    fromDate =
+        DateFormat('yyyy-MM-dd').format(DateTime(date.year, date.month, 1));
+    toDate = DateFormat('yyyy-MM-dd')
+        .format(Jiffy(fromDate).add(months: 1, days: -1).dateTime);
     showLoading();
     await initData();
     hideLoading();
@@ -31,7 +35,7 @@ class TransactionController extends BaseSearchAppbarController {
   @override
   void onReady() {}
 
-  void onTapped(int index) async {
+  Future<void> onTapped(int index) async {
     indexTabbar.value = index;
 
     switch (indexTabbar.value) {
@@ -63,10 +67,6 @@ class TransactionController extends BaseSearchAppbarController {
   }
 
   Future<void> initData() async {
-    fromDate =
-        DateFormat('yyyy-MM-dd').format(DateTime(date.year, date.month, 1));
-    toDate = DateFormat('yyyy-MM-dd')
-        .format(Jiffy(fromDate).add(months: 1, days: -1).dateTime);
     rxList.value =
         await dbHelper.getTransactions(fromDate, toDate, 0, defaultItemOfPage);
     //dbHelper.getTotalValueOfCategory(0, "", "");
@@ -77,8 +77,9 @@ class TransactionController extends BaseSearchAppbarController {
     page++;
     List<tr.Transaction> transactions = await dbHelper.getTransactions(
         fromDate, toDate, defaultItemOfPage * page, defaultItemOfPage);
-
-    rxList.add(transactions);
+    if (transactions.isNotEmpty) {
+      rxList.add(transactions);
+    }
     refreshController.loadComplete();
   }
 
@@ -126,13 +127,15 @@ class TransactionController extends BaseSearchAppbarController {
   void showFilterPage() {
     Get.bottomSheet(
       const FilterPage(),
-      isScrollControlled: true,
+      //isScrollControlled: true,
     ).then((value) async {
       if (value is FilterItem) {
         isFilter.value = true;
         fromDate = value.fromDate;
         toDate = value.toDate;
-        onInit();
+        await initData();
+      } else {
+        await onTapped(indexTabbar.value);
       }
     });
   }

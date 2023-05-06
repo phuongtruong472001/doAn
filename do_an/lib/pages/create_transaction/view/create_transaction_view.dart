@@ -33,7 +33,7 @@ class CreateTransactionPage extends GetView<CreateTransactionController> {
           actions: [
             Center(
                 child: InkWell(
-              onTap: () => controller.createTransaction(),
+              onTap: ()async => await controller.createTransaction(),
               child: AutoSizeText(
                 Get.arguments == null ? AppString.save : AppString.edit,
                 style: Get.textTheme.bodyLarge,
