@@ -31,6 +31,11 @@ class CreateTransactionController extends GetxController {
   DBHelper dbHelper = DBHelper();
   int oldValue = 0;
   Rx<File?> file = Rx<File?>(null);
+  TransactionController transactionController =
+      Get.isRegistered<TransactionController>()
+          ? Get.find<TransactionController>()
+          : Get.put(TransactionController());
+  HomeController homeController = Get.find<HomeController>();
 
   void selectDate(BuildContext context) async {
     DateTime? picked = await showDatePicker(
@@ -164,10 +169,9 @@ class CreateTransactionController extends GetxController {
         } else {
           messege = AppString.editSuccess("Giao dịch");
         }
-        TransactionController transactionController =
-            Get.find<TransactionController>();
+
         await transactionController.initData();
-        HomeController homeController = Get.find<HomeController>();
+
         await homeController.initData();
         Get.back();
       } else {

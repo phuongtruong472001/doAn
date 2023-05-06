@@ -10,6 +10,7 @@ import 'package:intl/intl.dart';
 import 'package:jiffy/jiffy.dart';
 
 import '../../../database/database.dart';
+import '../../home/controller/home_controller.dart';
 
 class TransactionController extends BaseSearchAppbarController {
   RxInt indexTabbar = 1.obs;
@@ -19,6 +20,7 @@ class TransactionController extends BaseSearchAppbarController {
   DateTime date = DateTime.now();
   int page = 0;
   RxBool isFilter = false.obs;
+  HomeController homeController = Get.find<HomeController>();
 
   @override
   void onInit() async {
@@ -116,6 +118,7 @@ class TransactionController extends BaseSearchAppbarController {
                   Get.back();
                   showSnackBar("Xoá giao dịch thành công");
                   await initData();
+                  homeController.initData();
                 }
               },
               child: const Text('Xoá'))

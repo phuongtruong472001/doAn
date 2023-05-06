@@ -45,11 +45,10 @@ class CreateFundPage extends GetView<CreateFundController> {
                   buildInputText: BuildInputText(
                     InputTextModel(
                       controller: controller.fundNameController,
-                      textInputType:TextInputType.number,
                       hintText: AppString.hintNameFund,
                       iconNextTextInputAction: TextInputAction.done,
                       validator: (value) {
-                        if (value == "0") {
+                        if (value!.isEmpty) {
                           return "Không được để trống";
                         }
                         return "";
@@ -66,9 +65,10 @@ class CreateFundPage extends GetView<CreateFundController> {
                       controller: controller.valueController,
                       hintText: AppString.hintValue,
                       iconNextTextInputAction: TextInputAction.done,
+                      textInputType:TextInputType.number,
                       inputFormatters: InputFormatterEnum.currency,
                       validator: (value) {
-                        if (value!.isEmpty) {
+                        if (value == "0") {
                           return "Không được để trống";
                         }
                         return "";
