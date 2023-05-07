@@ -21,11 +21,7 @@ class EventPage extends BaseSearchAppBarWidget<EventController> {
       () => buildPage(
         backButton: Get.arguments != null,
         showWidgetEmpty: false,
-        buildBody: UtilWidget.buildSmartRefresher(
-          refreshController: controller.refreshController,
-          onRefresh: controller.onRefresh,
-          onLoadMore: controller.onLoadMore,
-          child: ListView.builder(
+        buildBody:  ListView.builder(
             itemBuilder: (context, index) => GestureDetector(
               onTap: () => controller.onTapItem(controller.rxList[index]),
               child: Card(
@@ -63,7 +59,7 @@ class EventPage extends BaseSearchAppBarWidget<EventController> {
               ),
             ),
             itemCount: controller.rxList.length,
-          ),
+          
         ),
         function: () {
           Get.toNamed(

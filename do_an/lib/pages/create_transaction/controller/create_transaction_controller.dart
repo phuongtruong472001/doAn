@@ -15,6 +15,7 @@ import 'package:jiffy/jiffy.dart';
 
 import '../../../base/strings.dart';
 import '../../../component/base_bottomsheet.dart';
+import '../../../model/fund.dart';
 import '../../../model/repeat_time.dart';
 import '../../../routes/routes.dart';
 
@@ -86,10 +87,11 @@ class CreateTransactionController extends GetxController {
 
   void chooseFund() {
     Get.toNamed(AppRoutes.fund, arguments: true)!.then((value) {
-      if (value != null) {
+      if (value is Fund) {
         transaction.update((val) {
           val!.fundID = value.id;
-          val.fundName = value.name;
+          val.fundName = value.name ?? "";
+          val.iconFund = value.icon ?? "";
         });
       }
     });

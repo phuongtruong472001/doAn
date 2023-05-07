@@ -69,7 +69,7 @@ class TracsactionPage extends BaseSearchAppBarWidget<TransactionController> {
                     Expanded(
                       child: controller.isFilter.value
                           ? AutoSizeText(
-                              "Tất cả giao dịch trong khoảng thời gian từ ${controller.fromDate} đến ${controller.toDate}",
+                              " ${controller.fromDate} -> ${controller.toDate}",
                               style: Get.textTheme.bodyLarge!
                                   .copyWith(fontStyle: FontStyle.italic),
                             )

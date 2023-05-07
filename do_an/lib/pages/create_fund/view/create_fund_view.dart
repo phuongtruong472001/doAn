@@ -32,7 +32,7 @@ class CreateFundPage extends GetView<CreateFundController> {
               Get.arguments == null ? AppString.save : AppString.edit,
               style: Get.textTheme.bodyLarge,
             ),
-          )),
+          )).marginOnly(left: 10),
         ],
       ),
       body: SafeArea(

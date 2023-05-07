@@ -31,14 +31,13 @@ class CreateTransactionPage extends GetView<CreateTransactionController> {
           ),
           centerTitle: true,
           actions: [
-            Center(
-                child: InkWell(
-              onTap: ()async => await controller.createTransaction(),
+            TextButton(
+              onPressed: () async => await controller.createTransaction(),
               child: AutoSizeText(
                 Get.arguments == null ? AppString.save : AppString.edit,
                 style: Get.textTheme.bodyLarge,
               ),
-            )),
+            ).marginOnly(left: 10),
           ],
         ),
         body: SingleChildScrollView(
@@ -54,7 +53,7 @@ class CreateTransactionPage extends GetView<CreateTransactionController> {
                       hintText: AppString.hintValue,
                       iconNextTextInputAction: TextInputAction.done,
                       inputFormatters: InputFormatterEnum.currency,
-                      textInputType:TextInputType.number,
+                      textInputType: TextInputType.number,
                       submitFunc: (v) => {},
                       validator: (value) {
                         if (value == "0") {
@@ -113,10 +112,10 @@ class CreateTransactionPage extends GetView<CreateTransactionController> {
                       ),
                       title: Obx(() => AutoSizeText(
                             controller.transaction.value.isRepeat
-                                ? "Lặp lại vào lúc ${DateFormat('kk:mm dd-MM-yyyy').format(controller.transaction.value.executionTime??DateTime.now())}"
+                                ? "Lặp lại vào lúc ${DateFormat('kk:mm dd-MM-yyyy').format(controller.transaction.value.executionTime ?? DateTime.now())}"
                                 : DateFormat('kk:mm dd-MM-yyyy').format(
                                     controller
-                                        .transaction.value.executionTime??
+                                            .transaction.value.executionTime ??
                                         DateTime.now()),
                           )),
                     ),
@@ -150,7 +149,7 @@ class CreateTransactionPage extends GetView<CreateTransactionController> {
                       () => ListTile(
                         leading: controller.transaction.value.fundID! >= 0
                             ? Image.asset(
-                                "${ImageAsset.linkIconFund}${controller.transaction.value.fundID!}.png",
+                                "${ImageAsset.linkIconFund}${controller.transaction.value.iconFund}",
                                 width: 40,
                                 height: 40,
                               )

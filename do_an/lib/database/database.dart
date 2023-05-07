@@ -236,7 +236,7 @@ class DBHelper {
   Future<bool> addTransaction(tr.Transaction transaction) async {
     var dbClient = await db;
     var status = await dbClient?.rawInsert(
-      'INSERT INTO Transactions(value,description,eventId,categoryId,executionTime,fundID,categoryName,eventName,fundName,allowNegative,isIncrease,isRepeat,typeTime,typeRepeat,endTime,imageLink,amount) VALUES(?, ?, ?, ?, ?, ?,?,?,?,?,?,?,?,?,?,?,?)',
+      'INSERT INTO Transactions(value,description,eventId,categoryId,executionTime,fundID,categoryName,eventName,fundName,allowNegative,isIncrease,isRepeat,typeTime,typeRepeat,endTime,imageLink,amount,iconFund) VALUES(?, ?, ?, ?, ?, ?,?,?,?,?,?,?,?,?,?,?,?,?)',
       [
         transaction.value,
         transaction.description,
@@ -254,7 +254,8 @@ class DBHelper {
         transaction.typeRepeat,
         DateFormat('yyyy-MM-dd kk:mm').format(transaction.endTime!),
         transaction.imageLink,
-        transaction.amount
+        transaction.amount,
+        transaction.iconFund
       ],
     );
     if (status != 0) {
@@ -302,7 +303,7 @@ class DBHelper {
   Future<bool> editTransaction(tr.Transaction transaction, int oldValue) async {
     var dbClient = await db;
     var status = await dbClient?.rawUpdate(
-      'Update Transactions SET value=${transaction.value} ,description="${transaction.description}",eventId=${transaction.eventId},categoryId=${transaction.categoryId},executionTime="${DateFormat('yyyy-MM-dd kk:mm').format(transaction.executionTime!)}",fundID=${transaction.fundID},categoryName="${transaction.categoryName}",eventName="${transaction.eventName}",fundName="${transaction.fundName}",imageLink="${transaction.imageLink}",amount=${transaction.amount}  WHERE id=${transaction.id}',
+      'Update Transactions SET value=${transaction.value} ,description="${transaction.description}",eventId=${transaction.eventId},categoryId=${transaction.categoryId},executionTime="${DateFormat('yyyy-MM-dd kk:mm').format(transaction.executionTime!)}",fundID=${transaction.fundID},categoryName="${transaction.categoryName}",eventName="${transaction.eventName}",fundName="${transaction.fundName}",imageLink="${transaction.imageLink}",amount=${transaction.amount},iconFund="${transaction.iconFund}"  WHERE id=${transaction.id}',
     );
     transaction.value = transaction.value! - oldValue;
     if (status != 0) {
