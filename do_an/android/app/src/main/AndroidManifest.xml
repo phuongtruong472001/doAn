@@ -7,7 +7,7 @@
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
    <application
         android:requestLegacyExternalStorage="true"
-        android:label="do_an"
+        android:label="Piggy Wallet"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

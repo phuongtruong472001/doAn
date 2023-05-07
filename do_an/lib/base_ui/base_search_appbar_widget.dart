@@ -37,8 +37,12 @@ abstract class BaseSearchAppBarWidget<T extends BaseSearchAppbarController>
                 autofocus: false,
               ),
               backButton: backButton,
-              actions: [actionExtra]
-            )
+              actions: [
+                  actionExtra,
+                  const SizedBox(
+                    width: 10,
+                  )
+                ])
           : null,
       body: baseShimmerLoading(
         () => _buildBody(

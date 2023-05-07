@@ -61,14 +61,16 @@ dependencies:
   timezone: ^0.8.0
   rxdart: ^0.27.4
   flutter_rounded_date_picker: ^3.0.2
-  sticky_grouped_list: ^3.1.0
   grouped_list: ^5.1.2
-dependency_overrides: 
-   scrollable_positioned_list: 0.3.5
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
+  icons_launcher: ^1.1.7
+flutter_icons:
+  image_path: 'assets/ic_logo.jpg'
+  ios: true
+  android: true
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
   # activated in the `analysis_options.yaml` file located at the root of your
