@@ -416,6 +416,12 @@ class DBHelper {
     return sumValues;
   }
 
+  Future<void> updateEndtimeTransaction(tr.Transaction transaction) async {
+    var dbClient = await db;
+    await dbClient?.rawQuery(
+        'UPDATE Transactions SET endTime= "${transaction.endTime}" WHERE id=${transaction.id}');
+  }
+
   Future<void> autoGenerateTransaction() async {
     List<tr.Transaction> transactions = await getTransactionsRepeat();
     for (tr.Transaction transaction in transactions) {
@@ -440,6 +446,7 @@ class DBHelper {
             tempTransaction.isRepeat = false;
             await addTransaction(tempTransaction);
           } else {
+            updateEndtimeTransaction(transaction);
             break;
           }
         }

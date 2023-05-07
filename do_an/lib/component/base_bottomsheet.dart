@@ -3,6 +3,7 @@ import 'package:do_an/base/dimen.dart';
 import 'package:do_an/base/strings.dart';
 import 'package:do_an/database/database.dart';
 import 'package:do_an/model/repeat_time.dart';
+import 'package:do_an/pages/create_transaction/controller/create_transaction_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -295,7 +296,22 @@ class BaseBottomSheetController extends GetxController {
   }
 
   @override
-  void onReady() {}
+  void onInit() {
+    CreateTransactionController controller =
+        Get.find<CreateTransactionController>();
+    isRepeat.value = controller.transaction.value.isRepeat;
+    typeTime.value = controller.transaction.value.typeTime ?? 0;
+    typeRepeat.value = controller.transaction.value.typeRepeat ?? 0;
+    quantityController.text = (controller.transaction.value.amount).toString();
+    selectedDate.value =
+        controller.transaction.value.executionTime ?? DateTime.now();
+    time.value = TimeOfDay(
+        hour: controller.transaction.value.executionTime!.hour,
+        minute: controller.transaction.value.executionTime!.minute);
+
+    // TODO: implement onInit
+    super.onInit();
+  }
 
   void doneRepeatTime() {
     repeatTime.value.timeOfDay = time.value;

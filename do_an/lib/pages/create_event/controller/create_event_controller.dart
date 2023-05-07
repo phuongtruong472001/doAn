@@ -65,7 +65,7 @@ class CreateEventController extends GetxController {
     if (formData.currentState!.validate()) {
       bool status = false;
       if (Get.arguments != null) {
-      await  Get.dialog(
+        await Get.dialog(
           AlertDialog(
             title: const Text("Xác nhận"),
             content: const Text('Bạn có muốn sửa sự kiện này không?'),
@@ -128,6 +128,8 @@ class CreateEventController extends GetxController {
       nameController.value.text = Get.arguments.name;
       valueController.text = Get.arguments.estimateValue.toString();
       selectedDate.value = Get.arguments.date;
+      time.value = TimeOfDay(
+          hour: Get.arguments.date.hour, minute: Get.arguments.date.minute);
       listTransaction.value =
           await dbHelper.getTransactionsOfEvent(event.value.id!);
     }

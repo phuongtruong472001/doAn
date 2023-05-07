@@ -51,7 +51,9 @@ class BottomNavigationBarHomeController extends BaseGetxController {
       }
     }
     if (index == 3) {
-      EventController eventController = Get.find<EventController>();
+      EventController eventController = Get.isRegistered<EventController>()
+          ? Get.find<EventController>()
+          : Get.put(EventController());
       eventController.initData();
     }
   }
