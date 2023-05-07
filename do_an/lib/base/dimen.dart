@@ -14,4 +14,4 @@ const defaultSizeIcon = 25.0;
 
 //item of page
 
-const defaultItemOfPage = 10;
+const defaultItemOfPage = 1;

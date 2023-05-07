@@ -6,6 +6,8 @@ import 'package:do_an/base_ui/base_ui_src.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
+import 'package:grouped_list/grouped_list.dart';
+import 'package:intl/intl.dart';
 
 import '../../../component/item_card.dart';
 import '../../../component/util_widget.dart';
@@ -68,7 +70,7 @@ class TracsactionPage extends BaseSearchAppBarWidget<TransactionController> {
                       child: controller.isFilter.value
                           ? AutoSizeText(
                               "Tất cả giao dịch trong khoảng thời gian từ ${controller.fromDate} đến ${controller.toDate}",
-                              style: Get.textTheme.bodyText1!
+                              style: Get.textTheme.bodyLarge!
                                   .copyWith(fontStyle: FontStyle.italic),
                             )
                           : SizedBox(
@@ -90,7 +92,7 @@ class TracsactionPage extends BaseSearchAppBarWidget<TransactionController> {
                       visible: controller.isFilter.value,
                       child: IconButton(
                           onPressed: () => controller.isFilter.value = false,
-                          icon: Icon(Icons.close)),
+                          icon: const Icon(Icons.close)),
                     )
                   ],
                 ),
@@ -101,24 +103,24 @@ class TracsactionPage extends BaseSearchAppBarWidget<TransactionController> {
                   onRefresh: controller.onRefresh,
                   onLoadMore: controller.onLoadMore,
                   enablePullUp: true,
-                  child: ListView.builder(
-                    controller: controller.scrollControllerUpToTop,
-                    padding: EdgeInsets.only(
-                      top: controller.isScrollToTop() ? 0 : 70,
-                    ),
-                    shrinkWrap: true,
-                    itemBuilder: (context, index) {
-                      return Slidable(
+                  child: Obx(
+                    () => GroupedListView<dynamic, String>(
+                      shrinkWrap: true,
+                      elements: controller.rxList.value,
+                      useStickyGroupSeparators: true,
+                      controller: controller.scrollControllerUpToTop,
+                      groupBy: (dynamic element) => DateFormat('yyyy-MM-dd')
+                          .format(element.executionTime),
+                      groupSeparatorBuilder: (String value) => Text(value),
+                      itemBuilder: (context, dynamic element) => Slidable(
                         key: const ValueKey(0),
                         endActionPane: ActionPane(
                           motion: const ScrollMotion(),
                           children: [
                             SlidableAction(
-                              // An action can be bigger than the others.
                               flex: 1,
                               onPressed: (context) {
-                                controller.deleteTransaction(
-                                    controller.rxList[index]);
+                                controller.deleteTransaction(element);
                               },
                               backgroundColor: Colors.red,
                               foregroundColor: Colors.white,
@@ -128,15 +130,12 @@ class TracsactionPage extends BaseSearchAppBarWidget<TransactionController> {
                           ],
                         ),
                         child: GestureDetector(
-                          onTap: () =>
-                              controller.goToDetail(controller.rxList[index]),
-                          child: TransactionWidget(
-                            controller.rxList[index],
-                          ),
+                          onTap: () => controller.goToDetail(element),
+                          child: TransactionWidget(element),
                         ),
-                      );
-                    },
-                    itemCount: controller.rxList.length,
+                      ),
+                      order: GroupedListOrder.DESC,
+                    ),
                   ),
                 ),
               )

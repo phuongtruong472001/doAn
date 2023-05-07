@@ -71,23 +71,24 @@ class TransactionController extends BaseSearchAppbarController {
   Future<void> initData() async {
     rxList.value =
         await dbHelper.getTransactions(fromDate, toDate, 0, defaultItemOfPage);
-    //dbHelper.getTotalValueOfCategory(0, "", "");
   }
 
   @override
   Future<void> onLoadMore() async {
     page++;
-    List<tr.Transaction> transactions = await dbHelper.getTransactions(
+    var transactions = await dbHelper.getTransactions(
         fromDate, toDate, defaultItemOfPage * page, defaultItemOfPage);
     if (transactions.isNotEmpty) {
-      rxList.add(transactions);
+      rxList.addAll(transactions);
     }
+    print(rxList.length);
     refreshController.loadComplete();
   }
 
   @override
   Future<void> onRefresh() async {
     page = 0;
+    rxList.clear();
     await initData();
     refreshController.refreshCompleted();
   }
