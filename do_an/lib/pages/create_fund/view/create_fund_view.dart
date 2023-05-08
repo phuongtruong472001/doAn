@@ -41,42 +41,46 @@ class CreateFundPage extends GetView<CreateFundController> {
             key: controller.formData,
             child: Column(
               children: [
-                InputTextWithLabel(
-                  buildInputText: BuildInputText(
-                    InputTextModel(
-                      controller: controller.fundNameController,
-                      hintText: AppString.hintNameFund,
-                      iconNextTextInputAction: TextInputAction.done,
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return "Không được để trống";
-                        }
-                        return "";
-                      },
-                      //inputFormatters: InputFormatterEnum.lengthLimitingText,
-                      submitFunc: (v) => {},
+                Card(
+                  child: InputTextWithLabel(
+                    buildInputText: BuildInputText(
+                      InputTextModel(
+                        controller: controller.fundNameController,
+                        hintText: AppString.hintNameFund,
+                        iconNextTextInputAction: TextInputAction.done,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return "Không được để trống";
+                          }
+                          return "";
+                        },
+                        //inputFormatters: InputFormatterEnum.lengthLimitingText,
+                        submitFunc: (v) => {},
+                      ),
                     ),
+                    label: AppString.nameFund,
                   ),
-                  label: AppString.nameFund,
                 ),
-                InputTextWithLabel(
-                  buildInputText: BuildInputText(
-                    InputTextModel(
-                      controller: controller.valueController,
-                      hintText: AppString.hintValue,
-                      iconNextTextInputAction: TextInputAction.done,
-                      textInputType:TextInputType.number,
-                      inputFormatters: InputFormatterEnum.currency,
-                      validator: (value) {
-                        if (value == "0") {
-                          return "Không được để trống";
-                        }
-                        return "";
-                      },
-                      submitFunc: (v) => {},
+                Card(
+                  child: InputTextWithLabel(
+                    buildInputText: BuildInputText(
+                      InputTextModel(
+                        controller: controller.valueController,
+                        hintText: AppString.hintValue,
+                        iconNextTextInputAction: TextInputAction.done,
+                        textInputType:TextInputType.number,
+                        inputFormatters: InputFormatterEnum.currency,
+                        validator: (value) {
+                          if (value == "0") {
+                            return "Không được để trống";
+                          }
+                          return "";
+                        },
+                        submitFunc: (v) => {},
+                      ),
                     ),
+                    label: AppString.value,
                   ),
-                  label: AppString.value,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,

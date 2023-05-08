@@ -45,38 +45,42 @@ class CreateTransactionPage extends GetView<CreateTransactionController> {
             key: controller.formKey,
             child: Column(
               children: [
-                InputTextWithLabel(
-                  buildInputText: BuildInputText(
-                    InputTextModel(
-                      controller: controller.valueController,
-                      //currentNode: controller.descriptionNode,
-                      hintText: AppString.hintValue,
-                      iconNextTextInputAction: TextInputAction.done,
-                      inputFormatters: InputFormatterEnum.currency,
-                      textInputType: TextInputType.number,
-                      submitFunc: (v) => {},
-                      validator: (value) {
-                        if (value == "0") {
-                          return "Không được để trống";
-                        }
-                        return null;
-                      },
+                Card(
+                  child: InputTextWithLabel(
+                    buildInputText: BuildInputText(
+                      InputTextModel(
+                        controller: controller.valueController,
+                        //currentNode: controller.descriptionNode,
+                        hintText: AppString.hintValue,
+                        iconNextTextInputAction: TextInputAction.done,
+                        inputFormatters: InputFormatterEnum.currency,
+                        textInputType: TextInputType.number,
+                        submitFunc: (v) => {},
+                        validator: (value) {
+                          if (value == "0") {
+                            return "Không được để trống";
+                          }
+                          return null;
+                        },
+                      ),
                     ),
+                    label: AppString.value,
                   ),
-                  label: AppString.value,
                 ),
-                InputTextWithLabel(
-                  buildInputText: BuildInputText(
-                    InputTextModel(
-                      controller: controller.descriptionController,
-                      // currentNode: controller.descriptionNode,
-                      hintText: AppString.editNote,
-                      iconNextTextInputAction: TextInputAction.done,
-                      submitFunc: (v) => {},
-                      iconLeading: Icons.notes_outlined,
+                Card(
+                  child: InputTextWithLabel(
+                    buildInputText: BuildInputText(
+                      InputTextModel(
+                        controller: controller.descriptionController,
+                        // currentNode: controller.descriptionNode,
+                        hintText: AppString.editNote,
+                        iconNextTextInputAction: TextInputAction.done,
+                        submitFunc: (v) => {},
+                        iconLeading: Icons.notes_outlined,
+                      ),
                     ),
+                    label: AppString.createNote,
                   ),
-                  label: AppString.createNote,
                 ),
                 GestureDetector(
                   onTap: () => controller.chooseCategory(),

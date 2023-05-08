@@ -91,7 +91,10 @@ class TracsactionPage extends BaseSearchAppBarWidget<TransactionController> {
                     Visibility(
                       visible: controller.isFilter.value,
                       child: IconButton(
-                          onPressed: () => controller.isFilter.value = false,
+                          onPressed: () async {
+                            controller.isFilter.value = false;
+                            await controller.onRefresh();
+                          },
                           icon: const Icon(Icons.close)),
                     )
                   ],

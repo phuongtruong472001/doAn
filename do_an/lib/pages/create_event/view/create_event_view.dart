@@ -60,42 +60,46 @@ class CreateEventPage extends GetView<CreateEventController> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                InputTextWithLabel(
-                  buildInputText: BuildInputText(
-                    InputTextModel(
-                      controller: controller.nameController.value,
-                      hintText: AppString.hintNameEvent,
-                      iconNextTextInputAction: TextInputAction.done,
-                      //inputFormatters: InputFormatterEnum.lengthLimitingText,
-                      submitFunc: (v) => {},
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return "Không được để trống";
-                        }
-                        return null;
-                      },
+                Card(
+                  child: InputTextWithLabel(
+                    buildInputText: BuildInputText(
+                      InputTextModel(
+                        controller: controller.nameController.value,
+                        hintText: AppString.hintNameEvent,
+                        iconNextTextInputAction: TextInputAction.done,
+                        //inputFormatters: InputFormatterEnum.lengthLimitingText,
+                        submitFunc: (v) => {},
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return "Không được để trống";
+                          }
+                          return null;
+                        },
+                      ),
                     ),
+                    label: AppString.nameEvent,
                   ),
-                  label: AppString.nameEvent,
                 ),
-                InputTextWithLabel(
-                  buildInputText: BuildInputText(
-                    InputTextModel(
-                      controller: controller.valueController,
-                      hintText: AppString.hintValue,
-                      iconNextTextInputAction: TextInputAction.done,
-                      inputFormatters: InputFormatterEnum.currency,
-                      textInputType: TextInputType.number,
-                      submitFunc: (v) => {},
-                      validator: (value) {
-                        if (value == "0") {
-                          return "Không được để trống";
-                        }
-                        return null;
-                      },
+                Card(
+                  child: InputTextWithLabel(
+                    buildInputText: BuildInputText(
+                      InputTextModel(
+                        controller: controller.valueController,
+                        hintText: AppString.hintValue,
+                        iconNextTextInputAction: TextInputAction.done,
+                        inputFormatters: InputFormatterEnum.currency,
+                        textInputType: TextInputType.number,
+                        submitFunc: (v) => {},
+                        validator: (value) {
+                          if (value == "0") {
+                            return "Không được để trống";
+                          }
+                          return null;
+                        },
+                      ),
                     ),
+                    label: AppString.value,
                   ),
-                  label: AppString.value,
                 ),
                 // GestureDetector(
                 //    // onTap: () => controller.chooseFund(),
