@@ -20,6 +20,7 @@ class EventPage extends BaseSearchAppBarWidget<EventController> {
     return baseShimmerLoading(
       () => buildPage(
         backButton: Get.arguments != null,
+        hintSearch: "Tìm kiếm theo tên sự kiện",
         showWidgetEmpty: false,
         buildBody:  ListView.builder(
             itemBuilder: (context, index) => GestureDetector(

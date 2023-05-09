@@ -145,7 +145,19 @@ class _BarCharState extends State<BarChar> {
       child: BarChart(
         BarChartData(
           extraLinesData: ExtraLinesData(horizontalLines: [
-            // HorizontalLine(y: y),
+            HorizontalLine(
+              y: 12,
+              color: Colors.transparent,
+            )
+            // label: HorizontalLineLabel(
+            //     show: true,
+            //     labelResolver: (p0) => 2023.toString(),
+            //     alignment: Alignment.topRight,
+            //     padding: const EdgeInsets.only(
+            //       left: 12,
+            //     ),
+            //     style:
+            //         Get.textTheme.bodyText1!.copyWith(color: Colors.red)))
           ]),
           borderData: FlBorderData(
             border: const Border(
@@ -175,8 +187,6 @@ class _BarCharState extends State<BarChar> {
             show: true,
             drawHorizontalLine: true,
             drawVerticalLine: false,
-            getDrawingHorizontalLine: (value) =>
-                FlLine(dashArray: [8], color: Colors.grey.withOpacity(0.9)),
           ),
           titlesData: buildTitle(),
         ),
@@ -232,12 +242,13 @@ class _BarCharState extends State<BarChar> {
     return FlTitlesData(
         bottomTitles: AxisTitles(
             sideTitles: SideTitles(
-          showTitles: true,
-          getTitlesWidget: (value, meta) {
-            DateTime dateTime = viewSpending[value.toInt()].dateTime;
-            return AutoSizeText(DateFormat.yM().format(dateTime));
-          },
-        )),
+              showTitles: true,
+              getTitlesWidget: (value, meta) {
+                DateTime dateTime = viewSpending[value.toInt()].dateTime;
+                return AutoSizeText("Th. ${DateFormat.M().format(dateTime)}");
+              },
+            ),
+            axisNameWidget: Text("Năm ${viewSpending.last.dateTime.year}")),
         leftTitles: AxisTitles(
             sideTitles: SideTitles(
           showTitles: true,
@@ -265,7 +276,7 @@ class _BarCharState extends State<BarChar> {
 extension ShortNumber on double {
   String short() {
     if (this == 0) {
-      return "0";
+      return "";
     }
     int index = (Decimal.parse((log10(this) / 3).toStringAsFixed(1)).floor())
         .toDouble()

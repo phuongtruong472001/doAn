@@ -165,7 +165,7 @@ class UtilWidget {
             suffixIcon: suffixIcon,
             hintText: hintText ?? "",
             hintStyle:
-                TextStyle(color: hintColor ?? Colors.black, fontSize: 16),
+                TextStyle(color: hintColor ?? Colors.black, fontSize: 12),
             enabledBorder: OutlineInputBorder(
               borderSide: BorderSide(color: borderColor ?? Colors.grey),
               borderRadius: borderRadius ??

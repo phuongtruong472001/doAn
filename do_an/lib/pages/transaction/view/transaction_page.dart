@@ -24,6 +24,7 @@ class TracsactionPage extends BaseSearchAppBarWidget<TransactionController> {
       length: 3,
       child: baseShimmerLoading(
         () => buildPage(
+          hintSearch: "Tìm kiếm theo tên danh mục, mô tả",
           actionExtra: Obx(
             () => Container(
               height: 40,

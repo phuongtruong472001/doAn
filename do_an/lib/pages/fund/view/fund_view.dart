@@ -36,41 +36,41 @@ class FundPage extends GetView<FundController> {
             if (Get.arguments == null)
               GestureDetector(
                 onTap: () {},
-                child: Card(
-                  child: ListTile(
-                      leading: SizedBox(
-                        width: 40,
-                        height: 40,
-                        child: Image.asset(
-                          ImageAsset.icGlobal,
-                        ),
+                child: ListTile(
+                    leading: SizedBox(
+                      width: 40,
+                      height: 40,
+                      child: Image.asset(
+                        ImageAsset.icGlobal,
                       ),
-                      title: const AutoSizeText(AppString.total),
-                      subtitle: Obx(
-                        () => AutoSizeText(
-                          controller.totalValue.value
-                              .toString()
-                              .toVND(unit: 'đ'),
-                        ),
-                      )),
-                ),
+                    ),
+                    title: const AutoSizeText(AppString.total),
+                    subtitle: Obx(
+                      () => AutoSizeText(
+                        controller.totalValue.value.toString().toVND(unit: 'đ'),
+                      ),
+                    )),
               ),
             const AutoSizeText(AppString.listFund),
             Obx(
               () => ListView.builder(
                 itemBuilder: (context, index) => GestureDetector(
                   onTap: () => controller.onTapItem(controller.funds[index]),
-                  child: ListTile(
-                    leading: Image.asset(
-                      ImageAsset.linkIconFund + controller.funds[index].icon!,
-                    ),
-                    title: AutoSizeText(
-                      controller.funds[index].name ?? "",
-                    ),
-                    subtitle: AutoSizeText(
-                      controller.funds[index].value.toString().toVND(unit: 'đ'),
-                    ),
-                  ).paddingAll(paddingSmall),
+                  child: Card(
+                    child: ListTile(
+                      leading: Image.asset(
+                        ImageAsset.linkIconFund + controller.funds[index].icon!,
+                      ),
+                      title: AutoSizeText(
+                        controller.funds[index].name ?? "",
+                      ),
+                      subtitle: AutoSizeText(
+                        controller.funds[index].value
+                            .toString()
+                            .toVND(unit: 'đ'),
+                      ),
+                    ).paddingAll(paddingSmall),
+                  ),
                 ),
                 itemCount: controller.funds.length,
                 shrinkWrap: true,

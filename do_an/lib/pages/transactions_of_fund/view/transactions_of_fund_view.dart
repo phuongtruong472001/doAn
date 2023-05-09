@@ -14,7 +14,7 @@ class TransactionsOfFundPage
   Widget buildWidgets() {
     return baseShimmerLoading(
       () => buildPage(
-        hintSearch: "Tìm kiếm trong ${controller.nameOfFund}",
+        hintSearch: "Tìm kiếm giao dịch trong ${controller.nameOfFund}",
         backButton: true,
         showWidgetEmpty: false,
         buildBody: UtilWidget.buildSmartRefresher(
