@@ -77,7 +77,7 @@ abstract class BaseSearchAppBarWidget<T extends BaseSearchAppbarController>
   ) {
     return Align(
       alignment: Alignment.topLeft,
-      child: controller.rxList.isEmpty && showWidgetEmpty
+      child: controller.rxList.isEmpty
           ? (!controller.isSearch.value
               ? _buildViewEmpty(
                   buildWidgetEmpty,
@@ -99,31 +99,10 @@ abstract class BaseSearchAppBarWidget<T extends BaseSearchAppbarController>
     );
   }
 
-  Container _buildToTop() {
-    return Container(
-      padding: const EdgeInsets.only(bottom: 50),
-      child: FittedBox(
-        child: FloatingActionButton(
-          heroTag: null,
-          onPressed: () {
-            controller.scrollControllerUpToTop.animateTo(0,
-                duration: const Duration(seconds: 1),
-                curve: Curves.fastOutSlowIn);
-          },
-          backgroundColor: Colors.blueAccent,
-          child: const Icon(
-            Icons.keyboard_arrow_up,
-            size: 30,
-          ),
-        ),
-      ),
-    );
-  }
-
   Widget _buildViewEmpty(Widget? buildWidgetEmpty, String? titleEmpty,
       String? titleButton, actionButtonOnpress) {
-    return const Center(
-      child: Text("không tìm kiếm"),
+    return Center(
+      child: Text("Không có dữ liệu"),
     );
   }
 }

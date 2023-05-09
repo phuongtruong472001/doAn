@@ -157,9 +157,13 @@ class CreateEventController extends GetxController {
                 } else {
                   status = 1;
                 }
+                Get.back();
                 dbHelper.updateEventAllowNegative(event.value.id!, status);
                 await eventController.initData();
                 Get.back();
+                showSnackBar(
+                  "Cập nhật trạng thái thành công!",
+                );
               },
               child: const Text('Cập nhật'))
         ],
