@@ -11,6 +11,7 @@ ThemeData theme() {
     textTheme: textTheme(),
     //inputDecorationTheme: inputDecorationTheme(),
     visualDensity: VisualDensity.adaptivePlatformDensity,
+    cardTheme: CardTheme(elevation: 3)
   );
 }
 

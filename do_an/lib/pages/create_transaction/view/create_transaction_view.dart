@@ -33,10 +33,11 @@ class CreateTransactionPage extends GetView<CreateTransactionController> {
           actions: [
             TextButton(
               onPressed: () async => await controller.createTransaction(),
-              child: AutoSizeText(
-                Get.arguments == null ? AppString.save : AppString.edit,
-                style: Get.textTheme.bodyLarge,
-              ),
+              child: Icon(Icons.check)
+              // AutoSizeText(
+              //   Get.arguments == null ? AppString.save : AppString.edit,
+              //   style: Get.textTheme.bodyLarge,
+              // ),
             ).marginOnly(left: 10),
           ],
         ),
@@ -46,40 +47,35 @@ class CreateTransactionPage extends GetView<CreateTransactionController> {
             child: Column(
               children: [
                 Card(
-                  child: InputTextWithLabel(
-                    buildInputText: BuildInputText(
-                      InputTextModel(
-                        controller: controller.valueController,
-                        //currentNode: controller.descriptionNode,
-                        hintText: AppString.hintValue,
-                        iconNextTextInputAction: TextInputAction.done,
-                        inputFormatters: InputFormatterEnum.currency,
-                        textInputType: TextInputType.number,
-                        submitFunc: (v) => {},
-                        validator: (value) {
-                          if (value == "0") {
-                            return "Không được để trống";
-                          }
-                          return null;
-                        },
-                      ),
+                  child: BuildInputText(
+                    InputTextModel(
+                      controller: controller.valueController,
+                      //currentNode: controller.descriptionNode,
+                      hintText: AppString.hintValue,
+                      iconNextTextInputAction: TextInputAction.done,
+                      inputFormatters: InputFormatterEnum.currency,
+                      textInputType: TextInputType.number,
+                      iconLeading: Icons.attach_money_outlined,
+                      submitFunc: (v) => {},
+                      validator: (value) {
+                        if (value == "0") {
+                          return "Không được để trống";
+                        }
+                        return null;
+                      },
                     ),
-                    label: AppString.value,
                   ),
                 ),
                 Card(
-                  child: InputTextWithLabel(
-                    buildInputText: BuildInputText(
-                      InputTextModel(
-                        controller: controller.descriptionController,
-                        // currentNode: controller.descriptionNode,
-                        hintText: AppString.editNote,
-                        iconNextTextInputAction: TextInputAction.done,
-                        submitFunc: (v) => {},
-                        iconLeading: Icons.notes_outlined,
-                      ),
+                  child: BuildInputText(
+                    InputTextModel(
+                      controller: controller.descriptionController,
+                      // currentNode: controller.descriptionNode,
+                      hintText: AppString.editNote,
+                      iconNextTextInputAction: TextInputAction.done,
+                      submitFunc: (v) => {},
+                      iconLeading: Icons.notes_outlined,
                     ),
-                    label: AppString.createNote,
                   ),
                 ),
                 GestureDetector(
@@ -87,20 +83,16 @@ class CreateTransactionPage extends GetView<CreateTransactionController> {
                   child: Card(
                     child: Obx(
                       () => ListTile(
-                          leading: controller.transaction.value.categoryId! >= 0
-                              ? Image.asset(
-                                  "${ImageAsset.linkIconCategory}${controller.transaction.value.categoryId!}.png",
-                                  width: 40,
-                                  height: 40,
-                                )
-                              : null,
-                          trailing: AutoSizeText(
-                            AppString.selectCategory,
-                            style: Get.textTheme.bodyMedium!
-                                .copyWith(color: kPrimaryColor),
-                          ),
+                          leading: const Icon(Icons.event),
+                          // trailing: AutoSizeText(
+                          //   AppString.selectCategory,
+                          //   style: Get.textTheme.bodyMedium!
+                          //       .copyWith(color: kPrimaryColor),
+                          // ),
                           title: AutoSizeText(
-                              controller.transaction.value.categoryName)),
+                              controller.transaction.value.categoryId! >= 0
+                                  ? controller.transaction.value.categoryName
+                                  : AppString.selectCategory)),
                     ),
                   ).paddingSymmetric(vertical: paddingSmall),
                 ),
@@ -109,11 +101,12 @@ class CreateTransactionPage extends GetView<CreateTransactionController> {
                   onTap: () => controller.selectDateRepeat(context),
                   child: Card(
                     child: ListTile(
-                      trailing: AutoSizeText(
-                        AppString.hintTime,
-                        style: Get.textTheme.bodyMedium!
-                            .copyWith(color: kPrimaryColor),
-                      ),
+                      leading: const Icon(Icons.event),
+                      // trailing: AutoSizeText(
+                      //   AppString.hintTime,
+                      //   style: Get.textTheme.bodyMedium!
+                      //       .copyWith(color: kPrimaryColor),
+                      // ),
                       title: Obx(() => AutoSizeText(
                             controller.transaction.value.isRepeat
                                 ? "Lặp lại vào lúc ${DateFormat('kk:mm dd-MM-yyyy').format(controller.transaction.value.executionTime ?? DateTime.now())}"
@@ -125,46 +118,19 @@ class CreateTransactionPage extends GetView<CreateTransactionController> {
                     ),
                   ).paddingSymmetric(vertical: paddingSmall),
                 ),
-                // ] else ...[
-                //   GestureDetector(
-                //     onTap: () => controller.selectDate(context),
-                //     child: Card(
-                //       child: Obx(
-                //         () => ListTile(
-                //             leading: const Icon(Icons.date_range),
-                //             trailing: AutoSizeText(
-                //               AppString.hintTime,
-                //               style: Get.textTheme.bodyMedium!
-                //                   .copyWith(color: kPrimaryColor),
-                //             ),
-                //             title: AutoSizeText(
-                //               DateFormat.yMMMd()
-                //                   .format(controller.selectedDate.value),
-                //               style: Get.textTheme.bodyMedium,
-                //             )),
-                //       ),
-                //     ).paddingSymmetric(vertical: paddingSmall),
-                //   ),
-                // ],
                 GestureDetector(
                   onTap: () => controller.chooseFund(),
                   child: Card(
                     child: Obx(
                       () => ListTile(
-                        leading: controller.transaction.value.fundID! >= 0
-                            ? Image.asset(
-                                "${ImageAsset.linkIconFund}${controller.transaction.value.iconFund}",
-                                width: 40,
-                                height: 40,
-                              )
-                            : null,
-                        trailing: AutoSizeText(
-                          AppString.selectFund,
-                          style: Get.textTheme.bodyMedium!
-                              .copyWith(color: kPrimaryColor),
-                        ),
+                        leading: const Icon(Icons.event),
+                        // trailing: AutoSizeText(
+                        //   AppString.selectFund,
+                        //   style: Get.textTheme.bodyMedium!
+                        //       .copyWith(color: kPrimaryColor),
+                        // ),
                         title: AutoSizeText(
-                          controller.transaction.value.fundName,
+                          controller.transaction.value.fundID!>=0? controller.transaction.value.fundName:AppString.selectFund,
                         ),
                       ),
                     ),
@@ -176,13 +142,13 @@ class CreateTransactionPage extends GetView<CreateTransactionController> {
                     child: Obx(
                       () => ListTile(
                         leading: const Icon(Icons.event),
-                        trailing: AutoSizeText(
-                          AppString.selectEvent,
-                          style: Get.textTheme.bodyMedium!
-                              .copyWith(color: kPrimaryColor),
-                        ),
+                        // trailing: AutoSizeText(
+                        //   AppString.selectEvent,
+                        //   style: Get.textTheme.bodyMedium!
+                        //       .copyWith(color: kPrimaryColor),
+                        // ),
                         title: AutoSizeText(
-                          controller.transaction.value.eventName,
+                         controller.transaction.value.eventId!>=0? controller.transaction.value.eventName:AppString.selectEvent,
                         ),
                       ),
                     ),
