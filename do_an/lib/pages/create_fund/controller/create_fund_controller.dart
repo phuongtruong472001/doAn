@@ -13,7 +13,9 @@ class CreateFundController extends BaseGetxController {
   Rx<Fund> fund = Fund().obs;
   final fundNameController = TextEditingController();
   final valueController = MoneyMaskedTextController(
-      thousandSeparator: '.', precision: 0, decimalSeparator: "");
+      thousandSeparator: '.',
+      precision: 0,
+      decimalSeparator: "");
   DBHelper dbHelper = DBHelper();
   List<String> listWallet = [
     "Ví cơ bản",
@@ -24,18 +26,20 @@ class CreateFundController extends BaseGetxController {
   RxInt typeWallet = 0.obs;
 
   Future<void> createFund() async {
-    fund.value.name = fundNameController.text;
-    fund.value.icon = "${typeWallet.value}.png";
-    fund.value.value = int.parse(valueController.text.replaceAll('.', ''));
-    bool status = await dbHelper.addFund(fund.value);
-    if (status) {
-      FundController fundController = Get.find<FundController>();
-      await fundController.initData();
-      Get.back();
+    if (formData.currentState!.validate()) {
+      fund.value.name = fundNameController.text;
+      fund.value.icon = "${typeWallet.value}.png";
+      fund.value.value = int.parse(valueController.text.replaceAll('.', ''));
+      bool status = await dbHelper.addFund(fund.value);
+      if (status) {
+        FundController fundController = Get.find<FundController>();
+        await fundController.initData();
+        Get.back();
+      }
+      showSnackBar(
+        status ? AppString.addSuccess("Ví tiền") : AppString.fail,
+        backgroundColor: status ? Colors.green : Colors.red,
+      );
     }
-    showSnackBar(
-      status ? AppString.addSuccess("Ví tiền") : AppString.fail,
-      backgroundColor: status ? Colors.green : Colors.red,
-    );
   }
 }

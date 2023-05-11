@@ -39,14 +39,12 @@ class InputTextWithLabel extends StatelessWidget {
             padding: paddingText ?? EdgeInsets.zero,
             child: Row(
               children: [
-                Flexible(
-                  child: AutoSizeText(
-                    label,
-                    style: textStyle ?? Get.textTheme.bodyText1,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
+                AutoSizeText(
+                  label,
+                  style: textStyle ?? Get.textTheme.bodyText1,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ).paddingOnly(bottom: paddingSmall),
                 AutoSizeText(
                   labelRequired ?? "",
                   style: Get.textTheme.bodyText1?.copyWith(
@@ -89,47 +87,16 @@ class _BuildInputTextState extends State<BuildInputText> {
 
   List<TextInputFormatter> getFormatters() {
     switch (widget.inputTextFormModel.inputFormatters) {
-      // case InputFormatterEnum.digitsOnly:
-      //   return [
-      //     FilteringTextInputFormatter.digitsOnly,
-      //     LengthLimitingTextInputFormatter(
-      //         widget.inputTextFormModel.maxLengthInputForm),
-      //   ];
-      // case InputFormatterEnum.taxCode:
-      //   return [
-      //     FilteringTextInputFormatter.allow(RegExp(r'[0-9-]')),
-      //     MaskedInputFormatter('##########-###')
-      //   ];
       case InputFormatterEnum.textOnly:
         return [
           FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9-_\.]')),
         ];
       case InputFormatterEnum.currency:
         return [
-          FilteringTextInputFormatter.allow(RegExp(r'[0-9,]')),
+          CustomImputMoney(),
+          // FilteringTextInputFormatter.allow(RegExp(r'[0-9,đ]')),
         ];
 
-      // case InputFormatterEnum.negativeNumber:
-      //   return [
-      //     FilteringTextInputFormatter.allow(RegExp(r'[0-9-]')),
-      //   ];
-
-      // case InputFormatterEnum.decimalNumber:
-      //   return [
-      //     FilteringTextInputFormatter.allow(
-      //         RegExp('[0-9${getDefaultFormatCurrency()}]')),
-      //   ];
-
-      // case InputFormatterEnum.identity:
-      //   return [
-      //     FilteringTextInputFormatter.allow(RegExp(r'[0-9-]')),
-      //     MaskedInputFormatter('############')
-      //   ];
-      // case InputFormatterEnum.phoneNumber:
-      //   return [
-      //     FilteringTextInputFormatter.allow(RegExp(r'[0-9+]')),
-      //     MaskedInputFormatter('##############')
-      //   ];
       default:
         return [
           LengthLimitingTextFieldFormatterFixed(
@@ -292,6 +259,17 @@ class LengthLimitingTextFieldFormatterFixed
 
       // ignore: invalid_use_of_visible_for_testing_member
       return LengthLimitingTextInputFormatter.truncate(newValue, lengthLimit!);
+    }
+    return newValue;
+  }
+}
+
+class CustomImputMoney extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(
+      TextEditingValue oldValue, TextEditingValue newValue) {
+    if (newValue.text == "") {
+      return TextEditingValue(text: "0 đ",selection: TextSelection.collapsed(offset: 1));
     }
     return newValue;
   }

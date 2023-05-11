@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:do_an/base/dimen.dart';
+import 'package:do_an/component/base_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -15,16 +16,10 @@ class CreateFundPage extends GetView<CreateFundController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: true,
-        title: AutoSizeText(
-          Get.arguments == null ? AppString.createFund : AppString.detailFund,
-          style: Get.textTheme.bodyLarge!.copyWith(
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        centerTitle: true,
-        actions: [
+      appBar: WidgetAppBar(
+        title:
+            Get.arguments == null ? AppString.createFund : AppString.detailFund,
+        menuItem: [
           Center(
               child: InkWell(
             onTap: () => controller.createFund(),
@@ -40,77 +35,63 @@ class CreateFundPage extends GetView<CreateFundController> {
           child: Form(
             key: controller.formData,
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Card(
-                  child: InputTextWithLabel(
-                    buildInputText: BuildInputText(
-                      InputTextModel(
-                        controller: controller.fundNameController,
-                        hintText: AppString.hintNameFund,
-                        iconNextTextInputAction: TextInputAction.done,
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return "Không được để trống";
-                          }
-                          return "";
-                        },
-                        //inputFormatters: InputFormatterEnum.lengthLimitingText,
-                        submitFunc: (v) => {},
-                      ),
+                InputTextWithLabel(
+                  buildInputText: BuildInputText(
+                    InputTextModel(
+                      controller: controller.fundNameController,
+                      hintText: AppString.hintNameFund,
+                      fillColor: Colors.white,
+                      iconNextTextInputAction: TextInputAction.done,
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return "Không được để trống";
+                        }
+                        return null;
+                      },
+                      submitFunc: (v) => {},
                     ),
-                    label: AppString.nameFund,
                   ),
-                ),
-                Card(
-                  child: InputTextWithLabel(
-                    buildInputText: BuildInputText(
-                      InputTextModel(
-                        controller: controller.valueController,
-                        hintText: AppString.hintValue,
-                        iconNextTextInputAction: TextInputAction.done,
-                        textInputType:TextInputType.number,
-                        inputFormatters: InputFormatterEnum.currency,
-                        validator: (value) {
-                          if (value == "0") {
-                            return "Không được để trống";
-                          }
-                          return "";
-                        },
-                        submitFunc: (v) => {},
-                      ),
+                  label: AppString.nameFund ,
+                ).paddingSymmetric(vertical: paddingSmall),
+                InputTextWithLabel(
+                  buildInputText: BuildInputText(
+                    InputTextModel(
+                      controller: controller.valueController,
+                      hintText: AppString.hintValue,
+                      iconNextTextInputAction: TextInputAction.done,
+                      // textInputType: TextInputType.number,
+                      inputFormatters: InputFormatterEnum.currency,
+                      submitFunc: (v) => {},
                     ),
-                    label: AppString.value,
                   ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const AutoSizeText("Chọn loại ví"),
-                    Obx(
-                      () => DropdownButton<String>(
-                        value:
-                            controller.listWallet[controller.typeWallet.value],
-                        elevation: 16,
-                        style: const TextStyle(color: Colors.blueAccent),
-                        underline: Container(
-                          height: 2,
-                          color: Colors.blueAccent,
-                        ),
-                        onChanged: (String? value) {
-                          controller.typeWallet.value =
-                              controller.listWallet.indexOf(value ?? '');
-                        },
-                        items: controller.listWallet
-                            .map<DropdownMenuItem<String>>((element) {
-                          return DropdownMenuItem<String>(
-                            value: element,
-                            child: AutoSizeText(element),
-                          );
-                        }).toList(),
-                      ),
+                  label: AppString.value + " (VNĐ)",
+                ).paddingSymmetric(vertical: paddingSmall),
+                const AutoSizeText("Chọn loại ví"),
+                Card(
+                  child: Obx(
+                    () => DropdownButton(
+                      isExpanded: true,
+                      value: controller.listWallet[controller.typeWallet.value],
+                      elevation: 16,
+                      style: Get.textTheme.bodyText1!
+                          .copyWith(color: Colors.black),
+                      underline: Container(),
+                      onChanged: (String? value) {
+                        controller.typeWallet.value =
+                            controller.listWallet.indexOf(value ?? '');
+                      },
+                      items: controller.listWallet
+                          .map<DropdownMenuItem<String>>((element) {
+                        return DropdownMenuItem<String>(
+                          value: element,
+                          child: AutoSizeText(element),
+                        );
+                      }).toList(),
                     ),
-                  ],
-                ),
+                  ).marginSymmetric(horizontal: paddingSmall),
+                ).paddingSymmetric(vertical: paddingSmall),
               ],
             ).paddingSymmetric(
               horizontal: defaultPadding,

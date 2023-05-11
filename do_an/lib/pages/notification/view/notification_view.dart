@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
+import '../../../base/strings.dart';
+import '../../../component/base_appbar.dart';
 import '../controller/notification_controller.dart';
 
 class NotificationPage extends GetView<NotificationController> {
@@ -15,36 +17,31 @@ class NotificationPage extends GetView<NotificationController> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: Column(
-          children: [
-            Center(
-              child: AutoSizeText(
-                "Thông báo",
-                style: Get.textTheme.bodyLarge!.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
+    return Scaffold(
+      appBar: WidgetAppBar(
+        title: Get.arguments == null
+            ? AppString.notification
+            : AppString.detailFund,
+      ),
+      body: Column(
+        children: [
+          Expanded(
+            child: ListView.builder(
+              itemBuilder: (context, index) => ItemCard(
+                Icons.notifications,
+                controller.allEvents[index].name ?? "",
+                color: controller.allEvents[index].isNotified
+                    ? Colors.white
+                    : const Color.fromARGB(255, 241, 238, 238),
+                title:
+                    "Diễn ra vào ${DateFormat('kk:mm dd-MM-yyyy').format(controller.allEvents[index].date ?? DateTime.now())}",
               ),
-            ).paddingAll(defaultPadding),
-            Expanded(
-              child: ListView.builder(
-                itemBuilder: (context, index) => ItemCard(
-                  Icons.notifications,
-                  controller.allEvents[index].name ?? "",
-                  color: controller.allEvents[index].isNotified
-                      ? Colors.white
-                      : const Color.fromARGB(255, 241, 238, 238),
-                  title:
-                      "Diễn ra vào ${DateFormat('kk:mm dd-MM-yyyy').format(controller.allEvents[index].date ?? DateTime.now())}",
-                ),
-                itemCount: controller.allEvents.length,
-                shrinkWrap: true,
-                //physics: const NeverScrollableScrollPhysics(),
-              ),
+              itemCount: controller.allEvents.length,
+              shrinkWrap: true,
+              //physics: const NeverScrollableScrollPhysics(),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

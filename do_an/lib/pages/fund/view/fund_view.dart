@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_format_money_vietnam/flutter_format_money_vietnam.dart';
 import 'package:get/get.dart';
 
+import '../../../component/base_appbar.dart';
 import '../controller/fund_controller.dart';
 
 class FundPage extends GetView<FundController> {
@@ -15,10 +16,8 @@ class FundPage extends GetView<FundController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: true,
-        title: AutoSizeText(
-            Get.arguments == null ? AppString.myFund : AppString.selectFund),
+      appBar: WidgetAppBar(
+        title: Get.arguments == null ? AppString.myFund : AppString.selectFund,
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -34,24 +33,29 @@ class FundPage extends GetView<FundController> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             if (Get.arguments == null)
-              GestureDetector(
-                onTap: () {},
-                child: ListTile(
-                    leading: SizedBox(
-                      width: 40,
-                      height: 40,
-                      child: Image.asset(
-                        ImageAsset.icGlobal,
-                      ),
+              Center(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    AutoSizeText(
+                      AppString.total,
+                      style: Get.textTheme.bodyLarge!.copyWith(fontSize: 20),
                     ),
-                    title: const AutoSizeText(AppString.total),
-                    subtitle: Obx(
+                    Obx(
                       () => AutoSizeText(
-                        controller.totalValue.value.toString().toVND(unit: 'đ'),
-                      ),
-                    )),
+                          controller.totalValue.value
+                              .toString()
+                              .toVND(unit: 'đ'),
+                          style: Get.textTheme.bodyLarge!.copyWith(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                              color: Colors.green)),
+                    )
+                  ],
+                ).marginOnly(top: defaultPadding),
               ),
-            const AutoSizeText(AppString.listFund),
+            const AutoSizeText(AppString.listFund)
+                .paddingSymmetric(vertical: paddingSmall),
             Obx(
               () => ListView.builder(
                 itemBuilder: (context, index) => GestureDetector(
@@ -60,6 +64,8 @@ class FundPage extends GetView<FundController> {
                     child: ListTile(
                       leading: Image.asset(
                         ImageAsset.linkIconFund + controller.funds[index].icon!,
+                        width: 40,
+                        height: 40,
                       ),
                       title: AutoSizeText(
                         controller.funds[index].name ?? "",
@@ -69,7 +75,8 @@ class FundPage extends GetView<FundController> {
                             .toString()
                             .toVND(unit: 'đ'),
                       ),
-                    ).paddingAll(paddingSmall),
+                      trailing: Icon(Icons.keyboard_arrow_down_outlined),
+                    ),
                   ),
                 ),
                 itemCount: controller.funds.length,
@@ -78,7 +85,7 @@ class FundPage extends GetView<FundController> {
               ),
             )
           ],
-        ).paddingSymmetric(
+        ).marginSymmetric(
           horizontal: defaultPadding,
         ),
       ),

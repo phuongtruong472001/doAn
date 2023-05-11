@@ -8,6 +8,7 @@ import '../../../Enum/input_formatter_enum.dart';
 import '../../../base/colors.dart';
 import '../../../base/dimen.dart';
 import '../../../base/strings.dart';
+import '../../../component/base_appbar.dart';
 import '../../../component/base_input_with_label.dart';
 import '../../../component/input_text_form_field_model.dart';
 import '../../../component/item_card.dart';
@@ -19,16 +20,11 @@ class CreateEventPage extends GetView<CreateEventController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: true,
-        title: AutoSizeText(
-          Get.arguments == null ? AppString.createEvent : AppString.detailEvent,
-          style: Get.textTheme.bodyLarge!.copyWith(
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        centerTitle: true,
-        actions: [
+      appBar: WidgetAppBar(
+        title: Get.arguments == null
+            ? AppString.createEvent
+            : AppString.detailEvent,
+        menuItem: [
           if (Get.arguments != null)
             TextButton(
               onPressed: () => controller.completeEvent(),
@@ -60,65 +56,44 @@ class CreateEventPage extends GetView<CreateEventController> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Card(
-                  child: InputTextWithLabel(
-                    buildInputText: BuildInputText(
-                      InputTextModel(
-                        controller: controller.nameController.value,
-                        hintText: AppString.hintNameEvent,
-                        iconNextTextInputAction: TextInputAction.done,
-                        //inputFormatters: InputFormatterEnum.lengthLimitingText,
-                        submitFunc: (v) => {},
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return "Không được để trống";
-                          }
-                          return null;
-                        },
-                      ),
+                InputTextWithLabel(
+                  buildInputText: BuildInputText(
+                    InputTextModel(
+                      controller: controller.nameController.value,
+                      hintText: AppString.hintNameEvent,
+                      iconNextTextInputAction: TextInputAction.done,
+                      //inputFormatters: InputFormatterEnum.lengthLimitingText,
+                      submitFunc: (v) => {},
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return "Không được để trống";
+                        }
+                        return null;
+                      },
                     ),
-                    label: AppString.nameEvent,
                   ),
+                  label: AppString.nameEvent,
                 ),
-                Card(
-                  child: InputTextWithLabel(
-                    buildInputText: BuildInputText(
-                      InputTextModel(
-                        controller: controller.valueController,
-                        hintText: AppString.hintValue,
-                        iconNextTextInputAction: TextInputAction.done,
-                        inputFormatters: InputFormatterEnum.currency,
-                        textInputType: TextInputType.number,
-                        submitFunc: (v) => {},
-                        validator: (value) {
-                          if (value == "0") {
-                            return "Không được để trống";
-                          }
-                          return null;
-                        },
-                      ),
+                InputTextWithLabel(
+                  buildInputText: BuildInputText(
+                    InputTextModel(
+                      controller: controller.valueController,
+                      hintText: AppString.hintValue,
+                      iconNextTextInputAction: TextInputAction.done,
+                      inputFormatters: InputFormatterEnum.currency,
+                      textInputType: TextInputType.number,
+                      submitFunc: (v) => {},
+                      validator: (value) {
+                        if (value == "0") {
+                          return "Không được để trống";
+                        }
+                        return null;
+                      },
                     ),
-                    label: AppString.value,
                   ),
+                  label: AppString.value,
                 ),
-                // GestureDetector(
-                //    // onTap: () => controller.chooseFund(),
-                //     child: Card(
-                //       child: Obx(
-                //         () => ListTile(
-                //           leading: const Icon(Icons.book),
-                //           trailing: AutoSizeText(
-                //             "Chọn nguồn tiền",
-                //             style: Get.textTheme.bodyText2!
-                //                 .copyWith(color: kPrimaryColor),
-                //           ),
-                //           title: AutoSizeText(
-                //             controller.event.value.,
-                //           ),
-                //         ),
-                //       ),
-                //     ).paddingSymmetric(vertical: paddingSmall),
-                //   ),
+                
                 GestureDetector(
                   onTap: () => controller.selectDate(context),
                   child: Card(

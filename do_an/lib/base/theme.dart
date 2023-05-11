@@ -5,13 +5,17 @@ import 'colors.dart';
 
 ThemeData theme() {
   return ThemeData(
-    scaffoldBackgroundColor: Colors.white,
+    scaffoldBackgroundColor: Color.fromARGB(255, 228, 227, 227),
     fontFamily: "Poppins",
     appBarTheme: appBarTheme(),
     textTheme: textTheme(),
     //inputDecorationTheme: inputDecorationTheme(),
     visualDensity: VisualDensity.adaptivePlatformDensity,
-    cardTheme: CardTheme(elevation: 3)
+    cardTheme: CardTheme(elevation: 3,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
+            //set border radius more than 50% of height and width to make circle
+          ))
   );
 }
 

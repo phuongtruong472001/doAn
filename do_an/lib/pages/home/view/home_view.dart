@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_format_money_vietnam/flutter_format_money_vietnam.dart';
 import 'package:get/get.dart';
 
+import '../../../component/base_appbar.dart';
 import '../../../component/base_card.dart';
 import '../../../component/base_header_no_backbutton.dart';
 import '../../../component/chart.dart';
@@ -24,19 +25,24 @@ class HomePage extends BaseGetWidget<HomeController> {
   Widget buildWidgets() {
     return baseShowLoading(
       () => Scaffold(
+        appBar: WidgetAppBar(
+          title: 'Xin chào, ${controller.box.read("name")}',
+          isCenterTitle: false,
+          menuItem: [
+            IconButton(
+              onPressed: () {
+                controller.box.remove("name");
+                Get.offAllNamed(AppRoutes.editName);
+              },
+              icon: Icon(Icons.logout),
+            ),
+            
+          ],
+        ),
         body: SafeArea(
           child: SingleChildScrollView(
             child: Column(
               children: [
-                BaseHeaderNoBackButton(
-                  content: 'Hello ${controller.box.read("name")}',
-                  icon: Icons.logout,
-                  title: '',
-                  function: () {
-                    controller.box.remove("name");
-                    Get.offAllNamed(AppRoutes.editName);
-                  },
-                ).paddingSymmetric(vertical: paddingSmall),
                 CardBase(
                   Column(
                     children: [

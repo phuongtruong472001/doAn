@@ -1,11 +1,10 @@
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:do_an/base/colors.dart';
 import 'package:do_an/base/dimen.dart';
+import 'package:do_an/component/base_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
-import '../../../base/icons.dart';
 import '../../../base/strings.dart';
 import '../../../component/base_input_with_label.dart';
 import '../../../component/input_text_form_field_model.dart';
@@ -19,25 +18,17 @@ class CreateTransactionPage extends GetView<CreateTransactionController> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-          automaticallyImplyLeading: true,
-          title: AutoSizeText(
-            Get.arguments == null
-                ? AppString.createTransaction
-                : AppString.detailTransaction,
-            style: Get.textTheme.bodyLarge!.copyWith(
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          centerTitle: true,
-          actions: [
+        appBar: WidgetAppBar(
+          title: Get.arguments == null
+              ? AppString.createTransaction
+              : AppString.detailTransaction,
+          menuItem: [
             TextButton(
               onPressed: () async => await controller.createTransaction(),
-              child: Icon(Icons.check)
-              // AutoSizeText(
-              //   Get.arguments == null ? AppString.save : AppString.edit,
-              //   style: Get.textTheme.bodyLarge,
-              // ),
+              child: Icon(
+                Icons.check,
+                color: Colors.white,
+              ),
             ).marginOnly(left: 10),
           ],
         ),
@@ -130,7 +121,9 @@ class CreateTransactionPage extends GetView<CreateTransactionController> {
                         //       .copyWith(color: kPrimaryColor),
                         // ),
                         title: AutoSizeText(
-                          controller.transaction.value.fundID!>=0? controller.transaction.value.fundName:AppString.selectFund,
+                          controller.transaction.value.fundID! >= 0
+                              ? controller.transaction.value.fundName
+                              : AppString.selectFund,
                         ),
                       ),
                     ),
@@ -148,7 +141,9 @@ class CreateTransactionPage extends GetView<CreateTransactionController> {
                         //       .copyWith(color: kPrimaryColor),
                         // ),
                         title: AutoSizeText(
-                         controller.transaction.value.eventId!>=0? controller.transaction.value.eventName:AppString.selectEvent,
+                          controller.transaction.value.eventId! >= 0
+                              ? controller.transaction.value.eventName
+                              : AppString.selectEvent,
                         ),
                       ),
                     ),
