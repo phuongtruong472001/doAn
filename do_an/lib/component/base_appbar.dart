@@ -14,10 +14,10 @@ class WidgetAppBar extends StatelessWidget implements PreferredSizeWidget {
   WidgetAppBar({
     this.backgroundColor ,
     this.textIconColor = Colors.white,
-    this.backButton = false,
+    this.backButton = true,
     this.title = '',
     this.menuItem,
-    this.height: kToolbarHeight,
+    this.height= kToolbarHeight,
     this.hideBack = false,
     this.isCenterTitle = true,
   });
@@ -48,6 +48,7 @@ class WidgetAppBar extends StatelessWidget implements PreferredSizeWidget {
       ),
       backgroundColor: Colors.blue[400],
       centerTitle: isCenterTitle,
+      automaticallyImplyLeading: backButton,
     );
   }
 }

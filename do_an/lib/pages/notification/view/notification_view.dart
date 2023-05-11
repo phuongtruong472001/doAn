@@ -22,23 +22,30 @@ class NotificationPage extends GetView<NotificationController> {
         title: Get.arguments == null
             ? AppString.notification
             : AppString.detailFund,
+        backButton: false,
       ),
       body: Column(
         children: [
           Expanded(
-            child: ListView.builder(
-              itemBuilder: (context, index) => ItemCard(
-                Icons.notifications,
-                controller.allEvents[index].name ?? "",
-                color: controller.allEvents[index].isNotified
-                    ? Colors.white
-                    : const Color.fromARGB(255, 241, 238, 238),
-                title:
-                    "Diễn ra vào ${DateFormat('kk:mm dd-MM-yyyy').format(controller.allEvents[index].date ?? DateTime.now())}",
-              ),
-              itemCount: controller.allEvents.length,
-              shrinkWrap: true,
-              //physics: const NeverScrollableScrollPhysics(),
+            child: Obx(
+              () => controller.allEvents.isEmpty
+                  ? Center(
+                      child: AutoSizeText("Không có thông báo"),
+                    )
+                  : ListView.builder(
+                      itemBuilder: (context, index) => ItemCard(
+                        Icons.notifications,
+                        controller.allEvents[index].name ?? "",
+                        color: controller.allEvents[index].isNotified
+                            ? Colors.white
+                            : const Color.fromARGB(255, 241, 238, 238),
+                        title:
+                            "Diễn ra vào ${DateFormat('kk:mm dd-MM-yyyy').format(controller.allEvents[index].date ?? DateTime.now())}",
+                      ),
+                      itemCount: controller.allEvents.length,
+                      shrinkWrap: true,
+                      //physics: const NeverScrollableScrollPhysics(),
+                    ),
             ),
           ),
         ],

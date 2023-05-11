@@ -108,43 +108,59 @@ class TracsactionPage extends BaseSearchAppBarWidget<TransactionController> {
                   onLoadMore: controller.onLoadMore,
                   enablePullUp: true,
                   child: Obx(
-                    () => GroupedListView<dynamic, String>(
-                      shrinkWrap: true,
-                      elements: controller.rxList.value,
-                      useStickyGroupSeparators: true,
-                      controller: controller.scrollControllerUpToTop,
-                      groupBy: (dynamic element) => DateFormat('yyyy-MM-dd')
-                          .format(element.executionTime),
-                      groupSeparatorBuilder: (String value) => Text(value),
-                      itemBuilder: (context, dynamic element) => Slidable(
-                        key: const ValueKey(0),
-                        endActionPane: ActionPane(
-                          motion: const ScrollMotion(),
-                          children: [
-                            SlidableAction(
-                              flex: 1,
-                              onPressed: (context) {
-                                controller.deleteTransaction(element);
-                              },
-                              backgroundColor: Colors.red,
-                              foregroundColor: Colors.white,
-                              icon: Icons.delete,
-                              label: 'Xóa',
+                    () => controller.rxList.isEmpty
+                        ? Center(
+                            child: AutoSizeText(
+                              "Không có giao dịch diễn ra trong \nkhoảng thời gian này",
+                              textAlign: TextAlign.center,
                             ),
-                          ],
-                        ),
-                        child: GestureDetector(
-                          onTap: () => controller.goToDetail(element),
-                          child: TransactionWidget(element),
-                        ),
-                      ),
-                      order: GroupedListOrder.DESC,
-                    ),
+                          )
+                        : GroupedListView<dynamic, String>(
+                            shrinkWrap: true,
+                            elements: controller.rxList.value,
+                            useStickyGroupSeparators: true,
+                            controller: controller.scrollControllerUpToTop,
+                            groupBy: (dynamic element) =>
+                                DateFormat('yyyy-MM-dd')
+                                    .format(element.executionTime),
+                            groupSeparatorBuilder: (String value) {
+                              return Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(value),
+                                ],
+                              );
+                            },
+                            itemBuilder: (context, dynamic element) => Slidable(
+                              key: const ValueKey(0),
+                              endActionPane: ActionPane(
+                                motion: const ScrollMotion(),
+                                children: [
+                                  SlidableAction(
+                                    flex: 1,
+                                    onPressed: (context) {
+                                      controller.deleteTransaction(element);
+                                    },
+                                    backgroundColor: Colors.red,
+                                    foregroundColor: Colors.white,
+                                    icon: Icons.delete,
+                                    label: 'Xóa',
+                                  ),
+                                ],
+                              ),
+                              child: GestureDetector(
+                                onTap: () => controller.goToDetail(element),
+                                child: TransactionWidget(element),
+                              ),
+                            ),
+                            order: GroupedListOrder.DESC,
+                          ),
                   ),
                 ),
               )
             ],
-          ).paddingAll(paddingSmall),
+          ),
         ),
       ),
     );

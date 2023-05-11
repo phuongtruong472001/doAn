@@ -95,6 +95,7 @@ import 'dart:math';
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:decimal/decimal.dart';
+import 'package:do_an/base/dimen.dart';
 import 'package:eval_ex/built_ins.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
@@ -144,62 +145,69 @@ class _BarCharState extends State<BarChar> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 300,
-      child: BarChart(
-        BarChartData(
-          extraLinesData: ExtraLinesData(horizontalLines: [
-            HorizontalLine(
-              y: 12,
-              color: Colors.transparent,
-            )
-            // label: HorizontalLineLabel(
-            //     show: true,
-            //     labelResolver: (p0) => 2023.toString(),
-            //     alignment: Alignment.topRight,
-            //     padding: const EdgeInsets.only(
-            //       left: 12,
-            //     ),
-            //     style:
-            //         Get.textTheme.bodyText1!.copyWith(color: Colors.red)))
-          ]),
-          borderData: FlBorderData(
-            border: const Border(
-              bottom: BorderSide(
-                color: Colors.black,
-              ),
-              left: BorderSide(
-                color: Colors.black,
-              ),
-            ),
-          ),
-          barTouchData: BarTouchData(
-              touchCallback: handleTouchEvent,
-              enabled: false,
-              touchTooltipData: BarTouchTooltipData(
-                tooltipPadding: const EdgeInsets.all(0),
-                tooltipMargin: 0,
-                tooltipBgColor: Colors.transparent,
-                getTooltipItem: (group, groupIndex, rod, rodIndex) =>
-                    BarTooltipItem(
-                  rod.toY.short(),
-                  Get.textTheme.bodyText1!,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // AutoSizeText(maxValueOfSpending.typeMoney())
+        //     .paddingOnly(left: defaultPadding),
+        SizedBox(
+          height: 300,
+          child: BarChart(
+            BarChartData(
+              extraLinesData: ExtraLinesData(horizontalLines: [
+                HorizontalLine(
+                  y: 12,
+                  color: Colors.transparent,
+                )
+                // label: HorizontalLineLabel(
+                //     show: true,
+                //     labelResolver: (p0) => 2023.toString(),
+                //     alignment: Alignment.topRight,
+                //     padding: const EdgeInsets.only(
+                //       left: 12,
+                //     ),
+                //     style:
+                //         Get.textTheme.bodyText1!.copyWith(color: Colors.red)))
+              ]),
+              borderData: FlBorderData(
+                border: const Border(
+                  bottom: BorderSide(
+                    color: Colors.black,
+                  ),
+                  left: BorderSide(
+                    color: Colors.black,
+                  ),
                 ),
-              )),
-          barGroups: barChartGroupData(),
-          gridData: FlGridData(
-            show: true,
-            drawHorizontalLine: true,
-            drawVerticalLine: false,
+              ),
+              barTouchData: BarTouchData(
+                  touchCallback: handleTouchEvent,
+                  enabled: false,
+                  touchTooltipData: BarTouchTooltipData(
+                    tooltipPadding: const EdgeInsets.all(0),
+                    tooltipMargin: 0,
+                    tooltipBgColor: Colors.transparent,
+                    getTooltipItem: (group, groupIndex, rod, rodIndex) =>
+                        BarTooltipItem(
+                      rod.toY.short(),
+                      Get.textTheme.bodyText1!,
+                    ),
+                  )),
+              barGroups: barChartGroupData(),
+              gridData: FlGridData(
+                show: true,
+                drawHorizontalLine: true,
+                drawVerticalLine: false,
+              ),
+              titlesData: buildTitle(),
+            ),
+            swapAnimationDuration: const Duration(
+              milliseconds: 1000,
+            ), // Optional
+            swapAnimationCurve: Curves.linearToEaseOut, // Optional
           ),
-          titlesData: buildTitle(),
-        ),
-        swapAnimationDuration: const Duration(
-          milliseconds: 1000,
-        ), // Optional
-        swapAnimationCurve: Curves.linearToEaseOut, // Optional
-      ),
-    ).paddingAll(12);
+        ).paddingAll(12),
+      ],
+    );
   }
 
   List<BarChartGroupData> barChartGroupData() {
@@ -256,12 +264,16 @@ class _BarCharState extends State<BarChar> {
         leftTitles: AxisTitles(
             sideTitles: SideTitles(
           showTitles: true,
-          reservedSize: 35,
+          reservedSize: 40,
           getTitlesWidget: (value, meta) {
-            return AutoSizeText(
-              value == maxValueOfSpending ? "" : value.short(),
-              style: Get.textTheme.subtitle1!.copyWith(
-                fontSize: 8,
+            return Expanded(
+              child: AutoSizeText(
+                value.short(),
+                style: Get.textTheme.subtitle1!.copyWith(
+                  fontSize: 6,
+                ),
+                maxLines: 1,
+                textAlign: TextAlign.left,
               ),
             );
           },
@@ -291,7 +303,8 @@ extension ShortNumber on double {
 }
 
 Map<int, String> mapShortValue = {
-  1: "K",
-  2: "M",
-  3: "B",
+  0: "Đồng",
+  1: "Nghìn",
+  2: "Triệu",
+  3: "Tỉ",
 };

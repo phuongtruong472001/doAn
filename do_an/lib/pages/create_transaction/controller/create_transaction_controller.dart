@@ -22,7 +22,7 @@ import '../../../routes/routes.dart';
 class CreateTransactionController extends GetxController {
   final formKey = GlobalKey<FormState>();
   final valueController = MoneyMaskedTextController(
-      thousandSeparator: '.', precision: 0, decimalSeparator: "");
+      thousandSeparator: '.', precision: 0, decimalSeparator: "",rightSymbol: 'đ');
   final descriptionController = TextEditingController();
 
   final peopleController = TextEditingController();

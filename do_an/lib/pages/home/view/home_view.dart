@@ -29,6 +29,7 @@ class HomePage extends BaseGetWidget<HomeController> {
         appBar: WidgetAppBar(
           title: 'Xin chào, ${controller.box.read("name")}',
           isCenterTitle: false,
+          backButton: false,
           menuItem: [
             IconButton(
               onPressed: () {
@@ -42,36 +43,37 @@ class HomePage extends BaseGetWidget<HomeController> {
         body: SingleChildScrollView(
           child: Column(
             children: [
-              CardBase(
-                Column(
-                  children: [
-                    GestureDetector(
-                      onTap: () => Get.toNamed(AppRoutes.fund),
-                      child: const SpaceBetweenLetter(
+              GestureDetector(
+                onTap: () => Get.toNamed(AppRoutes.fund),
+                child: Card(
+                  child: Column(
+                    children: [
+                      const SpaceBetweenLetter(
                         title: AppString.myWallet,
                         subTitle: AppString.viewAll,
-                      ).paddingAll(defaultPadding),
-                    ),
-                    BuildDividerDefault(),
-                    Obx(
-                      () => ItemCard(
-                        Icons.wallet,
-                        AppString.total,
-                        subTitle: controller.totalValue.value
-                            .toString()
-                            .toVND(unit: 'đ'),
+                      ).paddingAll(paddingSmall),
+                      BuildDividerDefault(),
+                      Obx(
+                        () => ListTile(
+                          leading: Icon(Icons.wallet),
+                          title: AutoSizeText(
+                            AppString.cash,
+                            style: Get.textTheme.bodyLarge!.copyWith(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          trailing: AutoSizeText(
+                            controller.cashValue.value
+                                .toString()
+                                .toVND(unit: 'đ'),
+                            style: Get.textTheme.bodyLarge!.copyWith(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
                       ),
-                    ).paddingAll(paddingSmall),
-                    Obx(
-                      () => ItemCard(
-                        Icons.wallet,
-                        AppString.cash,
-                        subTitle: controller.cashValue.value
-                            .toString()
-                            .toVND(unit: 'đ'),
-                      ),
-                    ).paddingAll(paddingSmall),
-                  ],
+                    ],
+                  ),
                 ),
               ),
               const SpaceBetweenLetter(
@@ -82,7 +84,6 @@ class HomePage extends BaseGetWidget<HomeController> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    AutoSizeText("VNĐ"),
                     BarChar(
                       spending: controller.spedings,
                     ),
@@ -94,15 +95,15 @@ class HomePage extends BaseGetWidget<HomeController> {
                           height: 15,
                           color: Colors.green,
                         ),
-                        AutoSizeText("Đã thu"),
+                        AutoSizeText("  Đã thu    "),
                         Container(
                           width: 15,
                           height: 15,
                           color: Colors.red,
                         ),
-                        AutoSizeText("Đã chi"),
+                        AutoSizeText("  Đã chi "),
                       ],
-                    ),
+                    ).marginOnly(bottom: 8),
                   ],
                 ),
               ),

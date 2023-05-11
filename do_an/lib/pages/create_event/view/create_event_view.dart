@@ -61,7 +61,7 @@ class CreateEventPage extends GetView<CreateEventController> {
                     controller: controller.nameController.value,
                     hintText: AppString.hintNameEvent,
                     iconNextTextInputAction: TextInputAction.done,
-                    //inputFormatters: InputFormatterEnum.lengthLimitingText,
+                    iconLeading: Icons.event,
                     submitFunc: (v) => {},
                     validator: (value) {
                       if (value!.isEmpty) {
@@ -80,6 +80,7 @@ class CreateEventPage extends GetView<CreateEventController> {
                     iconNextTextInputAction: TextInputAction.done,
                     inputFormatters: InputFormatterEnum.currency,
                     textInputType: TextInputType.number,
+                    iconLeading: Icons.attach_money_outlined,
                     submitFunc: (v) => {},
                     validator: (value) {
                       if (value == "0") {
@@ -95,12 +96,11 @@ class CreateEventPage extends GetView<CreateEventController> {
                 child: Card(
                   child: Obx(
                     () => ListTile(
-                        leading: const Icon(Icons.date_range),
-                        trailing: AutoSizeText(
-                          AppString.hintDay,
-                          style: Get.textTheme.bodyMedium!
-                              .copyWith(color: kPrimaryColor),
+                        leading: const Icon(
+                          Icons.date_range,
+                          color: Colors.black,
                         ),
+                        trailing: Icon(Icons.keyboard_arrow_down_outlined),
                         title: AutoSizeText(
                           DateFormat.yMMMd()
                               .format(controller.selectedDate.value),
@@ -114,12 +114,11 @@ class CreateEventPage extends GetView<CreateEventController> {
                 child: Card(
                   child: Obx(
                     () => ListTile(
-                        leading: const Icon(Icons.date_range),
-                        trailing: AutoSizeText(
-                          AppString.hintHour,
-                          style: Get.textTheme.bodyMedium!
-                              .copyWith(color: kPrimaryColor),
+                        leading: const Icon(
+                          Icons.timer,
+                          color: Colors.black,
                         ),
+                        trailing: Icon(Icons.keyboard_arrow_down_outlined),
                         title: AutoSizeText(
                           controller.time.value.format(context),
                           style: Get.textTheme.bodyMedium,

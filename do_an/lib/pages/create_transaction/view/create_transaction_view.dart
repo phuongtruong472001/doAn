@@ -45,6 +45,7 @@ class CreateTransactionPage extends GetView<CreateTransactionController> {
                     iconNextTextInputAction: TextInputAction.done,
                     inputFormatters: InputFormatterEnum.currency,
                     textInputType: TextInputType.number,
+                    textSize: 25,
                     iconLeading: Icons.attach_money_outlined,
                     submitFunc: (v) => {},
                     validator: (value) {
@@ -73,16 +74,21 @@ class CreateTransactionPage extends GetView<CreateTransactionController> {
                 child: Card(
                   child: Obx(
                     () => ListTile(
-                        leading: const Icon(Icons.event),
-                        // trailing: AutoSizeText(
-                        //   AppString.selectCategory,
-                        //   style: Get.textTheme.bodyMedium!
-                        //       .copyWith(color: kPrimaryColor),
-                        // ),
+                        leading: const Icon(
+                          Icons.menu,
+                          color: Colors.black,
+                        ),
+                        trailing: Icon(Icons.keyboard_arrow_down_outlined),
                         title: AutoSizeText(
-                            controller.transaction.value.categoryId! >= 0
-                                ? controller.transaction.value.categoryName
-                                : AppString.selectCategory)),
+                          controller.transaction.value.categoryId! >= 0
+                              ? controller.transaction.value.categoryName
+                              : AppString.selectCategory,
+                          style: Get.textTheme.bodyMedium!.copyWith(
+                            color: controller.transaction.value.categoryId! >= 0
+                                ? Colors.black
+                                : Colors.grey,
+                          ),
+                        )),
                   ),
                 ),
               ).paddingOnly(top: paddingSmall),
@@ -91,20 +97,23 @@ class CreateTransactionPage extends GetView<CreateTransactionController> {
                 onTap: () => controller.selectDateRepeat(context),
                 child: Card(
                   child: ListTile(
-                    leading: const Icon(Icons.event),
-                    // trailing: AutoSizeText(
-                    //   AppString.hintTime,
-                    //   style: Get.textTheme.bodyMedium!
-                    //       .copyWith(color: kPrimaryColor),
-                    // ),
-                    title: Obx(() => AutoSizeText(
+                    leading: const Icon(
+                      Icons.timer,
+                      color: Colors.black,
+                    ),
+                    trailing: Icon(
+                      Icons.keyboard_arrow_down_outlined,
+                    ),
+                    title: Obx(
+                      () => AutoSizeText(
                           controller.transaction.value.isRepeat
                               ? "Lặp lại vào lúc ${DateFormat('kk:mm dd-MM-yyyy').format(controller.transaction.value.executionTime ?? DateTime.now())}"
                               : DateFormat('kk:mm dd-MM-yyyy').format(
-                                  controller
-                                          .transaction.value.executionTime ??
-                                      DateTime.now()),
-                        )),
+                                  controller.transaction.value.executionTime ??
+                                      DateTime.now(),
+                                ),
+                          style: Get.textTheme.bodyMedium),
+                    ),
                   ),
                 ),
               ).paddingOnly(top: paddingSmall),
@@ -113,16 +122,20 @@ class CreateTransactionPage extends GetView<CreateTransactionController> {
                 child: Card(
                   child: Obx(
                     () => ListTile(
-                      leading: const Icon(Icons.event),
-                      // trailing: AutoSizeText(
-                      //   AppString.selectFund,
-                      //   style: Get.textTheme.bodyMedium!
-                      //       .copyWith(color: kPrimaryColor),
-                      // ),
+                      leading: const Icon(
+                        Icons.wallet,
+                        color: Colors.black,
+                      ),
+                      trailing: Icon(Icons.keyboard_arrow_down_outlined),
                       title: AutoSizeText(
                         controller.transaction.value.fundID! >= 0
                             ? controller.transaction.value.fundName
                             : AppString.selectFund,
+                        style: Get.textTheme.bodyMedium!.copyWith(
+                          color: controller.transaction.value.fundID! >= 0
+                              ? Colors.black
+                              : Colors.grey,
+                        ),
                       ),
                     ),
                   ),
@@ -133,16 +146,20 @@ class CreateTransactionPage extends GetView<CreateTransactionController> {
                 child: Card(
                   child: Obx(
                     () => ListTile(
-                      leading: const Icon(Icons.event),
-                      // trailing: AutoSizeText(
-                      //   AppString.selectEvent,
-                      //   style: Get.textTheme.bodyMedium!
-                      //       .copyWith(color: kPrimaryColor),
-                      // ),
+                      leading: const Icon(
+                        Icons.event,
+                        color: Colors.black,
+                      ),
+                      trailing: Icon(Icons.keyboard_arrow_down_outlined),
                       title: AutoSizeText(
                         controller.transaction.value.eventId! >= 0
                             ? controller.transaction.value.eventName
                             : AppString.selectEvent,
+                        style: Get.textTheme.bodyMedium!.copyWith(
+                          color: controller.transaction.value.eventId! >= 0
+                              ? Colors.black
+                              : Colors.grey,
+                        ),
                       ),
                     ),
                   ),

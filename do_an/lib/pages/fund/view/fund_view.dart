@@ -43,13 +43,15 @@ class FundPage extends GetView<FundController> {
                     ),
                     Obx(
                       () => AutoSizeText(
-                          controller.totalValue.value
-                              .toString()
-                              .toVND(unit: 'đ'),
-                          style: Get.textTheme.bodyLarge!.copyWith(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20,
-                              color: Colors.green)),
+                        controller.totalValue.value.toString().toVND(unit: 'đ'),
+                        style: Get.textTheme.bodyLarge!.copyWith(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                          color: controller.totalValue.value >= 0
+                              ? Colors.green
+                              : Colors.red,
+                        ),
+                      ),
                     )
                   ],
                 ).marginOnly(top: defaultPadding),
@@ -74,6 +76,12 @@ class FundPage extends GetView<FundController> {
                         controller.funds[index].value
                             .toString()
                             .toVND(unit: 'đ'),
+                        style: Get.textTheme.bodyLarge!.copyWith(
+                          fontWeight: FontWeight.bold,
+                          color: controller.funds[index].value! >= 0
+                              ? Colors.green
+                              : Colors.red,
+                        ),
                       ),
                       trailing: Icon(Icons.keyboard_arrow_down_outlined),
                     ),
