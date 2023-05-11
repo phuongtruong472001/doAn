@@ -30,72 +30,68 @@ class CreateFundPage extends GetView<CreateFundController> {
           )).marginOnly(left: 10),
         ],
       ),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Form(
-            key: controller.formData,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                InputTextWithLabel(
-                  buildInputText: BuildInputText(
-                    InputTextModel(
-                      controller: controller.fundNameController,
-                      hintText: AppString.hintNameFund,
-                      fillColor: Colors.white,
-                      iconNextTextInputAction: TextInputAction.done,
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return "Không được để trống";
-                        }
-                        return null;
-                      },
-                      submitFunc: (v) => {},
-                    ),
+      body: SingleChildScrollView(
+        child: Form(
+          key: controller.formData,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Card(
+                child: BuildInputText(
+                  InputTextModel(
+                    controller: controller.fundNameController,
+                    hintText: AppString.hintNameFund,
+                    fillColor: Colors.white,
+                    iconNextTextInputAction: TextInputAction.done,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return "Không được để trống";
+                      }
+                      return null;
+                    },
+                    submitFunc: (v) => {},
                   ),
-                  label: AppString.nameFund ,
-                ).paddingSymmetric(vertical: paddingSmall),
-                InputTextWithLabel(
-                  buildInputText: BuildInputText(
-                    InputTextModel(
-                      controller: controller.valueController,
-                      hintText: AppString.hintValue,
-                      iconNextTextInputAction: TextInputAction.done,
-                      // textInputType: TextInputType.number,
-                      inputFormatters: InputFormatterEnum.currency,
-                      submitFunc: (v) => {},
-                    ),
+                ),
+              ).paddingSymmetric(vertical: paddingSmall),
+              Card(
+                child: BuildInputText(
+                  InputTextModel(
+                    controller: controller.valueController,
+                    hintText: AppString.hintValue,
+                    iconNextTextInputAction: TextInputAction.done,
+                    textInputType: TextInputType.number,
+                    inputFormatters: InputFormatterEnum.currency,
+                    submitFunc: (v) => {},
                   ),
-                  label: AppString.value + " (VNĐ)",
-                ).paddingSymmetric(vertical: paddingSmall),
-                const AutoSizeText("Chọn loại ví"),
-                Card(
-                  child: Obx(
-                    () => DropdownButton(
-                      isExpanded: true,
-                      value: controller.listWallet[controller.typeWallet.value],
-                      elevation: 16,
-                      style: Get.textTheme.bodyText1!
-                          .copyWith(color: Colors.black),
-                      underline: Container(),
-                      onChanged: (String? value) {
-                        controller.typeWallet.value =
-                            controller.listWallet.indexOf(value ?? '');
-                      },
-                      items: controller.listWallet
-                          .map<DropdownMenuItem<String>>((element) {
-                        return DropdownMenuItem<String>(
-                          value: element,
-                          child: AutoSizeText(element),
-                        );
-                      }).toList(),
-                    ),
-                  ).marginSymmetric(horizontal: paddingSmall),
-                ).paddingSymmetric(vertical: paddingSmall),
-              ],
-            ).paddingSymmetric(
-              horizontal: defaultPadding,
-            ),
+                ),
+              ).paddingSymmetric(vertical: paddingSmall),
+              // const AutoSizeText("Chọn loại ví"),
+              Card(
+                child: Obx(
+                  () => DropdownButton(
+                    isExpanded: true,
+                    value: controller.listWallet[controller.typeWallet.value],
+                    elevation: 16,
+                    style:
+                        Get.textTheme.bodyText1!.copyWith(color: Colors.black),
+                    underline: Container(),
+                    onChanged: (String? value) {
+                      controller.typeWallet.value =
+                          controller.listWallet.indexOf(value ?? '');
+                    },
+                    items: controller.listWallet
+                        .map<DropdownMenuItem<String>>((element) {
+                      return DropdownMenuItem<String>(
+                        value: element,
+                        child: AutoSizeText(element),
+                      );
+                    }).toList(),
+                  ),
+                ).marginSymmetric(horizontal: paddingSmall),
+              ).paddingSymmetric(vertical: paddingSmall),
+            ],
+          ).paddingSymmetric(
+            horizontal: defaultPadding,
           ),
         ),
       ),

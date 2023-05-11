@@ -16,173 +16,171 @@ class CreateTransactionPage extends GetView<CreateTransactionController> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        appBar: WidgetAppBar(
-          title: Get.arguments == null
-              ? AppString.createTransaction
-              : AppString.detailTransaction,
-          menuItem: [
-            TextButton(
-              onPressed: () async => await controller.createTransaction(),
-              child: Icon(
-                Icons.check,
-                color: Colors.white,
-              ),
-            ).marginOnly(left: 10),
-          ],
-        ),
-        body: SingleChildScrollView(
-          child: Form(
-            key: controller.formKey,
-            child: Column(
-              children: [
-                Card(
-                  child: BuildInputText(
-                    InputTextModel(
-                      controller: controller.valueController,
-                      //currentNode: controller.descriptionNode,
-                      hintText: AppString.hintValue,
-                      iconNextTextInputAction: TextInputAction.done,
-                      inputFormatters: InputFormatterEnum.currency,
-                      textInputType: TextInputType.number,
-                      iconLeading: Icons.attach_money_outlined,
-                      submitFunc: (v) => {},
-                      validator: (value) {
-                        if (value == "0") {
-                          return "Không được để trống";
-                        }
-                        return null;
-                      },
-                    ),
+    return Scaffold(
+      appBar: WidgetAppBar(
+        title: Get.arguments == null
+            ? AppString.createTransaction
+            : AppString.detailTransaction,
+        menuItem: [
+          TextButton(
+            onPressed: () async => await controller.createTransaction(),
+            child: Icon(
+              Icons.check,
+              color: Colors.white,
+            ),
+          ).marginOnly(left: 10),
+        ],
+      ),
+      body: SingleChildScrollView(
+        child: Form(
+          key: controller.formKey,
+          child: Column(
+            children: [
+              Card(
+                child: BuildInputText(
+                  InputTextModel(
+                    controller: controller.valueController,
+                    //currentNode: controller.descriptionNode,
+                    hintText: AppString.hintValue,
+                    iconNextTextInputAction: TextInputAction.done,
+                    inputFormatters: InputFormatterEnum.currency,
+                    textInputType: TextInputType.number,
+                    iconLeading: Icons.attach_money_outlined,
+                    submitFunc: (v) => {},
+                    validator: (value) {
+                      if (value == "0") {
+                        return "Không được để trống";
+                      }
+                      return null;
+                    },
                   ),
                 ),
-                Card(
-                  child: BuildInputText(
-                    InputTextModel(
-                      controller: controller.descriptionController,
-                      // currentNode: controller.descriptionNode,
-                      hintText: AppString.editNote,
-                      iconNextTextInputAction: TextInputAction.done,
-                      submitFunc: (v) => {},
-                      iconLeading: Icons.notes_outlined,
-                    ),
+              ).paddingOnly(top: paddingSmall),
+              Card(
+                child: BuildInputText(
+                  InputTextModel(
+                    controller: controller.descriptionController,
+                    // currentNode: controller.descriptionNode,
+                    hintText: AppString.editNote,
+                    iconNextTextInputAction: TextInputAction.done,
+                    submitFunc: (v) => {},
+                    iconLeading: Icons.notes_outlined,
                   ),
                 ),
-                GestureDetector(
-                  onTap: () => controller.chooseCategory(),
-                  child: Card(
-                    child: Obx(
-                      () => ListTile(
-                          leading: const Icon(Icons.event),
-                          // trailing: AutoSizeText(
-                          //   AppString.selectCategory,
-                          //   style: Get.textTheme.bodyMedium!
-                          //       .copyWith(color: kPrimaryColor),
-                          // ),
-                          title: AutoSizeText(
-                              controller.transaction.value.categoryId! >= 0
-                                  ? controller.transaction.value.categoryName
-                                  : AppString.selectCategory)),
-                    ),
-                  ).paddingSymmetric(vertical: paddingSmall),
+              ).paddingOnly(top: paddingSmall),
+              GestureDetector(
+                onTap: () => controller.chooseCategory(),
+                child: Card(
+                  child: Obx(
+                    () => ListTile(
+                        leading: const Icon(Icons.event),
+                        // trailing: AutoSizeText(
+                        //   AppString.selectCategory,
+                        //   style: Get.textTheme.bodyMedium!
+                        //       .copyWith(color: kPrimaryColor),
+                        // ),
+                        title: AutoSizeText(
+                            controller.transaction.value.categoryId! >= 0
+                                ? controller.transaction.value.categoryName
+                                : AppString.selectCategory)),
+                  ),
                 ),
-                // if (Get.arguments == true) ...[
-                GestureDetector(
-                  onTap: () => controller.selectDateRepeat(context),
-                  child: Card(
-                    child: ListTile(
+              ).paddingOnly(top: paddingSmall),
+              // if (Get.arguments == true) ...[
+              GestureDetector(
+                onTap: () => controller.selectDateRepeat(context),
+                child: Card(
+                  child: ListTile(
+                    leading: const Icon(Icons.event),
+                    // trailing: AutoSizeText(
+                    //   AppString.hintTime,
+                    //   style: Get.textTheme.bodyMedium!
+                    //       .copyWith(color: kPrimaryColor),
+                    // ),
+                    title: Obx(() => AutoSizeText(
+                          controller.transaction.value.isRepeat
+                              ? "Lặp lại vào lúc ${DateFormat('kk:mm dd-MM-yyyy').format(controller.transaction.value.executionTime ?? DateTime.now())}"
+                              : DateFormat('kk:mm dd-MM-yyyy').format(
+                                  controller
+                                          .transaction.value.executionTime ??
+                                      DateTime.now()),
+                        )),
+                  ),
+                ),
+              ).paddingOnly(top: paddingSmall),
+              GestureDetector(
+                onTap: () => controller.chooseFund(),
+                child: Card(
+                  child: Obx(
+                    () => ListTile(
                       leading: const Icon(Icons.event),
                       // trailing: AutoSizeText(
-                      //   AppString.hintTime,
+                      //   AppString.selectFund,
                       //   style: Get.textTheme.bodyMedium!
                       //       .copyWith(color: kPrimaryColor),
                       // ),
-                      title: Obx(() => AutoSizeText(
-                            controller.transaction.value.isRepeat
-                                ? "Lặp lại vào lúc ${DateFormat('kk:mm dd-MM-yyyy').format(controller.transaction.value.executionTime ?? DateTime.now())}"
-                                : DateFormat('kk:mm dd-MM-yyyy').format(
-                                    controller
-                                            .transaction.value.executionTime ??
-                                        DateTime.now()),
-                          )),
-                    ),
-                  ).paddingSymmetric(vertical: paddingSmall),
-                ),
-                GestureDetector(
-                  onTap: () => controller.chooseFund(),
-                  child: Card(
-                    child: Obx(
-                      () => ListTile(
-                        leading: const Icon(Icons.event),
-                        // trailing: AutoSizeText(
-                        //   AppString.selectFund,
-                        //   style: Get.textTheme.bodyMedium!
-                        //       .copyWith(color: kPrimaryColor),
-                        // ),
-                        title: AutoSizeText(
-                          controller.transaction.value.fundID! >= 0
-                              ? controller.transaction.value.fundName
-                              : AppString.selectFund,
-                        ),
+                      title: AutoSizeText(
+                        controller.transaction.value.fundID! >= 0
+                            ? controller.transaction.value.fundName
+                            : AppString.selectFund,
                       ),
                     ),
-                  ).paddingSymmetric(vertical: paddingSmall),
+                  ),
                 ),
-                GestureDetector(
-                  onTap: () => controller.chooseEvent(),
-                  child: Card(
-                    child: Obx(
-                      () => ListTile(
-                        leading: const Icon(Icons.event),
-                        // trailing: AutoSizeText(
-                        //   AppString.selectEvent,
-                        //   style: Get.textTheme.bodyMedium!
-                        //       .copyWith(color: kPrimaryColor),
-                        // ),
-                        title: AutoSizeText(
-                          controller.transaction.value.eventId! >= 0
-                              ? controller.transaction.value.eventName
-                              : AppString.selectEvent,
-                        ),
+              ).paddingOnly(top: paddingSmall),
+              GestureDetector(
+                onTap: () => controller.chooseEvent(),
+                child: Card(
+                  child: Obx(
+                    () => ListTile(
+                      leading: const Icon(Icons.event),
+                      // trailing: AutoSizeText(
+                      //   AppString.selectEvent,
+                      //   style: Get.textTheme.bodyMedium!
+                      //       .copyWith(color: kPrimaryColor),
+                      // ),
+                      title: AutoSizeText(
+                        controller.transaction.value.eventId! >= 0
+                            ? controller.transaction.value.eventName
+                            : AppString.selectEvent,
                       ),
                     ),
-                  ).paddingSymmetric(vertical: paddingSmall),
+                  ),
                 ),
-                StatefulBuilder(
-                  builder: (context, setState) =>
-                      controller.transaction.value.imageLink.isEmpty
-                          ? Container(
-                              alignment: Alignment.center,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  InkWell(
-                                    onTap: () async {
-                                      await controller.getImage();
-                                      setState(() {});
-                                    },
-                                    child: const AutoSizeText(
-                                      "Thêm hình ảnh",
-                                      style: TextStyle(color: Colors.blue),
-                                    ),
+              ).paddingOnly(top: paddingSmall),
+              StatefulBuilder(
+                builder: (context, setState) =>
+                    controller.transaction.value.imageLink.isEmpty
+                        ? Container(
+                            alignment: Alignment.center,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                InkWell(
+                                  onTap: () async {
+                                    await controller.getImage();
+                                    setState(() {});
+                                  },
+                                  child: const AutoSizeText(
+                                    "Thêm hình ảnh",
+                                    style: TextStyle(color: Colors.blue),
                                   ),
-                                  Container(
-                                    height: 40.0,
-                                  ),
-                                ],
-                              ),
-                            )
-                          : Image.memory(
-                              controller.bytesImage(
-                                  controller.transaction.value.imageLink),
-                              fit: BoxFit.cover,
-                            ).paddingSymmetric(vertical: paddingSmall),
-                ),
-              ],
-            ).paddingSymmetric(
-              horizontal: defaultPadding,
-            ),
+                                ),
+                                Container(
+                                  height: 40.0,
+                                ),
+                              ],
+                            ),
+                          )
+                        : Image.memory(
+                            controller.bytesImage(
+                                controller.transaction.value.imageLink),
+                            fit: BoxFit.cover,
+                          ),
+              ).paddingSymmetric(vertical: paddingSmall),
+            ],
+          ).paddingSymmetric(
+            horizontal: defaultPadding,
           ),
         ),
       ),

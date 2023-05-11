@@ -21,7 +21,7 @@ class EventPage extends BaseSearchAppBarWidget<EventController> {
       () => buildPage(
         backButton: Get.arguments != null,
         hintSearch: "Tìm kiếm theo tên sự kiện",
-        showWidgetEmpty: false,
+        showWidgetEmpty: true,
         buildBody:  ListView.builder(
             itemBuilder: (context, index) => GestureDetector(
               onTap: () => controller.onTapItem(controller.rxList[index]),

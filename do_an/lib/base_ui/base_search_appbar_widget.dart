@@ -77,7 +77,7 @@ abstract class BaseSearchAppBarWidget<T extends BaseSearchAppbarController>
   ) {
     return Align(
       alignment: Alignment.topLeft,
-      child: controller.rxList.isEmpty
+      child: (controller.rxList.isEmpty && showWidgetEmpty)
           ? (!controller.isSearch.value
               ? _buildViewEmpty(
                   buildWidgetEmpty,
@@ -90,7 +90,7 @@ abstract class BaseSearchAppBarWidget<T extends BaseSearchAppbarController>
                     buildWidgetEmpty ??
                         const Expanded(
                           child: Center(
-                            child: Text("không tìm kiếm"),
+                            child: Text("không có kết quả tìm kiếm"),
                           ),
                         ),
                   ],

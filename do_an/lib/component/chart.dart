@@ -124,6 +124,10 @@ class _BarCharState extends State<BarChar> {
               receive: e.receive,
             ))
         .toList();
+    maxValueOfSpending = [
+      ...viewSpending.map((e) => e.receive),
+      ...viewSpending.map((e) => e.pepper)
+    ].reduce(max).toDouble();
     touchGroupIndex = viewSpending.length - 1;
     super.initState();
   }
@@ -252,10 +256,10 @@ class _BarCharState extends State<BarChar> {
         leftTitles: AxisTitles(
             sideTitles: SideTitles(
           showTitles: true,
-          reservedSize: 30,
+          reservedSize: 35,
           getTitlesWidget: (value, meta) {
             return AutoSizeText(
-              value.short(),
+              value == maxValueOfSpending ? "" : value.short(),
               style: Get.textTheme.subtitle1!.copyWith(
                 fontSize: 8,
               ),

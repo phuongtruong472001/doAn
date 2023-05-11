@@ -11,69 +11,67 @@ class ProfilePage extends GetView<ProfileController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: SafeArea(
-      child: Container(
-          padding: const EdgeInsets.all(paddingSmall),
-          child: Column(
-            children: [
-              ListTile(
-                leading: const CircleAvatar(
-                  foregroundColor: Colors.blue,
+        body: Container(
+            padding: const EdgeInsets.all(paddingSmall),
+            child: Column(
+              children: [
+                ListTile(
+                  leading: const CircleAvatar(
+                    foregroundColor: Colors.blue,
+                  ),
+                  title: Text(
+                    controller.box.read("name"),
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  ),
                 ),
-                title: Text(
-                  controller.box.read("name"),
-                  style: const TextStyle(fontWeight: FontWeight.bold),
+                Container(
+                  margin: const EdgeInsets.only(top: 10),
+                  child: Column(
+                    children: [
+                      GestureDetector(
+                        onTap: () => Get.toNamed(
+                          AppRoutes.invoice,
+                          arguments: true,
+                        ),
+                        child: menuMet(
+                            "Hoá đơn", Icons.location_on_outlined, Colors.purple),
+                      ),
+                      GestureDetector(
+                        onTap: () => Get.toNamed(
+                          AppRoutes.createTransaction,
+                          arguments: true,
+                        ),
+                        child: menuMet("Giao dịch định kỳ",
+                            Icons.settings_outlined, Colors.orange),
+                      ),
+                      GestureDetector(
+                        onTap: () => Get.toNamed(
+                          AppRoutes.event,
+                        ),
+                        child: menuMet("Sự kiện", Icons.event, Colors.orange),
+                      ),
+                      menuMet("Contact", Icons.call_outlined, Colors.blue)
+                    ],
+                  ),
                 ),
-              ),
-              Container(
-                margin: const EdgeInsets.only(top: 10),
-                child: Column(
-                  children: [
-                    GestureDetector(
-                      onTap: () => Get.toNamed(
-                        AppRoutes.invoice,
-                        arguments: true,
-                      ),
-                      child: menuMet(
-                          "Hoá đơn", Icons.location_on_outlined, Colors.purple),
-                    ),
-                    GestureDetector(
-                      onTap: () => Get.toNamed(
-                        AppRoutes.createTransaction,
-                        arguments: true,
-                      ),
-                      child: menuMet("Giao dịch định kỳ",
-                          Icons.settings_outlined, Colors.orange),
-                    ),
-                    GestureDetector(
-                      onTap: () => Get.toNamed(
-                        AppRoutes.event,
-                      ),
-                      child: menuMet("Sự kiện", Icons.event, Colors.orange),
-                    ),
-                    menuMet("Contact", Icons.call_outlined, Colors.blue)
-                  ],
-                ),
-              ),
-              const Spacer(),
-              // Container(
-              //   height: 50,
-              //   decoration: BoxDecoration(
-              //       color: const Color.fromARGB(255, 255, 226, 236),
-              //       borderRadius: BorderRadius.circular(5)),
-              //   child: Row(
-              //     mainAxisAlignment: MainAxisAlignment.center,
-              //     children: const [
-              //       Text("Log out",
-              //           style: TextStyle(
-              //               fontWeight: FontWeight.bold,
-              //               color: Colors.redAccent)),
-              //     ],
-              //   ),
-              // ).paddingAll(defaultPadding),
-            ],
-          )),
-    ));
+                const Spacer(),
+                // Container(
+                //   height: 50,
+                //   decoration: BoxDecoration(
+                //       color: const Color.fromARGB(255, 255, 226, 236),
+                //       borderRadius: BorderRadius.circular(5)),
+                //   child: Row(
+                //     mainAxisAlignment: MainAxisAlignment.center,
+                //     children: const [
+                //       Text("Log out",
+                //           style: TextStyle(
+                //               fontWeight: FontWeight.bold,
+                //               color: Colors.redAccent)),
+                //     ],
+                //   ),
+                // ).paddingAll(defaultPadding),
+              ],
+            )));
   }
 
   Widget menuMet(

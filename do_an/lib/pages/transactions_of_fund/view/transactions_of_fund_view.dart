@@ -16,7 +16,7 @@ class TransactionsOfFundPage
       () => buildPage(
         hintSearch: "Tìm kiếm giao dịch trong ${controller.nameOfFund}",
         backButton: true,
-        showWidgetEmpty: false,
+        showWidgetEmpty: true,
         buildBody: UtilWidget.buildSmartRefresher(
           refreshController: controller.refreshController,
           onRefresh: controller.onRefresh,

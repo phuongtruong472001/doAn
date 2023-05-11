@@ -11,11 +11,14 @@ ThemeData theme() {
     textTheme: textTheme(),
     //inputDecorationTheme: inputDecorationTheme(),
     visualDensity: VisualDensity.adaptivePlatformDensity,
-    cardTheme: CardTheme(elevation: 3,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
-            //set border radius more than 50% of height and width to make circle
-          ))
+    cardTheme: CardTheme(
+      elevation: 3,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(8),
+        //set border radius more than 50% of height and width to make circle
+      ),
+      margin: EdgeInsets.zero,
+    ),
   );
 }
 

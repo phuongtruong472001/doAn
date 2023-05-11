@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:do_an/base/dimen.dart';
 import 'package:do_an/base/strings.dart';
 import 'package:do_an/base_ui/base_ui_src.dart';
@@ -36,71 +37,91 @@ class HomePage extends BaseGetWidget<HomeController> {
               },
               icon: Icon(Icons.logout),
             ),
-            
           ],
         ),
-        body: SafeArea(
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                CardBase(
-                  Column(
-                    children: [
-                      GestureDetector(
-                        onTap: () => Get.toNamed(AppRoutes.fund),
-                        child: const SpaceBetweenLetter(
-                          title: AppString.myWallet,
-                          subTitle: AppString.viewAll,
-                        ).paddingAll(defaultPadding),
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              CardBase(
+                Column(
+                  children: [
+                    GestureDetector(
+                      onTap: () => Get.toNamed(AppRoutes.fund),
+                      child: const SpaceBetweenLetter(
+                        title: AppString.myWallet,
+                        subTitle: AppString.viewAll,
+                      ).paddingAll(defaultPadding),
+                    ),
+                    BuildDividerDefault(),
+                    Obx(
+                      () => ItemCard(
+                        Icons.wallet,
+                        AppString.total,
+                        subTitle: controller.totalValue.value
+                            .toString()
+                            .toVND(unit: 'đ'),
                       ),
-                      BuildDividerDefault(),
-                      Obx(
-                        () => ItemCard(
-                          Icons.wallet,
-                          AppString.total,
-                          subTitle: controller.totalValue.value
-                              .toString()
-                              .toVND(unit: 'đ'),
+                    ).paddingAll(paddingSmall),
+                    Obx(
+                      () => ItemCard(
+                        Icons.wallet,
+                        AppString.cash,
+                        subTitle: controller.cashValue.value
+                            .toString()
+                            .toVND(unit: 'đ'),
+                      ),
+                    ).paddingAll(paddingSmall),
+                  ],
+                ),
+              ),
+              const SpaceBetweenLetter(
+                title: AppString.spendingReport,
+                subTitle: AppString.viewReport,
+              ).paddingSymmetric(vertical: paddingSmall),
+              Card(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    AutoSizeText("VNĐ"),
+                    BarChar(
+                      spending: controller.spedings,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          width: 15,
+                          height: 15,
+                          color: Colors.green,
                         ),
-                      ),
-                      Obx(
-                        () => ItemCard(
-                          Icons.wallet,
-                          AppString.cash,
-                          subTitle: controller.cashValue.value
-                              .toString()
-                              .toVND(unit: 'đ'),
+                        AutoSizeText("Đã thu"),
+                        Container(
+                          width: 15,
+                          height: 15,
+                          color: Colors.red,
                         ),
-                      ),
-                    ],
-                  ),
+                        AutoSizeText("Đã chi"),
+                      ],
+                    ),
+                  ],
                 ),
-                const SpaceBetweenLetter(
-                  title: AppString.spendingReport,
-                  subTitle: AppString.viewReport,
-                ).paddingSymmetric(vertical: paddingSmall),
-                Card(
-                  child: BarChar(
-                    spending: controller.spedings,
-                  ),
-                ),
-                const SpaceBetweenLetter(
-                  title: AppString.recentTransactions,
-                  subTitle: "",
-                ).paddingSymmetric(vertical: paddingSmall),
-                ListView.builder(
-                  physics: const NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  itemBuilder: (context, index) {
-                    return TransactionWidget(
-                      controller.rxList[index],
-                    );
-                  },
-                  itemCount: controller.rxList.length,
-                ),
-              ],
-            ).paddingAll(defaultPadding),
-          ),
+              ),
+              const SpaceBetweenLetter(
+                title: AppString.recentTransactions,
+                subTitle: "",
+              ).paddingSymmetric(vertical: paddingSmall),
+              ListView.builder(
+                physics: const NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemBuilder: (context, index) {
+                  return TransactionWidget(
+                    controller.rxList[index],
+                  );
+                },
+                itemCount: controller.rxList.length,
+              ),
+            ],
+          ).paddingAll(defaultPadding),
         ),
       ),
     );

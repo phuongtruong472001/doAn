@@ -15,7 +15,7 @@ class CategoryPage extends BaseSearchAppBarWidget<CategoryController> {
     return baseShimmerLoading(
       () => buildPage(
         backButton: true,
-        showWidgetEmpty: false,
+        showWidgetEmpty: true,
         buildBody: UtilWidget.buildSmartRefresher(
           refreshController: controller.refreshController,
           onRefresh: controller.onRefresh,
