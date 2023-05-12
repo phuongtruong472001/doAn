@@ -148,8 +148,8 @@ class _BarCharState extends State<BarChar> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // AutoSizeText(maxValueOfSpending.typeMoney())
-        //     .paddingOnly(left: defaultPadding),
+        AutoSizeText(maxValueOfSpending.typeMoney(maxValueOfSpending))
+            .paddingOnly(left: defaultPadding),
         SizedBox(
           height: 300,
           child: BarChart(
@@ -188,7 +188,7 @@ class _BarCharState extends State<BarChar> {
                     tooltipBgColor: Colors.transparent,
                     getTooltipItem: (group, groupIndex, rod, rodIndex) =>
                         BarTooltipItem(
-                      rod.toY.short(),
+                      rod.toY.short(maxValueOfSpending),
                       Get.textTheme.bodyText1!,
                     ),
                   )),
@@ -264,11 +264,13 @@ class _BarCharState extends State<BarChar> {
         leftTitles: AxisTitles(
             sideTitles: SideTitles(
           showTitles: true,
-          reservedSize: 40,
+          reservedSize: 30,
           getTitlesWidget: (value, meta) {
             return Expanded(
               child: AutoSizeText(
-                value.short(),
+                value == maxValueOfSpending
+                    ? ""
+                    : value.short(maxValueOfSpending),
                 style: Get.textTheme.subtitle1!.copyWith(
                   fontSize: 6,
                 ),
@@ -290,15 +292,23 @@ class _BarCharState extends State<BarChar> {
 }
 
 extension ShortNumber on double {
-  String short() {
+  String short(double value) {
     if (this == 0) {
       return "";
     }
-    int index = (Decimal.parse((log10(this) / 3).toStringAsFixed(1)).floor())
+    int index = (Decimal.parse((log10(value) / 3).toStringAsFixed(1)).floor())
         .toDouble()
         .toInt();
     String floor = (this / pow(10, index * 3)).toStringAsFixed(1);
-    return "$floor${mapShortValue[index]}";
+    return "$floor";
+  }
+
+  String typeMoney(double value) {
+    int index = (Decimal.parse((log10(value) / 3).toStringAsFixed(1)).floor())
+        .toDouble()
+        .toInt();
+
+    return '${mapShortValue[index]}';
   }
 }
 

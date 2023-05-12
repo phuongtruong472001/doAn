@@ -4,6 +4,7 @@ import 'package:do_an/base/dimen.dart';
 import 'package:do_an/base/strings.dart';
 import 'package:do_an/base_ui/base_ui_src.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_format_money_vietnam/flutter_format_money_vietnam.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
 import 'package:grouped_list/grouped_list.dart';
@@ -74,7 +75,8 @@ class TracsactionPage extends BaseSearchAppBarWidget<TransactionController> {
                               style: Get.textTheme.bodyLarge!
                                   .copyWith(fontStyle: FontStyle.italic),
                             )
-                          : SizedBox(
+                          : Container(
+                            color: Colors.white,
                               height: 50,
                               child: TabBar(
                                 tabs: const [
@@ -124,12 +126,93 @@ class TracsactionPage extends BaseSearchAppBarWidget<TransactionController> {
                                 DateFormat('yyyy-MM-dd')
                                     .format(element.executionTime),
                             groupSeparatorBuilder: (String value) {
-                              return Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(value),
-                                ],
+                              return Container(
+                                color: Color.fromARGB(255, 243, 240, 240),
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 10, vertical: 5),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    IntrinsicHeight(
+                                      child: Row(
+                                        children: [
+                                          SizedBox(
+                                            width: 30,
+                                            child: Text(
+                                              DateFormat.d("vi").format(
+                                                DateTime.parse(value),
+                                              ),
+                                              style:
+                                                  Get.textTheme.bodyText1!.copyWith(
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                              textAlign: TextAlign.center,
+                                            ),
+                                          ),
+                                          VerticalDivider(
+                                            thickness: 0.5,
+                                            // width: 10,
+                                            color: Colors.black,
+                                          ),
+                                          SizedBox(
+                                            height: 50,
+                                            child: Column(
+                                              children: [
+                                                Text(
+                                                  DateFormat.EEEE("vi").format(
+                                                    DateTime.parse(value),
+                                                  ),
+                                                ),
+                                                Text(
+                                                  DateFormat.yM("vi").format(
+                                                    DateTime.parse(value),
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 50,
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            "+" +
+                                                (controller.listThu[value] !=
+                                                        null
+                                                    ? controller.listThu[value]
+                                                        .toString()
+                                                        .toVND()
+                                                    : "0 đ"),
+                                            style: Get.textTheme.bodyText1!
+                                                .copyWith(
+                                              color: Colors.green,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          Text(
+                                            controller.listChi[value] != null
+                                                ? controller.listChi[value]
+                                                    .toString()
+                                                    .toVND()
+                                                : "0 đ",
+                                            style: Get.textTheme.bodyText1!
+                                                .copyWith(
+                                              color: Colors.red,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    )
+                                  ],
+                                ),
                               );
                             },
                             itemBuilder: (context, dynamic element) => Slidable(

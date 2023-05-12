@@ -22,7 +22,10 @@ import '../../../routes/routes.dart';
 class CreateTransactionController extends GetxController {
   final formKey = GlobalKey<FormState>();
   final valueController = MoneyMaskedTextController(
-      thousandSeparator: '.', precision: 0, decimalSeparator: "",rightSymbol: 'đ');
+      thousandSeparator: '.',
+      precision: 0,
+      decimalSeparator: "",
+      rightSymbol: 'đ');
   final descriptionController = TextEditingController();
 
   final peopleController = TextEditingController();
@@ -110,11 +113,13 @@ class CreateTransactionController extends GetxController {
 
   Future<void> createTransaction() async {
     if (transaction.value.isIncrease == 1) {
-      transaction.value.value =
-          int.parse(valueController.value.text.replaceAll('.', ''));
+      transaction.value.value = int.parse(
+          valueController.value.text.replaceAll('.', '').replaceAll("đ", ""));
     } else {
-      transaction.value.value =
-          int.parse(valueController.value.text.replaceAll('.', '')) * (-1);
+      transaction.value.value = int.parse(valueController.value.text
+              .replaceAll('.', '')
+              .replaceAll("đ", "")) *
+          (-1);
     }
     //transaction.value.executionTime = selectedDate.value;
     transaction.value.description = descriptionController.value.text;

@@ -91,12 +91,12 @@ class TransactionWidget extends StatelessWidget {
                   style: Theme.of(context)
                       .textTheme
                       .titleMedium!
-                      .copyWith(fontWeight: FontWeight.bold),
+                      .copyWith(fontWeight: FontWeight.w500),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 5),
                   child: Text(
-                    "${transaction.description!} lúc ${DateFormat('kk:mm dd-MM-yyyy').format(transaction.executionTime!)}",
+                    "${transaction.fundName}",
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(fontSize: 12),
@@ -107,11 +107,13 @@ class TransactionWidget extends StatelessWidget {
           ),
           Text(' ${transaction.value.toString().toVND(unit: 'đ')}',
               style: TextStyle(
-                  color: transaction.isIncrease == 1
-                      ? Colors.greenAccent
-                      : Colors.red,
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold))
+                color: 
+                transaction.isIncrease == 1
+                    ? Colors.greenAccent
+                    : Colors.red,
+                fontSize: 14,
+                
+              ))
         ],
       ),
     );

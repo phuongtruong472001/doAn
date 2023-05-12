@@ -21,6 +21,8 @@ class TransactionController extends BaseSearchAppbarController {
   int page = 0;
   RxBool isFilter = false.obs;
   HomeController homeController = Get.find<HomeController>();
+  RxMap<String, int> listThu = RxMap<String, int>();
+  RxMap<String, int> listChi = RxMap<String, int>();
 
   @override
   void onInit() async {
@@ -29,8 +31,7 @@ class TransactionController extends BaseSearchAppbarController {
     toDate = DateFormat('yyyy-MM-dd')
         .format(Jiffy(fromDate).add(months: 1, days: -1).dateTime);
     showLoading();
-    await initData();
-    hideLoading();
+    await initData().whenComplete(() => hideLoading());
     super.onInit();
   }
 
@@ -69,8 +70,12 @@ class TransactionController extends BaseSearchAppbarController {
   }
 
   Future<void> initData() async {
-    rxList.value =
+    List<tr.Transaction> tempList =
         await dbHelper.getTransactions(fromDate, toDate, 0, defaultItemOfPage);
+    rxList.value = tempList;
+    for (tr.Transaction transaction in tempList) {
+      caculatorThuChi(transaction);
+    }
   }
 
   @override
@@ -80,15 +85,34 @@ class TransactionController extends BaseSearchAppbarController {
         fromDate, toDate, defaultItemOfPage * page, defaultItemOfPage);
     if (transactions.isNotEmpty) {
       rxList.addAll(transactions);
+      for (tr.Transaction transaction in transactions) {
+        caculatorThuChi(transaction);
+      }
     }
     print(rxList.length);
     refreshController.loadComplete();
+  }
+
+  void caculatorThuChi(tr.Transaction transaction) {
+    if (transaction.value! > 0) {
+      listThu.update(
+          DateFormat("yyyy-MM-dd").format(transaction.executionTime!),
+          (value) => value + transaction.value!,
+          ifAbsent: () => transaction.value!);
+    } else {
+      listChi.update(
+          DateFormat("yyyy-MM-dd").format(transaction.executionTime!),
+          (value) => value + transaction.value!,
+          ifAbsent: () => transaction.value!);
+    }
   }
 
   @override
   Future<void> onRefresh() async {
     page = 0;
     rxList.clear();
+    listChi.clear();
+    listThu.clear();
     await initData();
     refreshController.refreshCompleted();
   }
