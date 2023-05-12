@@ -85,7 +85,7 @@ class FundPage extends GetView<FundController> {
                       ),
                       trailing: Icon(Icons.keyboard_arrow_down_outlined),
                     ),
-                  ),
+                  ).paddingOnly(bottom: paddingSmall),
                 ),
                 itemCount: controller.funds.length,
                 shrinkWrap: true,

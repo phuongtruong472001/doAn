@@ -3,10 +3,10 @@ import 'package:do_an/model/transaction.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_format_money_vietnam/flutter_format_money_vietnam.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 
 import '../base/colors.dart';
 import '../base/icons.dart';
+import '../routes/routes.dart';
 
 class ItemCard extends StatelessWidget {
   ItemCard(this.icon, this.content,
@@ -65,56 +65,58 @@ class TransactionWidget extends StatelessWidget {
   Transaction transaction;
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 20),
-      decoration: const BoxDecoration(
-          color: Colors.white,
-          border: Border.symmetric(
-              horizontal: BorderSide(color: Color(0x22000000), width: .5))),
-      child: Row(
-        children: [
-          CircleAvatar(
-            backgroundColor: Colors.white,
-            child: Image.asset(
-              "${ImageAsset.linkIconCategory}${transaction.categoryId}.png",
+    return GestureDetector(
+      onTap: () =>
+          Get.toNamed(AppRoutes.createTransaction, arguments: transaction),
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 20),
+        decoration: const BoxDecoration(
+            color: Colors.white,
+            border: Border.symmetric(
+                horizontal: BorderSide(color: Color(0x22000000), width: .5))),
+        child: Row(
+          children: [
+            CircleAvatar(
+              backgroundColor: Colors.white,
+              child: Image.asset(
+                "${ImageAsset.linkIconCategory}${transaction.categoryId}.png",
+              ),
             ),
-          ),
-          const SizedBox(width: 15),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  transaction.categoryName.toString(),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: Theme.of(context)
-                      .textTheme
-                      .titleMedium!
-                      .copyWith(fontWeight: FontWeight.w500),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 5),
-                  child: Text(
-                    "${transaction.fundName}",
+            const SizedBox(width: 15),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    transaction.categoryName.toString(),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(fontSize: 12),
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleMedium!
+                        .copyWith(fontWeight: FontWeight.w500),
                   ),
-                ),
-              ],
+                  Padding(
+                    padding: const EdgeInsets.only(top: 5),
+                    child: Text(
+                      "${transaction.fundName}",
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(fontSize: 12),
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-          Text(' ${transaction.value.toString().toVND(unit: 'đ')}',
-              style: TextStyle(
-                color: 
-                transaction.isIncrease == 1
-                    ? Colors.greenAccent
-                    : Colors.red,
-                fontSize: 14,
-                
-              ))
-        ],
+            Text(' ${transaction.value.toString().toVND(unit: 'đ')}',
+                style: TextStyle(
+                  color: transaction.isIncrease == 1
+                      ? Colors.greenAccent
+                      : Colors.red,
+                  fontSize: 14,
+                ))
+          ],
+        ),
       ),
     );
   }

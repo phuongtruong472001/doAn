@@ -26,6 +26,8 @@ class TransactionController extends BaseSearchAppbarController {
 
   @override
   void onInit() async {
+    listChi.clear();
+    listThu.clear();
     fromDate =
         DateFormat('yyyy-MM-dd').format(DateTime(date.year, date.month, 1));
     toDate = DateFormat('yyyy-MM-dd')
@@ -63,10 +65,6 @@ class TransactionController extends BaseSearchAppbarController {
     print("$fromDate-----$toDate");
     rxList.value =
         await dbHelper.getTransactions(fromDate, toDate, 0, defaultItemOfPage);
-  }
-
-  void goToDetail(tr.Transaction transaction) {
-    Get.toNamed(AppRoutes.createTransaction, arguments: transaction);
   }
 
   Future<void> initData() async {

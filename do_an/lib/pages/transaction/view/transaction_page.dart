@@ -76,7 +76,7 @@ class TracsactionPage extends BaseSearchAppBarWidget<TransactionController> {
                                   .copyWith(fontStyle: FontStyle.italic),
                             )
                           : Container(
-                            color: Colors.white,
+                              color: Colors.white,
                               height: 50,
                               child: TabBar(
                                 tabs: const [
@@ -100,6 +100,29 @@ class TracsactionPage extends BaseSearchAppBarWidget<TransactionController> {
                           },
                           icon: const Icon(Icons.close)),
                     )
+                  ],
+                ),
+              ),
+              Container(
+                width: Get.width,
+                color: Colors.white,
+                child: Column(
+                  children: [
+                    Text(
+                      "Số dư hiện tại",
+                      style: Get.textTheme.bodyText1!.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Obx(
+                      () => Text(
+                        controller.homeController.totalValue.toString().toVND(),
+                        style: Get.textTheme.bodyText1!.copyWith(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -143,18 +166,13 @@ class TracsactionPage extends BaseSearchAppBarWidget<TransactionController> {
                                               DateFormat.d("vi").format(
                                                 DateTime.parse(value),
                                               ),
-                                              style:
-                                                  Get.textTheme.bodyText1!.copyWith(
+                                              style: Get.textTheme.bodyText1!
+                                                  .copyWith(
                                                 fontSize: 18,
                                                 fontWeight: FontWeight.bold,
                                               ),
                                               textAlign: TextAlign.center,
                                             ),
-                                          ),
-                                          VerticalDivider(
-                                            thickness: 0.5,
-                                            // width: 10,
-                                            color: Colors.black,
                                           ),
                                           SizedBox(
                                             height: 50,
@@ -169,6 +187,9 @@ class TracsactionPage extends BaseSearchAppBarWidget<TransactionController> {
                                                   DateFormat.yM("vi").format(
                                                     DateTime.parse(value),
                                                   ),
+                                                  style: TextStyle(
+                                                      color: Color.fromARGB(
+                                                          255, 121, 120, 120)),
                                                 )
                                               ],
                                             ),
@@ -232,10 +253,7 @@ class TracsactionPage extends BaseSearchAppBarWidget<TransactionController> {
                                   ),
                                 ],
                               ),
-                              child: GestureDetector(
-                                onTap: () => controller.goToDetail(element),
-                                child: TransactionWidget(element),
-                              ),
+                              child: TransactionWidget(element),
                             ),
                             order: GroupedListOrder.DESC,
                           ),

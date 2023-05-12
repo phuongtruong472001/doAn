@@ -304,6 +304,9 @@ extension ShortNumber on double {
   }
 
   String typeMoney(double value) {
+    if (this == 0) {
+      return "VNĐ";
+    }
     int index = (Decimal.parse((log10(value) / 3).toStringAsFixed(1)).floor())
         .toDouble()
         .toInt();

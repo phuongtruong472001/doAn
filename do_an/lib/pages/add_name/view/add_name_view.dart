@@ -32,6 +32,7 @@ class _AddNameState extends State<AddName> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         toolbarHeight: 0.0,
       ),
@@ -93,29 +94,31 @@ class _AddNameState extends State<AddName> {
               height: 20.0,
             ),
             //
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.white70,
-                borderRadius: BorderRadius.circular(
-                  12.0,
+            Card(
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white70,
+                  borderRadius: BorderRadius.circular(
+                    12.0,
+                  ),
                 ),
-              ),
-              padding: const EdgeInsets.symmetric(
-                vertical: 8.0,
-                horizontal: 16.0,
-              ),
-              child: TextFormField(
-                decoration: const InputDecoration(
-                  hintText: "Tên của bạn",
-                  border: InputBorder.none,
+                padding: const EdgeInsets.symmetric(
+                  vertical: 8.0,
+                  horizontal: 16.0,
                 ),
-                style: const TextStyle(
-                  fontSize: 20.0,
+                child: TextFormField(
+                  decoration: const InputDecoration(
+                    hintText: "Tên của bạn",
+                    border: InputBorder.none,
+                  ),
+                  style: const TextStyle(
+                    fontSize: 20.0,
+                  ),
+                  maxLength: 20,
+                  onChanged: (val) {
+                    name = val;
+                  },
                 ),
-                maxLength: 20,
-                onChanged: (val) {
-                  name = val;
-                },
               ),
             ),
             //

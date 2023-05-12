@@ -279,8 +279,12 @@ class DBHelper {
     tr.Transaction transaction,
   ) async {
     var dbClient = await db;
+    var transactions = await dbClient?.rawQuery(
+        'SELECT SUM(value) as Total FROM Transactions where fundId=${transaction.fundID}');
+    int sumValues =
+        transactions!.isNotEmpty ? transactions[0]["Total"] as int : 0;
     await dbClient?.rawInsert(
-      'Update  Fund SET value=value+ ${transaction.value} WHERE id=${transaction.fundID}',
+      'Update  Fund SET value=$sumValues WHERE id=${transaction.fundID}',
     );
   }
 
@@ -367,12 +371,12 @@ class DBHelper {
     tr.Transaction transaction,
   ) async {
     var dbClient = await db;
-    int value = transaction.value!;
-    if (transaction.isIncrease != 1) {
-      value = transaction.value! * (-1);
-    }
+    var transactions = await dbClient?.rawQuery(
+        'SELECT SUM(value) as Total FROM Transactions where eventId=${transaction.eventId}');
+    int sumValues =
+        transactions!.isNotEmpty ? transactions[0]["Total"] as int : 0;
     await dbClient?.rawUpdate(
-      'Update Event SET value=value+ $value WHERE id=${transaction.eventId}',
+      'Update Event SET value=$sumValues WHERE id=${transaction.eventId}',
     );
   }
 

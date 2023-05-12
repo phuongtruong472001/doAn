@@ -22,46 +22,45 @@ class EventPage extends BaseSearchAppBarWidget<EventController> {
         backButton: Get.arguments != null,
         hintSearch: "Tìm kiếm theo tên sự kiện",
         showWidgetEmpty: true,
-        buildBody:  ListView.builder(
-            itemBuilder: (context, index) => GestureDetector(
-              onTap: () => controller.onTapItem(controller.rxList[index]),
-              child: Card(
-                child: ListTile(
-                  title: AutoSizeText(
-                    controller.rxList[index].name ?? "",
-                  ),
-                  trailing: Column(
-                    children: [
-                      AutoSizeText(DateFormat('kk:mm dd-MM-yyyy')
-                          .format(controller.rxList[index].date)),
-                      if (controller.rxList[index].allowNegative == 1) ...[
-                        const AutoSizeText(
-                          AppString.happenning,
-                          style: TextStyle(
-                            color: Colors.green,
-                            fontWeight: FontWeight.bold,
-                          ),
+        buildBody: ListView.builder(
+          itemBuilder: (context, index) => GestureDetector(
+            onTap: () => controller.onTapItem(controller.rxList[index]),
+            child: Card(
+              child: ListTile(
+                title: AutoSizeText(
+                  controller.rxList[index].name ?? "",
+                ),
+                trailing: Column(
+                  children: [
+                    AutoSizeText(DateFormat('kk:mm dd-MM-yyyy')
+                        .format(controller.rxList[index].date)),
+                    if (controller.rxList[index].allowNegative == 1) ...[
+                      const AutoSizeText(
+                        AppString.happenning,
+                        style: TextStyle(
+                          color: Colors.green,
+                          fontWeight: FontWeight.bold,
                         ),
-                      ] else ...[
-                        const AutoSizeText(
-                          AppString.completed,
-                          style: TextStyle(
-                            color: Colors.red,
-                            fontWeight: FontWeight.bold,
-                          ),
+                      ),
+                    ] else ...[
+                      const AutoSizeText(
+                        AppString.completed,
+                        style: TextStyle(
+                          color: Colors.red,
+                          fontWeight: FontWeight.bold,
                         ),
-                      ]
-                    ],
-                  ),
-                  subtitle: AutoSizeText(
-                    "Đã chi ${controller.rxList[index].value.toString().toVND()}/${controller.rxList[index].estimateValue.toString().toVND()} số tiền dự kiến",
-                  ),
-                ).paddingAll(paddingSmall),
-              ),
-            ),
-            itemCount: controller.rxList.length,
-          
-        ),
+                      ),
+                    ]
+                  ],
+                ),
+                subtitle: AutoSizeText(
+                  "Đã chi ${controller.rxList[index].value.toString().toVND()}/${controller.rxList[index].estimateValue.toString().toVND()} số tiền dự kiến",
+                ),
+              ).paddingAll(paddingSmall),
+            ).paddingOnly(bottom: paddingSmall),
+          ),
+          itemCount: controller.rxList.length,
+        ).paddingAll(paddingSmall),
         function: () {
           Get.toNamed(
             AppRoutes.createEvent,

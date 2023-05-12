@@ -134,6 +134,10 @@ class CreateEventPage extends GetView<CreateEventController> {
                       children: [
                         AutoSizeText(
                           "Đã chi tiêu ${(controller.event.value.value.toString().toVND())}",
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 17
+                          ),
                         ),
                         Visibility(
                           visible: controller.event.value.value >
@@ -143,17 +147,18 @@ class CreateEventPage extends GetView<CreateEventController> {
                             " vượt mức ${(controller.event.value.value - controller.event.value.estimateValue).toString().toVND()}",
                             style: const TextStyle(
                               color: Colors.red,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 17
                             ),
                           ),
                         ),
                       ],
-                    ),
+                    ).paddingSymmetric(vertical: paddingSmall),
                     Visibility(
                       visible: controller.listTransaction.isNotEmpty,
                       child: AutoSizeText(
                         "Danh sách các giao dịch của sự kiện '${controller.event.value.name}'",
-                        style: const TextStyle(fontWeight: FontWeight.bold),
-                      ),
+                      ).paddingOnly(bottom: paddingSmall),
                     ),
                     Obx(
                       () => Visibility(
