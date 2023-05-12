@@ -27,7 +27,11 @@ class EventController extends BaseSearchAppbarController {
     if (Get.arguments != null) {
       Get.back(result: event);
     } else {
-      Get.toNamed(AppRoutes.createEvent, arguments: event);
+      Get.toNamed(AppRoutes.createEvent, arguments: event)?.then((value) async {
+        showLoading();
+        await initData();
+        hideLoading();
+      });
     }
   }
 

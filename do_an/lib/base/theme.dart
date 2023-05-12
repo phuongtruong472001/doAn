@@ -5,7 +5,7 @@ import 'colors.dart';
 
 ThemeData theme() {
   return ThemeData(
-    scaffoldBackgroundColor: Color.fromARGB(255, 228, 227, 227),
+    scaffoldBackgroundColor: Color(0xfff4f4f4),
     fontFamily: "Poppins",
     appBarTheme: appBarTheme(),
     textTheme: textTheme(),

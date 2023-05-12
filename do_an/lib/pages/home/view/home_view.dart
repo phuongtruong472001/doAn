@@ -9,8 +9,6 @@ import 'package:flutter_format_money_vietnam/flutter_format_money_vietnam.dart';
 import 'package:get/get.dart';
 
 import '../../../component/base_appbar.dart';
-import '../../../component/base_card.dart';
-import '../../../component/base_header_no_backbutton.dart';
 import '../../../component/chart.dart';
 import '../../../component/item_card.dart';
 import '../../../component/space_bettwen_texts.dart';
@@ -111,15 +109,17 @@ class HomePage extends BaseGetWidget<HomeController> {
                 title: AppString.recentTransactions,
                 subTitle: "",
               ).paddingSymmetric(vertical: paddingSmall),
-              ListView.builder(
-                physics: const NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                itemBuilder: (context, index) {
-                  return TransactionWidget(
-                    controller.rxList[index],
-                  );
-                },
-                itemCount: controller.rxList.length,
+              Card(
+                child: ListView.builder(
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    return TransactionWidget(
+                      controller.rxList[index],
+                    );
+                  },
+                  itemCount: controller.rxList.length,
+                ).paddingAll(8),
               ),
             ],
           ).paddingAll(defaultPadding),

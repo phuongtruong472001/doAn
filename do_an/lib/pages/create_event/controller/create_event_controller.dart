@@ -137,7 +137,7 @@ class CreateEventController extends GetxController {
 
   void completeEvent() async {
     int status = event.value.allowNegative!;
-    Get.dialog(
+    await Get.dialog(
       AlertDialog(
         title: const Text("Xác nhận"),
         content: Text(status == 0
@@ -157,12 +157,13 @@ class CreateEventController extends GetxController {
                 } else {
                   status = 1;
                 }
+                Get.close(1);
                 Get.back();
-                dbHelper.updateEventAllowNegative(event.value.id!, status);
-                await eventController.initData();
-                Get.back();
+                await dbHelper.updateEventAllowNegative(
+                    event.value.id!, status);
                 showSnackBar(
                   "Cập nhật trạng thái thành công!",
+                  duration: Duration(seconds: 1)
                 );
               },
               child: const Text('Cập nhật'))
