@@ -1,4 +1,5 @@
 import 'package:do_an/pages/transaction/controller/transaction_controller.dart';
+import 'package:do_an/pages/transactions_of_fund/controller/transactions_of_fund_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -15,5 +16,4 @@ class FilterController extends BaseGetxController {
     toDateStr = transactionController.toDate.obs;
     super.onInit();
   }
-
 }

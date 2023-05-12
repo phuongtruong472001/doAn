@@ -3,7 +3,6 @@ import 'package:do_an/base_controller/base_controller_src.dart';
 import 'package:do_an/model/filter.dart';
 import 'package:do_an/model/transaction.dart' as tr;
 import 'package:do_an/pages/filter/view/filter_view.dart';
-import 'package:do_an/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -117,9 +116,17 @@ class TransactionController extends BaseSearchAppbarController {
 
   @override
   Future<void> functionSearch() async {
-    rxList.value = await dbHelper.getTransactions(
+    listChi.clear();
+    listThu.clear;
+    var transactions = await dbHelper.getTransactions(
         fromDate, toDate, 0, defaultItemOfPage,
         keySearch: textSearchController.text);
+    if (transactions.isNotEmpty) {
+      rxList.value = transactions;
+      for (tr.Transaction transaction in transactions) {
+        caculatorThuChi(transaction);
+      }
+    }
   }
 
   void deleteTransaction(tr.Transaction transaction) {
@@ -161,6 +168,8 @@ class TransactionController extends BaseSearchAppbarController {
         toDate = value.toDate;
         await initData();
       } else {
+        indexTabbar.value = 1;
+        isFilter.value = false;
         await onTapped(indexTabbar.value);
       }
     });

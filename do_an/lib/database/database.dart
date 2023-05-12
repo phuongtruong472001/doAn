@@ -100,10 +100,10 @@ class DBHelper {
 
   Future<List<tr.Transaction>> getTransactionsOfFund(
       int fundID, int start, int pageSize,
-      {String keySearch = ""}) async {
+      {String keySearch = "",String fromDate='2021-01-01',String toDate='2025-01-01'}) async {
     var dbClient = await db;
     var transactions = await dbClient?.rawQuery(
-        'SELECT * FROM Transactions  WHERE fundID = $fundID AND (description LIKE "%$keySearch%" OR categoryName LIKE "%$keySearch%")  ORDER BY executionTime DESC LIMIT $start,$pageSize');
+        'SELECT * FROM Transactions  WHERE fundID = $fundID AND executionTime >= "$fromDate" AND executionTime <= "$toDate" AND (description LIKE "%$keySearch%" OR categoryName LIKE "%$keySearch%")  ORDER BY executionTime DESC LIMIT $start,$pageSize');
     List<tr.Transaction> listTransactions = transactions!.isNotEmpty
         ? transactions.map((c) => tr.Transaction.fromMap(c)).toList()
         : [];

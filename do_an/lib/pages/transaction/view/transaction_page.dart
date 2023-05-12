@@ -96,7 +96,7 @@ class TracsactionPage extends BaseSearchAppBarWidget<TransactionController> {
                       child: IconButton(
                           onPressed: () async {
                             controller.isFilter.value = false;
-                            await controller.onRefresh();
+                            await controller.onTapped(controller.indexTabbar.value);
                           },
                           icon: const Icon(Icons.close)),
                     )

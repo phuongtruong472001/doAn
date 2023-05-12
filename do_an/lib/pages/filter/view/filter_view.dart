@@ -170,10 +170,10 @@ class FilterPage extends GetView<FilterController> {
           child: UtilWidget.buildButton(
             "Bỏ lọc",
             () async {
-              controller.transactionController.indexTabbar.value = 1;
-              await controller.transactionController.initData();
-              controller.transactionController.isFilter.value = false;
-              Get.back();
+              // controller.transactionController.indexTabbar.value = 1;
+              // await controller.transactionController.initData();
+              // controller.transactionController.isFilter.value = false;
+              Get.back(result: "Cancel");
             },
           ),
         ),
