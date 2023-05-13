@@ -18,8 +18,8 @@ class TransactionsOfFundController extends BaseSearchAppbarController {
   RxMap<String, int> listThu = RxMap<String, int>();
   RxMap<String, int> listChi = RxMap<String, int>();
   RxBool isFilter = false.obs;
-  late String fromDate ;
-  late String toDate ;
+  late String fromDate;
+  late String toDate;
   @override
   void onInit() {
     initData();
@@ -50,8 +50,9 @@ class TransactionsOfFundController extends BaseSearchAppbarController {
 
   Future<void> initData() async {
     showLoading();
-    fromDate = '2021-01-01';
-    toDate = '2025-01-01';
+    fromDate = DateFormat("yyyy-MM-dd").format(DateTime.now().subtract(Duration(days: 30)));
+    toDate =
+        DateFormat("yyyy-MM-dd").format(DateTime.now().add(Duration(days: 1)));
     Fund fund = Fund();
     if (Get.arguments is Fund) {
       fund = Get.arguments;

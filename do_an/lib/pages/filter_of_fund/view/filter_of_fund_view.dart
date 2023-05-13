@@ -87,7 +87,7 @@ class FilterOfFundPage extends GetView<FilterOfFundController> {
                         ? convertStringToDate(controller.fromDateStr.value)
                         : DateTime.now(),
                     context: context,
-                    firstDate: DateTime(2023),
+                    firstDate: DateTime(2021),
                     lastDate: DateTime(2025),
                   );
                   if (picked != null) {

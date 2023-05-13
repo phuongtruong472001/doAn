@@ -281,9 +281,10 @@ class DBHelper {
   Future<void> updateFund(
     tr.Transaction transaction,
   ) async {
+    String now = DateFormat("yyyy-MM-dd kk:mm").format(DateTime.now());
     var dbClient = await db;
     var transactions = await dbClient?.rawQuery(
-        'SELECT SUM(value) as Total FROM Transactions where fundId=${transaction.fundID}');
+        'SELECT SUM(value) as Total FROM Transactions where fundId=${transaction.fundID}  and executionTime <= "$now"');
     int sumValues =
         transactions!.isNotEmpty ? transactions[0]["Total"] as int : 0;
     await dbClient?.rawInsert(
