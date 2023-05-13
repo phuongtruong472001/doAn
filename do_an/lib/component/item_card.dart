@@ -108,7 +108,9 @@ class TransactionWidget extends StatelessWidget {
                 ],
               ),
             ),
-            Text(' ${transaction.value.toString().toVND(unit: 'đ')}',
+            Text(
+                (transaction.isIncrease == 1 ? "+" : "") +
+                    '${transaction.value.toString().toVND(unit: 'đ')}',
                 style: TextStyle(
                   color: transaction.isIncrease == 1
                       ? Colors.greenAccent

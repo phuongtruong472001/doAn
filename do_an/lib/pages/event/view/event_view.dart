@@ -54,7 +54,7 @@ class EventPage extends BaseSearchAppBarWidget<EventController> {
                   ],
                 ),
                 subtitle: AutoSizeText(
-                  "Đã chi ${controller.rxList[index].value.toString().toVND()}/${controller.rxList[index].estimateValue.toString().toVND()} số tiền dự kiến",
+                  "Đã chi ${controller.rxList[index].value.toString().replaceAll('-', "").toVND()}/${controller.rxList[index].estimateValue.toString().toVND()} số tiền dự kiến",
                 ),
               ).paddingAll(paddingSmall),
             ).paddingOnly(bottom: paddingSmall),

@@ -139,7 +139,7 @@ class CreateEventPage extends GetView<CreateEventController> {
                                 Row(
                                   children: [
                                     AutoSizeText(
-                                      "Đã chi tiêu ${(controller.event.value.value.toString().toVND())}",
+                                      "Đã chi tiêu ${(controller.event.value.value.toString().replaceAll('-', "").toVND())}",
                                       style: const TextStyle(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 17),
@@ -158,6 +158,12 @@ class CreateEventPage extends GetView<CreateEventController> {
                                       ),
                                     ),
                                   ],
+                                ).paddingSymmetric(vertical: paddingSmall),
+                                AutoSizeText(
+                                  "Đã thu ${(controller.event.value.receive.toString().toVND())}",
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 17),
                                 ).paddingSymmetric(vertical: paddingSmall),
                                 Visibility(
                                   visible:

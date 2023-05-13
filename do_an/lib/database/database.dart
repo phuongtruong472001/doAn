@@ -100,7 +100,9 @@ class DBHelper {
 
   Future<List<tr.Transaction>> getTransactionsOfFund(
       int fundID, int start, int pageSize,
-      {String keySearch = "",String fromDate='2021-01-01',String toDate='2025-01-01'}) async {
+      {String keySearch = "",
+      String fromDate = '2021-01-01',
+      String toDate = '2025-01-01'}) async {
     var dbClient = await db;
     var transactions = await dbClient?.rawQuery(
         'SELECT * FROM Transactions  WHERE fundID = $fundID AND executionTime >= "$fromDate" AND executionTime <= "$toDate" AND (description LIKE "%$keySearch%" OR categoryName LIKE "%$keySearch%")  ORDER BY executionTime DESC LIMIT $start,$pageSize');
@@ -197,7 +199,7 @@ class DBHelper {
   Future<bool> addEvent(Event event) async {
     var dbClient = await db;
     var status = await dbClient?.rawInsert(
-      'INSERT INTO Event(name,icon,date,estimateValue,allowNegative,isNotified,value) VALUES(?, ?, ?, ?,?,?,?)',
+      'INSERT INTO Event(name,icon,date,estimateValue,allowNegative,isNotified,value,receive) VALUES(?, ?, ?, ?,?,?,?,?)',
       [
         event.name,
         event.icon,
@@ -205,7 +207,8 @@ class DBHelper {
         event.estimateValue,
         event.allowNegative,
         event.isNotified ? 1 : 0,
-        0
+        0,
+        0,
       ],
     );
     return status != 0;
@@ -371,12 +374,16 @@ class DBHelper {
     tr.Transaction transaction,
   ) async {
     var dbClient = await db;
-    var transactions = await dbClient?.rawQuery(
-        'SELECT SUM(value) as Total FROM Transactions where eventId=${transaction.eventId}');
-    int sumValues =
-        transactions!.isNotEmpty ? transactions[0]["Total"] as int : 0;
+    var transactionsThu = await dbClient?.rawQuery(
+        'SELECT SUM(value) as Total FROM Transactions where eventId=${transaction.eventId} and value>0');
+    var transactionsChi = await dbClient?.rawQuery(
+        'SELECT SUM(value) as Total FROM Transactions where eventId=${transaction.eventId} and value<0');
+    int valueThu =
+        transactionsThu!.isNotEmpty ? transactionsThu[0]["Total"] as int : 0;
+    int valueChi =
+        transactionsChi!.isNotEmpty ? transactionsChi[0]["Total"] as int : 0;
     await dbClient?.rawUpdate(
-      'Update Event SET value=$sumValues WHERE id=${transaction.eventId}',
+      'Update Event SET value=$valueChi, receive=$valueThu WHERE id=${transaction.eventId}',
     );
   }
 

@@ -10,6 +10,7 @@ class Event {
   int estimateValue;
   int value;
   bool isNotified;
+  int receive;
   Event({
     this.id,
     this.name,
@@ -19,6 +20,7 @@ class Event {
     this.estimateValue = 0,
     this.value = 0,
     this.isNotified = false,
+    this.receive = 0,
   });
 
   Map<String, dynamic> tojson() {
@@ -41,6 +43,7 @@ class Event {
       estimateValue: json['estimateValue'] ?? 0,
       value: json["value"] ?? 0,
       isNotified: json["isNotified"] == 1,
+      receive: json["receive"] ?? 0,
     );
   }
 

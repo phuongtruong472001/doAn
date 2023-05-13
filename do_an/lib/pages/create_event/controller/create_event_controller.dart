@@ -73,6 +73,10 @@ class CreateEventController extends GetxController {
 
   Future<void> createEvent() async {
     bool status = await dbHelper.addEvent(event.value);
+    if (status) {
+      await eventController.initData();
+      Get.back();
+    }
     showSnackBar(
       status ? AppString.addSuccess("Sự kiện") : AppString.addFail("Sự kiện"),
       backgroundColor: status ? Colors.green : Colors.red,
