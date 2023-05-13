@@ -3,6 +3,7 @@ import 'package:do_an/model/filter.dart';
 import 'package:do_an/model/fund.dart';
 import 'package:do_an/model/transaction.dart';
 import 'package:do_an/pages/filter/view/filter_view.dart';
+import 'package:do_an/pages/filter_of_fund/view/filter_of_fund_view.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
@@ -126,7 +127,7 @@ class TransactionsOfFundController extends BaseSearchAppbarController {
 
   void showFilterPage() {
     Get.bottomSheet(
-      const FilterPage(),
+      const FilterOfFundPage(),
       //isScrollControlled: true,
     ).then((value) async {
       if (value is FilterItem) {

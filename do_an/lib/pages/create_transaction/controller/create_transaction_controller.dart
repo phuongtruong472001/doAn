@@ -111,7 +111,7 @@ class CreateTransactionController extends GetxController {
     });
   }
 
-  Future<void> createTransaction() async {
+  Future<void> manageTransaction() async {
     if (transaction.value.isIncrease == 1) {
       transaction.value.value = int.parse(
           valueController.value.text.replaceAll('.', '').replaceAll("đ", ""));
@@ -143,57 +143,69 @@ class CreateTransactionController extends GetxController {
     if (formKey.currentState!.validate() &&
         transaction.value.categoryId! >= 0 &&
         transaction.value.fundID! >= 0) {
-      bool status = false;
-      if (Get.arguments == null) {
-        status = await dbHelper.addTransaction(transaction.value);
+      if (Get.arguments != null) {
+        await editTransaction();
       } else {
-        await Get.dialog(
-          AlertDialog(
-            title: const Text("Xác nhận"),
-            content: const Text('Bạn có muốn sửa giao dịch này không?'),
-            actions: [
-              // The "Yes" button
-              TextButton(
-                  onPressed: () {
-                    Get.back();
-                  },
-                  child: const Text('Huỷ')),
-              TextButton(
-                  onPressed: () async {
-                    status = await dbHelper.editTransaction(
-                        transaction.value, oldValue);
-                    Get.back();
-                  },
-                  child: const Text('Sửa'))
-            ],
-          ),
-        );
+        await createTransaction();
       }
-      String messege = "";
-      if (status) {
-        if (Get.arguments == null) {
-          messege = AppString.addSuccess("Giao dịch");
-        } else {
-          messege = AppString.editSuccess("Giao dịch");
-        }
-
-        await transactionController.initData();
-
-        await homeController.initData();
-        Get.back();
-      } else {
-        messege = AppString.fail;
-      }
-      showSnackBar(
-        messege,
-        backgroundColor: status ? Colors.green : Colors.red,
-      );
     } else {
       showSnackBar(
         "Nguồn tiền và danh mục không thể để trống!",
         backgroundColor: Colors.red,
       );
     }
+  }
+
+  Future<void> createTransaction() async {
+    bool status = await dbHelper.addTransaction(transaction.value);
+    if (status) {
+      Get.back();
+      await transactionController.initData();
+      await homeController.initData();
+    }
+
+    showSnackBar(
+      status
+          ? AppString.editSuccess("giao dịch")
+          : AppString.editFail("giao dịch"),
+      backgroundColor: status ? Colors.green : Colors.red,
+    );
+  }
+
+  Future<void> editTransaction() async {
+    await Get.dialog(
+      AlertDialog(
+        title: const Text("Xác nhận"),
+        content: const Text('Bạn có muốn sửa giao dịch này không?'),
+        actions: [
+          // The "Yes" button
+          TextButton(
+              onPressed: () {
+                Get.back();
+              },
+              child: const Text('Huỷ')),
+          TextButton(
+              onPressed: () async {
+                bool status =
+                    await dbHelper.editTransaction(transaction.value, oldValue);
+                if (status) {
+                  await transactionController.initData();
+                  await homeController.initData();
+                  Get.close(1);
+                  Get.back();
+                }
+
+                showSnackBar(
+                  status
+                      ? AppString.editSuccess("giao dịch")
+                      : AppString.editFail("giao dịch"),
+                  backgroundColor: status ? Colors.green : Colors.red,
+                );
+              },
+              child: const Text('Sửa'))
+        ],
+      ),
+    );
   }
 
   void selectDateRepeat(BuildContext context) {

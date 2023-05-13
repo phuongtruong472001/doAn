@@ -50,7 +50,7 @@ class CreateEventController extends GetxController {
     }
   }
 
-  Future<void> createEvent() async {
+  Future<void> manageEvent() async {
     event.value.name = nameController.value.text;
     event.value.estimateValue =
         int.parse(valueController.value.text.replaceAll('.', ''));
@@ -63,63 +63,66 @@ class CreateEventController extends GetxController {
       ),
     );
     if (formData.currentState!.validate()) {
-      bool status = false;
       if (Get.arguments != null) {
-        await Get.dialog(
-          AlertDialog(
-            title: const Text("Xác nhận"),
-            content: const Text('Bạn có muốn sửa sự kiện này không?'),
-            actions: [
-              // The "Yes" button
-              TextButton(
-                  onPressed: () {
-                    Get.back();
-                  },
-                  child: const Text('Huỷ')),
-              TextButton(
-                  onPressed: () async {
-                    status = await dbHelper.editEvent(event.value);
-                    if (status) {
-                      Get.back();
-                    }
-                  },
-                  child: const Text('Sửa'))
-            ],
-          ),
-        );
+        await editEvent();
       } else {
-        status = await dbHelper.addEvent(event.value);
+        await createEvent();
       }
-      String messege = "";
-      if (status) {
-        if (Get.arguments == null) {
-          messege = AppString.addSuccess("Sự kiện");
-        } else {
-          service.cancelNotification(event.value.id ?? 0);
-          messege = AppString.editSuccess("Sự kiện");
-        }
-        await service.showScheduledNotification(
-          id: event.value.id ?? 0,
-          title: event.value.name ?? "",
-          body:
-              "Diễn ra vào ${DateFormat("kk:mm dd:MM:yyyy").format(event.value.date ?? DateTime.now())}",
-          dateTime: event.value.date!
-                  .isBefore(DateTime.now().add(const Duration(days: 1)))
-              ? DateTime.now().add(const Duration(minutes: 1))
-              : (event.value.date ?? DateTime.now())
-                  .subtract(const Duration(days: 1)),
-        );
-
-        await eventController.initData();
-        Get.back();
-      } else {
-        messege = AppString.fail;
-      }
-      showSnackBar(
-        messege,
-        backgroundColor: status ? Colors.green : Colors.red,
-      );
     }
+  }
+
+  Future<void> createEvent() async {
+    bool status = await dbHelper.addEvent(event.value);
+    showSnackBar(
+      status ? AppString.addSuccess("Sự kiện") : AppString.addFail("Sự kiện"),
+      backgroundColor: status ? Colors.green : Colors.red,
+    );
+  }
+
+  Future<void> editEvent() async {
+    await Get.dialog(
+      AlertDialog(
+        title: const Text("Xác nhận"),
+        content: const Text('Bạn có muốn sửa sự kiện này không?'),
+        actions: [
+          // The "Yes" button
+          TextButton(
+              onPressed: () {
+                Get.back();
+              },
+              child: const Text('Huỷ')),
+          TextButton(
+              onPressed: () async {
+                bool status = await dbHelper.editEvent(event.value);
+
+                if (status) {
+                  service.cancelNotification(event.value.id ?? 0);
+                  await service.showScheduledNotification(
+                    id: event.value.id ?? 0,
+                    title: event.value.name ?? "",
+                    body:
+                        "Diễn ra vào ${DateFormat("kk:mm dd:MM:yyyy").format(event.value.date ?? DateTime.now())}",
+                    dateTime: event.value.date!.isBefore(
+                            DateTime.now().add(const Duration(days: 1)))
+                        ? DateTime.now().add(const Duration(minutes: 1))
+                        : (event.value.date ?? DateTime.now())
+                            .subtract(const Duration(days: 1)),
+                  );
+
+                  Get.close(1);
+                  Get.back();
+                }
+                showSnackBar(
+                  status
+                      ? AppString.editSuccess("Sự kiện")
+                      : AppString.editFail("Sự kiện"),
+                  backgroundColor: status ? Colors.green : Colors.red,
+                );
+              },
+              child: const Text('Sửa'))
+        ],
+      ),
+    );
   }
 
   void initData() async {
@@ -161,10 +164,8 @@ class CreateEventController extends GetxController {
                 Get.back();
                 await dbHelper.updateEventAllowNegative(
                     event.value.id!, status);
-                showSnackBar(
-                  "Cập nhật trạng thái thành công!",
-                  duration: Duration(seconds: 1)
-                );
+                showSnackBar("Cập nhật trạng thái thành công!",
+                    duration: Duration(seconds: 1));
               },
               child: const Text('Cập nhật'))
         ],

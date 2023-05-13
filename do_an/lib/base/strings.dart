@@ -12,12 +12,12 @@ class AppString {
   static const String filter = 'Lọc';
   static const String send = "Gửi";
   static const String save = 'LƯU';
-  static const String edit = "SỬA";
+  static const String edit = "CẬP NHẬT";
   static const String hintValue = "Nhập số tiền";
   static const String value = "Số tiền";
   static const String hintTime = "Chọn thời gian";
   static const String hintDay = "Chọn ngày";
-  static const String hintHour= "Chọn giờ";
+  static const String hintHour = "Chọn giờ";
   static const String cash = "Tiền mặt";
   static const String hintSearch = "Tìm kiếm";
   static const String complete = "HOÀN THÀNH";
@@ -93,6 +93,8 @@ class AppString {
   //messege
   static String addSuccess(String name) => "Thêm mới $name thành công";
   static String editSuccess(String name) => "Sửa $name thành công";
+  static String editFail(String name) => "Sửa $name thất bại";
+  static String addFail(String name) => "Thêm $name thất bại";
   static const String fail = "Thêm mới thất bại";
 
   //event

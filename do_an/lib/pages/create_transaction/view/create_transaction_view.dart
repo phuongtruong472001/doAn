@@ -208,7 +208,7 @@ class CreateTransactionPage extends GetView<CreateTransactionController> {
           ),
           BaseButton(
             Get.arguments == null ? AppString.save : AppString.edit,
-            controller.createTransaction,
+            controller.manageTransaction,
           ),
         ],
       ),
