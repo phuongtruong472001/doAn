@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_format_money_vietnam/flutter_format_money_vietnam.dart';
 import 'package:get/get.dart';
 
+import '../../../base/colors.dart';
 import '../../../component/base_appbar.dart';
 import '../../../component/chart.dart';
 import '../../../component/item_card.dart';
@@ -74,10 +75,25 @@ class HomePage extends BaseGetWidget<HomeController> {
                   ),
                 ),
               ),
-              const SpaceBetweenLetter(
-                title: AppString.spendingReport,
-                subTitle: AppString.viewReport,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  AutoSizeText(
+                    AppString.spendingReport,
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      
+                    },
+                    child: AutoSizeText(
+                      "Tất cả",
+                      style:
+                          Get.textTheme.bodyText1!.copyWith(color: kCorrectColor),
+                    ),
+                  ),
+                ],
               ).paddingSymmetric(vertical: paddingSmall),
+              
               Card(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

@@ -12,6 +12,7 @@ class HomeController extends BaseGetxController {
   RxList<Spending> spedings = RxList<Spending>.empty();
   final box = GetStorage();
   RxList<Transaction> rxList = RxList<Transaction>();
+  RxInt fundID = (-1).obs;
   @override
   void onInit() async {
     await initData();
@@ -35,8 +36,8 @@ class HomeController extends BaseGetxController {
     int month = DateTime.now().month;
     List<Spending> spendingTemp = [];
     for (int i = 1; i <= month; i++) {
-      int pepper = await dbHelper.getTransactionsByMonth(i, 1);
-      int receive = await dbHelper.getTransactionsByMonth(i, 0);
+      int pepper = await dbHelper.getTransactionsByMonth(i, 1, fundID.value);
+      int receive = await dbHelper.getTransactionsByMonth(i, 0, fundID.value);
       spendingTemp.add(
         Spending(
           dateTime: DateTime(DateTime.now().year, i),

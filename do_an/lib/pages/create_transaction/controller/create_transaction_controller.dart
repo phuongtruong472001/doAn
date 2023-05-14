@@ -232,8 +232,9 @@ class CreateTransactionController extends GetxController {
   Future<void> getImage() async {
     final XFile? pickedFile = await ImagePicker().pickImage(
       source: ImageSource.gallery,
-      maxWidth: 180,
-      maxHeight: 180,
+      maxWidth: Get.width,
+      maxHeight: Get.width,
+      imageQuality: 100
     );
     if (pickedFile != null) {
       file.value = File(pickedFile.path);

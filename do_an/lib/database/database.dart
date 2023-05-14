@@ -90,10 +90,18 @@ class DBHelper {
     return listTransactions;
   }
 
-  Future<int> getTransactionsByMonth(int month, int isIncrease) async {
+  Future<int> getTransactionsByMonth(
+      int month, int isIncrease, int fundId) async {
     var dbClient = await db;
-    var transactions = await dbClient?.rawQuery(
-        "SELECT SUM(value) as Total FROM Transactions WHERE isIncrease = $isIncrease AND strftime('%Y', executionTime) = strftime('%Y', CURRENT_DATE) AND CAST(strftime('%m', executionTime) AS INTEGER) = $month");
+
+    var transactions;
+    if (fundId > 0) {
+      transactions = await dbClient?.rawQuery(
+          "SELECT SUM(value) as Total FROM Transactions WHERE fundId=$fundId isIncrease = $isIncrease AND strftime('%Y', executionTime) = strftime('%Y', CURRENT_DATE) AND CAST(strftime('%m', executionTime) AS INTEGER) = $month");
+    } else {
+      transactions = await dbClient?.rawQuery(
+          "SELECT SUM(value) as Total FROM Transactions WHERE isIncrease = $isIncrease AND strftime('%Y', executionTime) = strftime('%Y', CURRENT_DATE) AND CAST(strftime('%m', executionTime) AS INTEGER) = $month");
+    }
     int sumValues = (transactions?[0]["Total"] ?? 0) as int;
     return sumValues;
   }
@@ -354,17 +362,9 @@ class DBHelper {
       'DELETE FROM Transactions WHERE id=${transaction.id}',
     );
     if (status != 0) {
-      int value = transaction.value!;
-      if (transaction.isIncrease == 1) {
-        value = transaction.value! * (-1);
-      }
-      transaction.value =
-          transaction.value! * (-1); //cộng lại những giao dịch âm
       await updateFund(transaction);
       if (transaction.eventId! >= 0) {
-        await dbClient?.rawUpdate(
-          'Update Event SET value=value+$value WHERE id=${transaction.eventId}',
-        );
+        await updateEvent(transaction);
       }
     }
     return status != 0;

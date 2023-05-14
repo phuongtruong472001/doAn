@@ -82,13 +82,16 @@ class CreateTransactionPage extends GetView<CreateTransactionController> {
                                 Icons.menu,
                                 color: Colors.black,
                               ),
-                              trailing: Icon(Icons.keyboard_arrow_down_outlined),
+                              trailing:
+                                  Icon(Icons.keyboard_arrow_down_outlined),
                               title: AutoSizeText(
                                 controller.transaction.value.categoryId! >= 0
                                     ? controller.transaction.value.categoryName
                                     : AppString.selectCategory,
                                 style: Get.textTheme.bodyMedium!.copyWith(
-                                  color: controller.transaction.value.categoryId! >= 0
+                                  color: controller
+                                              .transaction.value.categoryId! >=
+                                          0
                                       ? Colors.black
                                       : Colors.grey,
                                 ),
@@ -113,7 +116,8 @@ class CreateTransactionPage extends GetView<CreateTransactionController> {
                                 controller.transaction.value.isRepeat
                                     ? "Lặp lại vào lúc ${DateFormat('kk:mm dd-MM-yyyy').format(controller.transaction.value.executionTime ?? DateTime.now())}"
                                     : DateFormat('kk:mm dd-MM-yyyy').format(
-                                        controller.transaction.value.executionTime ??
+                                        controller.transaction.value
+                                                .executionTime ??
                                             DateTime.now(),
                                       ),
                                 style: Get.textTheme.bodyMedium),
@@ -160,9 +164,10 @@ class CreateTransactionPage extends GetView<CreateTransactionController> {
                                   ? controller.transaction.value.eventName
                                   : AppString.selectEvent,
                               style: Get.textTheme.bodyMedium!.copyWith(
-                                color: controller.transaction.value.eventId! >= 0
-                                    ? Colors.black
-                                    : Colors.grey,
+                                color:
+                                    controller.transaction.value.eventId! >= 0
+                                        ? Colors.black
+                                        : Colors.grey,
                               ),
                             ),
                           ),
@@ -170,34 +175,53 @@ class CreateTransactionPage extends GetView<CreateTransactionController> {
                       ),
                     ).paddingOnly(top: paddingSmall),
                     StatefulBuilder(
-                      builder: (context, setState) =>
-                          controller.transaction.value.imageLink.isEmpty
-                              ? Container(
-                                  alignment: Alignment.center,
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: <Widget>[
-                                      InkWell(
-                                        onTap: () async {
-                                          await controller.getImage();
-                                          setState(() {});
-                                        },
-                                        child: const AutoSizeText(
-                                          "Thêm hình ảnh",
-                                          style: TextStyle(color: Colors.blue),
-                                        ),
-                                      ),
-                                      Container(
-                                        height: 40.0,
-                                      ),
-                                    ],
+                      builder: (context, setState) => controller
+                              .transaction.value.imageLink.isEmpty
+                          ? Container(
+                              alignment: Alignment.center,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  InkWell(
+                                    onTap: () async {
+                                      await controller.getImage();
+                                      setState(() {});
+                                    },
+                                    child: const AutoSizeText(
+                                      "Thêm hình ảnh",
+                                      style: TextStyle(color: Colors.blue),
+                                    ),
                                   ),
-                                )
-                              : Image.memory(
-                                  controller.bytesImage(
-                                      controller.transaction.value.imageLink),
-                                  fit: BoxFit.cover,
-                                ),
+                                  Container(
+                                    height: 40.0,
+                                  ),
+                                ],
+                              ),
+                            )
+                          : SizedBox(
+                              height: Get.width,
+                              child: Stack(
+                                children: [
+                                  Image.memory(
+                                    controller.bytesImage(
+                                        controller.transaction.value.imageLink),
+                                    fit: BoxFit.none,
+                                  ),
+                                  Positioned(
+                                    top: 0,
+                                    right: 0,
+                                    child: IconButton(
+                                      icon: Icon(Icons.close),
+                                      onPressed: () {
+                                        controller.transaction.value.imageLink =
+                                            "";
+                                        setState(() {});
+                                      },
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
                     ).paddingSymmetric(vertical: paddingSmall),
                   ],
                 ).paddingSymmetric(

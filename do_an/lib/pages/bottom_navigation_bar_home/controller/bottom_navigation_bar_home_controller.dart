@@ -10,9 +10,11 @@ import '../../../base_controller/base_controller.dart';
 class BottomNavigationBarHomeController extends BaseGetxController {
   RxInt indexTab = 0.obs;
   RxInt numbEvent = 0.obs;
+  DBHelper dbHelper = DBHelper();
 
   @override
-  void onInit() {
+  void onInit() async {
+    numbEvent.value = (await dbHelper.getEventsOutOfDate()).length;
     super.onInit();
   }
 
@@ -37,7 +39,6 @@ class BottomNavigationBarHomeController extends BaseGetxController {
         }
         break;
       case 2:
-        DBHelper dbHelper = DBHelper();
         List<Event> events = await dbHelper.getEventsOutOfDate();
         for (Event event in events) {
           await dbHelper.updateEventOutOfDate(event);
