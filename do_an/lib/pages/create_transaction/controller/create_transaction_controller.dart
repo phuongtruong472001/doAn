@@ -209,7 +209,7 @@ class CreateTransactionController extends GetxController {
   }
 
   void selectDateRepeat(BuildContext context) {
-    Get.bottomSheet(BottomSheetSelectTime()).then((value) {
+    Get.bottomSheet(BottomSheetSelectTime(),isScrollControlled: true).then((value) {
       if (value is RepeatTime) {
         transaction.update((val) {
           val!.executionTime = Jiffy(value.dateTime)
@@ -230,12 +230,8 @@ class CreateTransactionController extends GetxController {
   }
 
   Future<void> getImage() async {
-    final XFile? pickedFile = await ImagePicker().pickImage(
-      source: ImageSource.gallery,
-      maxWidth: Get.width,
-      maxHeight: Get.width,
-      imageQuality: 100
-    );
+    final XFile? pickedFile = await ImagePicker()
+        .pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
       file.value = File(pickedFile.path);
       List<int> imageBytes = file.value!.readAsBytesSync();

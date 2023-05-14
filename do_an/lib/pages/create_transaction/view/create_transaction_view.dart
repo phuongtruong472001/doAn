@@ -3,6 +3,7 @@ import 'package:do_an/base/dimen.dart';
 import 'package:do_an/component/base_appbar.dart';
 import 'package:do_an/component/base_button.dart';
 import 'package:flutter/material.dart';
+import 'package:full_screen_image_null_safe/full_screen_image_null_safe.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
@@ -114,7 +115,7 @@ class CreateTransactionPage extends GetView<CreateTransactionController> {
                           title: Obx(
                             () => AutoSizeText(
                                 controller.transaction.value.isRepeat
-                                    ? "Lặp lại vào lúc ${DateFormat('kk:mm dd-MM-yyyy').format(controller.transaction.value.executionTime ?? DateTime.now())}"
+                                    ? "Lặp lại từ ${DateFormat('kk:mm dd-MM-yyyy').format(controller.transaction.value.executionTime ?? DateTime.now())}"
                                     : DateFormat('kk:mm dd-MM-yyyy').format(
                                         controller.transaction.value
                                                 .executionTime ??
@@ -175,53 +176,59 @@ class CreateTransactionPage extends GetView<CreateTransactionController> {
                       ),
                     ).paddingOnly(top: paddingSmall),
                     StatefulBuilder(
-                      builder: (context, setState) => controller
-                              .transaction.value.imageLink.isEmpty
-                          ? Container(
-                              alignment: Alignment.center,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  InkWell(
-                                    onTap: () async {
-                                      await controller.getImage();
-                                      setState(() {});
-                                    },
-                                    child: const AutoSizeText(
-                                      "Thêm hình ảnh",
-                                      style: TextStyle(color: Colors.blue),
-                                    ),
+                      builder: (context, setState) =>
+                          controller.transaction.value.imageLink.isEmpty
+                              ? Container(
+                                  alignment: Alignment.center,
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                      InkWell(
+                                        onTap: () async {
+                                          await controller.getImage();
+                                          setState(() {});
+                                        },
+                                        child: const AutoSizeText(
+                                          "Thêm hình ảnh",
+                                          style: TextStyle(color: Colors.blue),
+                                        ),
+                                      ),
+                                      Container(
+                                        height: 40.0,
+                                      ),
+                                    ],
                                   ),
-                                  Container(
-                                    height: 40.0,
+                                )
+                              : SizedBox(
+                                  height: Get.width,
+                                  child: Stack(
+                                    children: [
+                                      FullScreenWidget(
+                                        child: Hero(
+                                          tag: controller.transaction.value.id!
+                                              .toString(),
+                                          child: Image.memory(
+                                            controller.bytesImage(controller
+                                                .transaction.value.imageLink),
+                                            fit: BoxFit.cover,
+                                          ),
+                                        ),
+                                      ),
+                                      Positioned(
+                                        top: 0,
+                                        right: 0,
+                                        child: IconButton(
+                                          icon: Icon(Icons.close),
+                                          onPressed: () {
+                                            controller.transaction.value
+                                                .imageLink = "";
+                                            setState(() {});
+                                          },
+                                        ),
+                                      )
+                                    ],
                                   ),
-                                ],
-                              ),
-                            )
-                          : SizedBox(
-                              height: Get.width,
-                              child: Stack(
-                                children: [
-                                  Image.memory(
-                                    controller.bytesImage(
-                                        controller.transaction.value.imageLink),
-                                    fit: BoxFit.none,
-                                  ),
-                                  Positioned(
-                                    top: 0,
-                                    right: 0,
-                                    child: IconButton(
-                                      icon: Icon(Icons.close),
-                                      onPressed: () {
-                                        controller.transaction.value.imageLink =
-                                            "";
-                                        setState(() {});
-                                      },
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
+                                ),
                     ).paddingSymmetric(vertical: paddingSmall),
                   ],
                 ).paddingSymmetric(

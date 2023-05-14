@@ -81,26 +81,32 @@ class HomePage extends BaseGetWidget<HomeController> {
                   AutoSizeText(
                     AppString.spendingReport,
                   ),
-                  GestureDetector(
-                    onTap: () {
-                      
+                 
+                  DropdownButton<String>(
+                    value: controller.listFund[controller.fundID.value + 1],
+                    elevation: 16,
+                    style: const TextStyle(color: Colors.green),
+                    underline: Container(),
+                    onChanged: (String? value) async {
+                     await controller.changeFund(value);
                     },
-                    child: AutoSizeText(
-                      "Tất cả",
-                      style:
-                          Get.textTheme.bodyText1!.copyWith(color: kCorrectColor),
-                    ),
+                    items: controller.listFund
+                        .map<DropdownMenuItem<String>>((element) {
+                      return DropdownMenuItem<String>(
+                        value: element,
+                        child: AutoSizeText(element),
+                      );
+                    }).toList(),
                   ),
                 ],
               ).paddingSymmetric(vertical: paddingSmall),
-              
               Card(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    BarChar(
-                      spending: controller.spedings,
-                    ),
+                    Obx(() => BarChar(
+                          spending: controller.spedings.value,
+                        )),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [

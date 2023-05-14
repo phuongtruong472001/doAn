@@ -22,7 +22,7 @@ class BottomSheetSelectTime extends GetView<BaseBottomSheetController> {
           onTap: () => Get.back(),
           child: Container(
             color: Colors.transparent,
-            height: double.infinity,
+            height: Get.height ,
             width: double.infinity,
           ),
         ),
@@ -41,15 +41,6 @@ class BottomSheetSelectTime extends GetView<BaseBottomSheetController> {
                     const AutoSizeText("Lặp lại"),
                     Obx(
                       () => Switch(
-                        // thumbIcon: MaterialStateProperty.resolveWith<Icon?>(
-                        //   (Set<MaterialState> states) {
-                        //     // Thumb icon when the switch is selected.
-                        //     if (states.contains(MaterialState.selected)) {
-                        //       return const Icon(Icons.check);
-                        //     }
-                        //     return const Icon(Icons.close);
-                        //   },
-                        // ),
                         value: controller.isRepeat.value,
                         onChanged: (bool value) {
                           controller.isRepeat.value = value;
@@ -108,11 +99,8 @@ class BottomSheetSelectTime extends GetView<BaseBottomSheetController> {
                               value: controller.listTypeTimeRepeat[
                                   controller.typeTime.value],
                               elevation: 16,
-                              style: const TextStyle(color: Colors.deepPurple),
-                              underline: Container(
-                                height: 2,
-                                color: Colors.deepPurpleAccent,
-                              ),
+                              style: const TextStyle(color: Colors.blue),
+                              underline: Container(),
                               onChanged: (String? value) {
                                 controller.typeTime.value = controller
                                     .listTypeTimeRepeat
@@ -174,7 +162,7 @@ class BottomSheetSelectTime extends GetView<BaseBottomSheetController> {
                               children: [
                                 const AutoSizeText("Mỗi "),
                                 SizedBox(
-                                  width: 80,
+                                  width: 50,
                                   height: 30,
                                   child: TextField(
                                     controller: controller.quantityController,
@@ -184,6 +172,7 @@ class BottomSheetSelectTime extends GetView<BaseBottomSheetController> {
                                       ),
                                       LengthLimitingTextInputFormatter(3),
                                     ],
+                                    textAlign: TextAlign.center,
                                     keyboardType: TextInputType.number,
                                   ),
                                 ),
@@ -196,11 +185,8 @@ class BottomSheetSelectTime extends GetView<BaseBottomSheetController> {
                               value: controller
                                   .listTypeRepeat[controller.typeRepeat.value],
                               elevation: 16,
-                              style: const TextStyle(color: Colors.deepPurple),
-                              underline: Container(
-                                height: 2,
-                                color: Colors.deepPurpleAccent,
-                              ),
+                              style: const TextStyle(color: Colors.blue),
+                              underline: Container(),
                               onChanged: (String? value) {
                                 controller.typeRepeat.value = controller
                                     .listTypeRepeat

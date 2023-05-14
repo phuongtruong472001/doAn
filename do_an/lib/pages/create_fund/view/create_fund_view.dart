@@ -20,16 +20,6 @@ class CreateFundPage extends GetView<CreateFundController> {
       appBar: WidgetAppBar(
         title:
             Get.arguments == null ? AppString.createFund : AppString.detailFund,
-        menuItem: [
-          Center(
-              child: InkWell(
-            onTap: () => controller.createFund(),
-            child: AutoSizeText(
-              Get.arguments == null ? AppString.save : AppString.edit,
-              style: Get.textTheme.bodyLarge,
-            ),
-          )).marginOnly(left: 10),
-        ],
       ),
       body: Column(
         children: [

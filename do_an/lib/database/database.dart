@@ -95,9 +95,9 @@ class DBHelper {
     var dbClient = await db;
 
     var transactions;
-    if (fundId > 0) {
+    if (fundId >= 0) {
       transactions = await dbClient?.rawQuery(
-          "SELECT SUM(value) as Total FROM Transactions WHERE fundId=$fundId isIncrease = $isIncrease AND strftime('%Y', executionTime) = strftime('%Y', CURRENT_DATE) AND CAST(strftime('%m', executionTime) AS INTEGER) = $month");
+          "SELECT SUM(value) as Total FROM Transactions WHERE fundId=$fundId and isIncrease = $isIncrease AND strftime('%Y', executionTime) = strftime('%Y', CURRENT_DATE) AND CAST(strftime('%m', executionTime) AS INTEGER) = $month");
     } else {
       transactions = await dbClient?.rawQuery(
           "SELECT SUM(value) as Total FROM Transactions WHERE isIncrease = $isIncrease AND strftime('%Y', executionTime) = strftime('%Y', CURRENT_DATE) AND CAST(strftime('%m', executionTime) AS INTEGER) = $month");

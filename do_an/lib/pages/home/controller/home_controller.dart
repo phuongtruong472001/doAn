@@ -5,6 +5,8 @@ import 'package:do_an/model/transaction.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
+import '../../../model/fund.dart';
+
 class HomeController extends BaseGetxController {
   RxInt totalValue = 0.obs;
   RxInt cashValue = 0.obs;
@@ -13,6 +15,7 @@ class HomeController extends BaseGetxController {
   final box = GetStorage();
   RxList<Transaction> rxList = RxList<Transaction>();
   RxInt fundID = (-1).obs;
+  RxList<String> listFund = ["Tất cả"].obs;
   @override
   void onInit() async {
     await initData();
@@ -29,6 +32,10 @@ class HomeController extends BaseGetxController {
     cashValue.value = await dbHelper.getTotalValueOfCash();
     rxList.value = await dbHelper.getTop5Recent();
     spedings.value = await getValueOfMonth();
+    List<Fund> funds = await dbHelper.getFunds();
+    for (Fund fund in funds) {
+      if (listFund.length == 1) listFund.add(fund.name ?? "");
+    }
     hideLoading();
   }
 
@@ -47,5 +54,12 @@ class HomeController extends BaseGetxController {
       );
     }
     return spendingTemp;
+  }
+
+  Future<void> changeFund(String? value) async {
+    showLoading();
+    fundID.value = listFund.indexOf(value ?? '') - 1;
+    spedings.value = await getValueOfMonth().whenComplete(() => hideLoading());
+    print(fundID.value);
   }
 }
