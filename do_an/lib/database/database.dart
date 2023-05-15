@@ -180,6 +180,15 @@ class DBHelper {
     return listFunds;
   }
 
+  Future<int> getFundsbyID(int id) async {
+    var dbClient = await db;
+    var funds = await dbClient?.rawQuery(
+      'SELECT value from Fund WHERE id=$id',
+    );
+    int value = funds!.isNotEmpty ? funds[0]["value"] as int : 0;
+    return value;
+  }
+
   Future<List<Invoice>> getInvoices(int allowNegative) async {
     var dbClient = await db;
     var invoices = await dbClient?.rawQuery(
@@ -294,7 +303,7 @@ class DBHelper {
     var transactions = await dbClient?.rawQuery(
         'SELECT SUM(value) as Total FROM Transactions where fundId=${transaction.fundID}  and executionTime <= "$now"');
     int sumValues =
-        transactions!.isNotEmpty ? transactions[0]["Total"] as int : 0;
+        transactions![0]["Total"] != null ? transactions[0]["Total"] as int : 0;
     await dbClient?.rawInsert(
       'Update  Fund SET value=$sumValues WHERE id=${transaction.fundID}',
     );
@@ -379,10 +388,12 @@ class DBHelper {
         'SELECT SUM(value) as Total FROM Transactions where eventId=${transaction.eventId} and value>0');
     var transactionsChi = await dbClient?.rawQuery(
         'SELECT SUM(value) as Total FROM Transactions where eventId=${transaction.eventId} and value<0');
-    int valueThu =
-        transactionsThu!.isNotEmpty ? transactionsThu[0]["Total"] as int : 0;
-    int valueChi =
-        transactionsChi!.isNotEmpty ? transactionsChi[0]["Total"] as int : 0;
+    int valueThu = transactionsThu![0]["Total"] != null
+        ? transactionsThu[0]["Total"] as int
+        : 0;
+    int valueChi = transactionsChi![0]["Total"] != null
+        ? transactionsChi[0]["Total"] as int
+        : 0;
     await dbClient?.rawUpdate(
       'Update Event SET value=$valueChi, receive=$valueThu WHERE id=${transaction.eventId}',
     );
@@ -397,7 +408,7 @@ class DBHelper {
     var transactions = await dbClient?.rawQuery(
         'SELECT SUM(value) as Total FROM Transactions where categoryId=$categoryID');
     int sumValues =
-        transactions!.isNotEmpty ? transactions[0]["Total"] as int : 0;
+        transactions![0]["Total"]!=null ? transactions[0]["Total"] as int : 0;
     return sumValues;
   }
 
@@ -409,7 +420,7 @@ class DBHelper {
     var transactions =
         await dbClient?.rawQuery('SELECT SUM(value) as Total FROM Fund');
     int sumValues =
-        transactions!.isNotEmpty ? transactions[0]["Total"] as int : 0;
+        transactions![0]["Total"]!=null  ? transactions[0]["Total"] as int : 0;
     return sumValues;
   }
 
@@ -425,7 +436,7 @@ class DBHelper {
     var transactions = await dbClient?.rawQuery(
         'SELECT SUM(value) as Total FROM Transactions where where executionTime = "$fromDate" AND executionTime <= "$toDate" AND value<0');
     int sumValues =
-        transactions!.isNotEmpty ? transactions[0]["value"] as int : 0;
+        transactions![0]["value"]!=null ? transactions[0]["value"] as int : 0;
     return sumValues;
   }
 

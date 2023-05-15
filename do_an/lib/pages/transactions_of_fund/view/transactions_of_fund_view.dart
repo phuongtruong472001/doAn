@@ -24,7 +24,7 @@ class TransactionsOfFundPage
         () => buildPage(
           hintSearch: "Tìm kiếm giao dịch trong ${controller.nameOfFund}",
           backButton: true,
-          showWidgetEmpty: true,
+          showWidgetEmpty: false,
           actionExtra: Obx(
             () => Container(
               height: 40,
@@ -61,6 +61,29 @@ class TransactionsOfFundPage
           ),
           buildBody: Column(
             children: [
+              Container(
+                width: Get.width,
+                color: Colors.white,
+                child: Column(
+                  children: [
+                    Text(
+                      "Số dư hiện tại",
+                      style: Get.textTheme.bodyText1!.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Obx(
+                      () => Text(
+                        controller.total.toString().toVND(),
+                        style: Get.textTheme.bodyText1!.copyWith(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
               Obx(
                 () => Visibility(
                   visible: controller.isFilter.value,
@@ -89,117 +112,127 @@ class TransactionsOfFundPage
                   onLoadMore: controller.onLoadMore,
                   enablePullUp: true,
                   child: Obx(
-                    () => GroupedListView<dynamic, String>(
-                      shrinkWrap: true,
-                      elements: controller.rxList.value,
-                      useStickyGroupSeparators: true,
-                      controller: controller.scrollControllerUpToTop,
-                      groupBy: (dynamic element) => DateFormat('yyyy-MM-dd')
-                          .format(element.executionTime),
-                      groupSeparatorBuilder: (String value) {
-                        return Container(
-                          color: Color.fromARGB(255, 243, 240, 240),
-                          padding:
-                              EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              IntrinsicHeight(
+                    () => controller.rxList.isNotEmpty
+                        ? GroupedListView<dynamic, String>(
+                            shrinkWrap: true,
+                            elements: controller.rxList.value,
+                            useStickyGroupSeparators: true,
+                            controller: controller.scrollControllerUpToTop,
+                            groupBy: (dynamic element) =>
+                                DateFormat('yyyy-MM-dd')
+                                    .format(element.executionTime),
+                            groupSeparatorBuilder: (String value) {
+                              return Container(
+                                color: Color.fromARGB(255, 243, 240, 240),
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 10, vertical: 5),
                                 child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
-                                    SizedBox(
-                                      width: 30,
-                                      child: Text(
-                                        DateFormat.d("vi").format(
-                                          DateTime.parse(value),
-                                        ),
-                                        style:
-                                            Get.textTheme.bodyText1!.copyWith(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                        textAlign: TextAlign.center,
+                                    IntrinsicHeight(
+                                      child: Row(
+                                        children: [
+                                          SizedBox(
+                                            width: 30,
+                                            child: Text(
+                                              DateFormat.d("vi").format(
+                                                DateTime.parse(value),
+                                              ),
+                                              style: Get.textTheme.bodyText1!
+                                                  .copyWith(
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                              textAlign: TextAlign.center,
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: 50,
+                                            child: Column(
+                                              children: [
+                                                Text(
+                                                  DateFormat.EEEE("vi").format(
+                                                    DateTime.parse(value),
+                                                  ),
+                                                ),
+                                                Text(
+                                                  DateFormat.yM("vi").format(
+                                                    DateTime.parse(value),
+                                                  ),
+                                                  style: TextStyle(
+                                                      color: Color.fromARGB(
+                                                          255, 121, 120, 120)),
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                     ),
                                     SizedBox(
                                       height: 50,
                                       child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            DateFormat.EEEE("vi").format(
-                                              DateTime.parse(value),
+                                            "+" +
+                                                (controller.listThu[value] !=
+                                                        null
+                                                    ? controller.listThu[value]
+                                                        .toString()
+                                                        .toVND()
+                                                    : "0 đ"),
+                                            style: Get.textTheme.bodyText1!
+                                                .copyWith(
+                                              color: Colors.green,
+                                              fontWeight: FontWeight.bold,
                                             ),
                                           ),
                                           Text(
-                                            DateFormat.yM("vi").format(
-                                              DateTime.parse(value),
+                                            controller.listChi[value] != null
+                                                ? controller.listChi[value]
+                                                    .toString()
+                                                    .toVND()
+                                                : "0 đ",
+                                            style: Get.textTheme.bodyText1!
+                                                .copyWith(
+                                              color: Colors.red,
+                                              fontWeight: FontWeight.bold,
                                             ),
-                                            style: TextStyle(
-                                                color: Color.fromARGB(
-                                                    255, 121, 120, 120)),
-                                          )
+                                          ),
                                         ],
                                       ),
-                                    ),
+                                    )
                                   ],
                                 ),
+                              );
+                            },
+                            itemBuilder: (context, dynamic element) => Slidable(
+                              key: const ValueKey(0),
+                              endActionPane: ActionPane(
+                                motion: const ScrollMotion(),
+                                children: [
+                                  SlidableAction(
+                                    flex: 1,
+                                    onPressed: (context) {
+                                       controller.deleteTransaction(element);
+                                    },
+                                    backgroundColor: Colors.red,
+                                    foregroundColor: Colors.white,
+                                    icon: Icons.delete,
+                                    label: 'Xóa',
+                                  ),
+                                ],
                               ),
-                              SizedBox(
-                                height: 50,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "+" +
-                                          (controller.listThu[value] != null
-                                              ? controller.listThu[value]
-                                                  .toString()
-                                                  .toVND()
-                                              : "0 đ"),
-                                      style: Get.textTheme.bodyText1!.copyWith(
-                                        color: Colors.green,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    Text(
-                                      controller.listChi[value] != null
-                                          ? controller.listChi[value]
-                                              .toString()
-                                              .toVND()
-                                          : "0 đ",
-                                      style: Get.textTheme.bodyText1!.copyWith(
-                                        color: Colors.red,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              )
-                            ],
-                          ),
-                        );
-                      },
-                      itemBuilder: (context, dynamic element) => Slidable(
-                        key: const ValueKey(0),
-                        endActionPane: ActionPane(
-                          motion: const ScrollMotion(),
-                          children: [
-                            SlidableAction(
-                              flex: 1,
-                              onPressed: (context) {
-                                // controller.deleteTransaction(element);
-                              },
-                              backgroundColor: Colors.red,
-                              foregroundColor: Colors.white,
-                              icon: Icons.delete,
-                              label: 'Xóa',
+                              child: TransactionWidget(element),
                             ),
-                          ],
-                        ),
-                        child: TransactionWidget(element),
-                      ),
-                      order: GroupedListOrder.DESC,
-                    ),
+                            order: GroupedListOrder.DESC,
+                          )
+                        : Center(
+                            child: AutoSizeText("Không có dữ liệu"),
+                          ),
                   ),
                 ),
               ),

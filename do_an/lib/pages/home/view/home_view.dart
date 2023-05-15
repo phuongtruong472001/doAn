@@ -43,7 +43,7 @@ class HomePage extends BaseGetWidget<HomeController> {
           child: Column(
             children: [
               GestureDetector(
-                onTap: () => Get.toNamed(AppRoutes.fund),
+                onTap: () => Get.toNamed(AppRoutes.fund)!.then((value) => controller.initData()),
                 child: Card(
                   child: Column(
                     children: [
@@ -56,13 +56,13 @@ class HomePage extends BaseGetWidget<HomeController> {
                         () => ListTile(
                           leading: Icon(Icons.wallet),
                           title: AutoSizeText(
-                            AppString.cash,
+                            AppString.total,
                             style: Get.textTheme.bodyLarge!.copyWith(
                               fontWeight: FontWeight.bold,
                             ),
                           ),
                           trailing: AutoSizeText(
-                            controller.cashValue.value
+                            controller.totalValue.value
                                 .toString()
                                 .toVND(unit: 'đ'),
                             style: Get.textTheme.bodyLarge!.copyWith(

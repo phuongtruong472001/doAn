@@ -2,11 +2,12 @@ import 'package:do_an/base/dimen.dart';
 import 'package:do_an/model/filter.dart';
 import 'package:do_an/model/fund.dart';
 import 'package:do_an/model/transaction.dart';
-import 'package:do_an/pages/filter/view/filter_view.dart';
 import 'package:do_an/pages/filter_of_fund/view/filter_of_fund_view.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
+import '../../../base_controller/base_controller.dart';
 import '../../../base_controller/base_search_appbar_controller.dart';
 import '../../../database/database.dart';
 
@@ -20,6 +21,7 @@ class TransactionsOfFundController extends BaseSearchAppbarController {
   RxBool isFilter = false.obs;
   late String fromDate;
   late String toDate;
+  RxInt total = 0.obs;
   @override
   void onInit() {
     initData();
@@ -50,7 +52,8 @@ class TransactionsOfFundController extends BaseSearchAppbarController {
 
   Future<void> initData() async {
     showLoading();
-    fromDate = DateFormat("yyyy-MM-dd").format(DateTime.now().subtract(Duration(days: 30)));
+    fromDate = DateFormat("yyyy-MM-dd")
+        .format(DateTime.now().subtract(Duration(days: 30)));
     toDate =
         DateFormat("yyyy-MM-dd").format(DateTime.now().add(Duration(days: 1)));
     Fund fund = Fund();
@@ -59,6 +62,7 @@ class TransactionsOfFundController extends BaseSearchAppbarController {
       nameOfFund.value = fund.name!;
       fundID = fund.id ?? 0;
     }
+    total.value = await dbHelper.getFundsbyID(fundID);
     var transactions = await dbHelper
         .getTransactionsOfFund(
           fund.id ?? 0,
@@ -158,5 +162,36 @@ class TransactionsOfFundController extends BaseSearchAppbarController {
         await initData();
       }
     });
+  }
+
+  void deleteTransaction(Transaction transaction) {
+    Get.dialog(
+      AlertDialog(
+        title: const Text("Xác nhận"),
+        content: const Text('Bạn có muốn xoá giao dịch này không?'),
+        actions: [
+          // The "Yes" button
+          TextButton(
+              onPressed: () {
+                Get.back();
+              },
+              child: const Text('Huỷ')),
+          TextButton(
+              onPressed: () async {
+                bool status = await dbHelper.deleteTransaction(transaction);
+                if (status) {
+                  Get.back();
+                  showSnackBar("Xoá giao dịch thành công");
+                  listChi.clear();
+                  listThu.clear();
+                  rxList.clear();
+                  await initData();
+                  //homeController.initData();
+                }
+              },
+              child: const Text('Xoá'))
+        ],
+      ),
+    );
   }
 }
