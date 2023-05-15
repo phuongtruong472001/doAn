@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:do_an/database/database.dart';
 import 'package:do_an/model/event.dart';
 import 'package:do_an/pages/event/controller/event_controller.dart';
@@ -13,8 +15,14 @@ class BottomNavigationBarHomeController extends BaseGetxController {
   DBHelper dbHelper = DBHelper();
 
   @override
-  void onInit() async {
-    numbEvent.value = (await dbHelper.getEventsOutOfDate()).length;
+  void onInit() {
+    Timer.periodic(
+      Duration(seconds: 2),
+      (timer) async {
+        numbEvent.value = (await dbHelper.getEventsOutOfDate()).length;
+      },
+    );
+
     super.onInit();
   }
 

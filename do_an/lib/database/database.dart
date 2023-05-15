@@ -152,7 +152,7 @@ class DBHelper {
 
   Future<List<Event>> getEventsOutOfDate() async {
     var dbClient = await db;
-    String now = DateFormat('yyyy-MM-dd').format(DateTime.now());
+    String now = DateTime.now().toIso8601String();
     var events = await dbClient?.rawQuery(
         'SELECT * FROM Event WHERE date <= "$now" AND isNotified=0 ORDER BY date DESC');
     List<Event> listEvents =

@@ -77,21 +77,23 @@ class BottomNavigationBarHomePage
                       fit: BoxFit.cover,
                       color: color,
                     ).paddingAll(5),
-                    (index == 2 && controller.numbEvent.value != 0)
-                        ? Positioned(
-                            top: 1,
-                            right: 2,
-                            child: AutoSizeText(
-                              controller.numbEvent.value.toString(),
-                              style: Get.textTheme.bodySmall!.copyWith(
-                                  color: Colors.red,
-                                  fontWeight: FontWeight.bold),
+                    Obx(
+                      () => (controller.numbEvent.value != 0 && index == 2)
+                          ? Positioned(
+                              top: 1,
+                              right: 2,
+                              child: AutoSizeText(
+                                controller.numbEvent.value.toString(),
+                                style: Get.textTheme.bodySmall!.copyWith(
+                                    color: Colors.red,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            )
+                          : const SizedBox(
+                              width: 1,
+                              height: 1,
                             ),
-                          )
-                        : const SizedBox(
-                            width: 1,
-                            height: 1,
-                          )
+                    ),
                   ],
                 ),
                 const SizedBox(height: 4),
