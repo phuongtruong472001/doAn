@@ -22,10 +22,10 @@ import '../../../routes/routes.dart';
 class CreateTransactionController extends GetxController {
   final formKey = GlobalKey<FormState>();
   final valueController = MoneyMaskedTextController(
-      thousandSeparator: '.',
-      precision: 0,
-      decimalSeparator: "",
-      rightSymbol: 'đ');
+    thousandSeparator: '.',
+    precision: 0,
+    decimalSeparator: "",
+  );
   final descriptionController = TextEditingController();
 
   final peopleController = TextEditingController();
@@ -209,7 +209,8 @@ class CreateTransactionController extends GetxController {
   }
 
   void selectDateRepeat(BuildContext context) {
-    Get.bottomSheet(BottomSheetSelectTime(),isScrollControlled: true).then((value) {
+    Get.bottomSheet(BottomSheetSelectTime(), isScrollControlled: true)
+        .then((value) {
       if (value is RepeatTime) {
         transaction.update((val) {
           val!.executionTime = Jiffy(value.dateTime)
@@ -230,8 +231,8 @@ class CreateTransactionController extends GetxController {
   }
 
   Future<void> getImage() async {
-    final XFile? pickedFile = await ImagePicker()
-        .pickImage(source: ImageSource.gallery);
+    final XFile? pickedFile =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
       file.value = File(pickedFile.path);
       List<int> imageBytes = file.value!.readAsBytesSync();

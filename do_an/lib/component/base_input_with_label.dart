@@ -94,7 +94,7 @@ class _BuildInputTextState extends State<BuildInputText> {
       case InputFormatterEnum.currency:
         return [
           CustomImputMoney(),
-          // FilteringTextInputFormatter.allow(RegExp(r'[0-9,đ]')),
+          FilteringTextInputFormatter.allow(RegExp(r'[0-9đ]')),
         ];
 
       default:
@@ -269,7 +269,8 @@ class CustomImputMoney extends TextInputFormatter {
   TextEditingValue formatEditUpdate(
       TextEditingValue oldValue, TextEditingValue newValue) {
     if (newValue.text == "") {
-      return TextEditingValue(text: "0 đ",selection: TextSelection.collapsed(offset: 1));
+      return TextEditingValue(
+          text: "0 đ", selection: TextSelection.collapsed(offset: 1));
     }
     return newValue;
   }
