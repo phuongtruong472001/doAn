@@ -120,7 +120,7 @@ class TransactionController extends BaseSearchAppbarController {
     listThu.clear;
     var transactions = await dbHelper.getTransactions(
         fromDate, toDate, 0, defaultItemOfPage,
-        keySearch: textSearchController.text);
+        keySearch: textSearchController.text.trim());
     if (transactions.isNotEmpty) {
       rxList.value = transactions;
       for (tr.Transaction transaction in transactions) {

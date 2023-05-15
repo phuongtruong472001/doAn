@@ -141,7 +141,7 @@ class HomePage extends BaseGetWidget<HomeController> {
                     );
                   },
                   itemCount: controller.rxList.length,
-                ).paddingAll(8),
+                ),
               ),
             ],
           ).paddingAll(defaultPadding),

@@ -68,7 +68,7 @@ class TransactionsOfFundController extends BaseSearchAppbarController {
           fund.id ?? 0,
           0,
           defaultItemOfPage,
-          keySearch: textSearchController.text,
+          keySearch: textSearchController.text.trim(),
           fromDate: fromDate,
           toDate: toDate,
         )
@@ -88,7 +88,7 @@ class TransactionsOfFundController extends BaseSearchAppbarController {
       fundID,
       defaultItemOfPage * page,
       defaultItemOfPage,
-      keySearch: textSearchController.text,
+      keySearch: textSearchController.text.trim(),
       fromDate: fromDate,
       toDate: toDate,
     );
@@ -118,7 +118,7 @@ class TransactionsOfFundController extends BaseSearchAppbarController {
       fundID,
       0,
       defaultItemOfPage,
-      keySearch: textSearchController.text,
+      keySearch: textSearchController.text.trim(),
       fromDate: fromDate,
       toDate: toDate,
     );
@@ -146,7 +146,7 @@ class TransactionsOfFundController extends BaseSearchAppbarController {
               fundID,
               0,
               defaultItemOfPage,
-              keySearch: textSearchController.text,
+              keySearch: textSearchController.text.trim(),
               fromDate: fromDate,
               toDate: toDate,
             )

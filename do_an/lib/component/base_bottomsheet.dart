@@ -215,13 +215,16 @@ class BottomSheetSelectTime extends GetView<BaseBottomSheetController> {
                         ),
                 ),
                 Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     TextButton(
                       onPressed: () {
                         Get.back();
                       },
-                      child: const AutoSizeText(
+                      child:  AutoSizeText(
                         AppString.cancel,
+                        style: Get.textTheme.bodyText1!.copyWith(color: Colors.grey),
                       ),
                     ),
                     TextButton(

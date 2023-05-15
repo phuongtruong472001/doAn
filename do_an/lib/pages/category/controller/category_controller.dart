@@ -41,7 +41,7 @@ class CategoryController extends BaseSearchAppbarController {
 
   @override
   Future<void> functionSearch() async {
-    rxList.value =
-        await dbHelper.getCategories(keySearch: textSearchController.text);
+    rxList.value = await dbHelper.getCategories(
+        keySearch: textSearchController.text.trim());
   }
 }

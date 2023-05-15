@@ -30,7 +30,7 @@ abstract class BaseSearchAppBarWidget<T extends BaseSearchAppbarController>
                 hintSearch: hintSearch ?? AppString.hintSearch,
                 function: () async {
                   controller.isSearch.value =
-                      controller.textSearchController.text.isNotEmpty;
+                      controller.textSearchController.text.trim().isNotEmpty;
                   await controller.functionSearch();
                 },
                 isClear: controller.isClear,

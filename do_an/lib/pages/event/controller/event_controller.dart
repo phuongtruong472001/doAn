@@ -60,9 +60,10 @@ class EventController extends BaseSearchAppbarController {
     List<Event> events = [];
     if (Get.arguments != null) {
       events = await dbHelper.getEventsNegative(
-          keySearch: textSearchController.text);
+          keySearch: textSearchController.text.trim());
     } else {
-      events = await dbHelper.getEvents(keySearch: textSearchController.text);
+      events =
+          await dbHelper.getEvents(keySearch: textSearchController.text.trim());
     }
     rxList.value = events;
   }

@@ -2,12 +2,12 @@ class AppString {
   static const String confirm = "Xác nhận";
   static const String update = 'Cập nhật';
   static const String create = 'Tạo';
-  static const String accept = "Đồng ý";
+  static const String accept = "ĐỒNG Ý";
   static const String delete = "Xóa";
   static const String share = 'Chia sẻ';
   static const String refuse = 'Từ chối';
   static const String esc = 'Thoát';
-  static const String cancel = 'Hủy';
+  static const String cancel = 'HUỶ';
   static const String notification = 'Thông báo';
   static const String filter = 'Lọc';
   static const String send = "Gửi";
