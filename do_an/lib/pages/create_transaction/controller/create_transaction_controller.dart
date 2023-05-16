@@ -244,4 +244,34 @@ class CreateTransactionController extends GetxController {
   Uint8List bytesImage(String base64ImageString) {
     return const Base64Decoder().convert(base64ImageString);
   }
+
+  void deleteTransaction() {
+    Get.dialog(
+      AlertDialog(
+        title: const Text("Xác nhận"),
+        content: const Text('Bạn có muốn xoá giao dịch này không?'),
+        actions: [
+          // The "Yes" button
+          TextButton(
+              onPressed: () {
+                Get.back();
+              },
+              child: const Text('Huỷ')),
+          TextButton(
+              onPressed: () async {
+                bool status =
+                    await dbHelper.deleteTransaction(transaction.value);
+                if (status) {
+                  Get.close(1);
+                  Get.back();
+                  showSnackBar("Xoá giao dịch thành công");
+                  await transactionController.initData();
+                  homeController.initData();
+                }
+              },
+              child: const Text('Xoá'))
+        ],
+      ),
+    );
+  }
 }

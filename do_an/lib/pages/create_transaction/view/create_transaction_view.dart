@@ -23,15 +23,15 @@ class CreateTransactionPage extends GetView<CreateTransactionController> {
         title: Get.arguments == null
             ? AppString.createTransaction
             : AppString.detailTransaction,
-        // menuItem: [
-        //   TextButton(
-        //     onPressed: () async => await controller.createTransaction(),
-        //     child: Icon(
-        //       Icons.check,
-        //       color: Colors.white,
-        //     ),
-        //   ).marginOnly(left: 10),
-        // ],
+        menuItem: [
+          Visibility(
+            visible: Get.arguments != null,
+            child: IconButton(
+              icon: Icon(Icons.delete),
+              onPressed: () => controller.deleteTransaction(),
+            ).marginOnly(left: 10),
+          ),
+        ],
       ),
       body: Column(
         children: [
@@ -51,6 +51,7 @@ class CreateTransactionPage extends GetView<CreateTransactionController> {
                           inputFormatters: InputFormatterEnum.currency,
                           textInputType: TextInputType.number,
                           textSize: 25,
+                          textColor: Colors.blue,
                           iconLeading: Icons.attach_money_outlined,
                           submitFunc: (v) => {},
                           validator: (value) {
