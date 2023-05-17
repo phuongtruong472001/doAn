@@ -159,6 +159,15 @@ class DBHelper {
         events!.isNotEmpty ? events.map((c) => Event.fromjson(c)).toList() : [];
     return listEvents;
   }
+  Future<List<Event>> getAllEvents() async {
+    var dbClient = await db;
+    String now = DateTime.now().toIso8601String();
+    var events = await dbClient?.rawQuery(
+        'SELECT * FROM Event WHERE date <= "$now" ORDER BY date DESC');
+    List<Event> listEvents =
+        events!.isNotEmpty ? events.map((c) => Event.fromjson(c)).toList() : [];
+    return listEvents;
+  }
 
   Future<void> updateEventOutOfDate(Event event) async {
     var dbClient = await db;

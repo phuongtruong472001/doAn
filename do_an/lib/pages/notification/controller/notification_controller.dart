@@ -22,7 +22,7 @@ class NotificationController extends GetxController {
   Future<void> initData() async {
     DBHelper db = DBHelper();
     events.value = await db.getEventsOutOfDate();
-    allEvents.value = await db.getEvents();
+    allEvents.value = await db.getAllEvents();
     bottomNavigationBarHomeController.numbEvent.value = events.length;
   }
 }
