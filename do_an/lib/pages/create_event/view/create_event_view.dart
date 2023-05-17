@@ -145,12 +145,13 @@ class CreateEventPage extends GetView<CreateEventController> {
                                           fontSize: 17),
                                     ),
                                     Visibility(
-                                      visible: controller.event.value.value >
-                                              controller
-                                                  .event.value.estimateValue &&
-                                          Get.arguments != null,
+                                      visible:
+                                          controller.event.value.value * (-1) >
+                                                  controller.event.value
+                                                      .estimateValue &&
+                                              Get.arguments != null,
                                       child: AutoSizeText(
-                                        " vượt mức ${(controller.event.value.value - controller.event.value.estimateValue).toString().toVND()}",
+                                        " vượt mức ${(controller.event.value.value * (-1) - controller.event.value.estimateValue).toString().toVND()}",
                                         style: const TextStyle(
                                             color: Colors.red,
                                             fontWeight: FontWeight.bold,

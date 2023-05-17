@@ -4,6 +4,7 @@ import 'package:do_an/database/database.dart';
 import 'package:do_an/model/event.dart';
 import 'package:do_an/pages/event/controller/event_controller.dart';
 import 'package:do_an/pages/home/controller/home_controller.dart';
+import 'package:do_an/pages/notification/controller/notification_controller.dart';
 import 'package:do_an/pages/transaction/controller/transaction_controller.dart';
 import 'package:get/get.dart';
 
@@ -30,6 +31,9 @@ class BottomNavigationBarHomeController extends BaseGetxController {
   void onReady() {}
 
   void onTapped(int index) async {
+    if (index != 2 && Get.isRegistered<NotificationController>()) {
+      Get.delete<NotificationController>();
+    }
     switch (index) {
       case 0:
         if (Get.isRegistered<HomeController>()) {
