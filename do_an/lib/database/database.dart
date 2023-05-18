@@ -159,6 +159,7 @@ class DBHelper {
         events!.isNotEmpty ? events.map((c) => Event.fromjson(c)).toList() : [];
     return listEvents;
   }
+
   Future<List<Event>> getAllEvents() async {
     var dbClient = await db;
     String now = DateTime.now().toIso8601String();
@@ -211,11 +212,12 @@ class DBHelper {
   Future<bool> addFund(Fund fund) async {
     var dbClient = await db;
     var status = await dbClient?.rawInsert(
-      'INSERT INTO Fund(name,icon,value,allowNegative) VALUES(?, ?, ?, ?)',
+      'INSERT INTO Fund(name,icon,start,value,allowNegative) VALUES(?, ?, ?, ?,?)',
       [
         fund.name,
         fund.icon,
-        fund.value,
+        fund.start,
+        0,
         fund.allowNegative,
       ],
     );
@@ -417,7 +419,7 @@ class DBHelper {
     var transactions = await dbClient?.rawQuery(
         'SELECT SUM(value) as Total FROM Transactions where categoryId=$categoryID');
     int sumValues =
-        transactions![0]["Total"]!=null ? transactions[0]["Total"] as int : 0;
+        transactions![0]["Total"] != null ? transactions[0]["Total"] as int : 0;
     return sumValues;
   }
 
@@ -427,10 +429,14 @@ class DBHelper {
   ) async {
     var dbClient = await db;
     var transactions =
+        await dbClient?.rawQuery('SELECT SUM(start) as TotalStart FROM Fund');
+    int sumStart = transactions![0]["TotalStart"] != null
+        ? transactions[0]["TotalStart"] as int
+        : 0;
+    var values =
         await dbClient?.rawQuery('SELECT SUM(value) as Total FROM Fund');
-    int sumValues =
-        transactions![0]["Total"]!=null  ? transactions[0]["Total"] as int : 0;
-    return sumValues;
+    var sumValue = (values![0]["Total"] ?? 0) as int;
+    return sumValue + sumStart;
   }
 
   Future<int> getTotalValueOfCash() async {
@@ -445,7 +451,7 @@ class DBHelper {
     var transactions = await dbClient?.rawQuery(
         'SELECT SUM(value) as Total FROM Transactions where where executionTime = "$fromDate" AND executionTime <= "$toDate" AND value<0');
     int sumValues =
-        transactions![0]["value"]!=null ? transactions[0]["value"] as int : 0;
+        transactions![0]["value"] != null ? transactions[0]["value"] as int : 0;
     return sumValues;
   }
 

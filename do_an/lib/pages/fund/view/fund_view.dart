@@ -73,12 +73,15 @@ class FundPage extends GetView<FundController> {
                         controller.funds[index].name ?? "",
                       ),
                       subtitle: AutoSizeText(
-                        controller.funds[index].value
+                        (controller.funds[index].value +
+                                controller.funds[index].start)
                             .toString()
                             .toVND(unit: 'đ'),
                         style: Get.textTheme.bodyLarge!.copyWith(
                           fontWeight: FontWeight.bold,
-                          color: controller.funds[index].value! >= 0
+                          color: (controller.funds[index].value +
+                                      controller.funds[index].start) >=
+                                  0
                               ? Colors.green
                               : Colors.red,
                         ),

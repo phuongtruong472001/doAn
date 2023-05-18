@@ -5,14 +5,16 @@ class Fund {
   int? id;
   String? name;
   String? icon;
-  int? value;
+  int start;
+  int value;
   int? allowNegative;
   Fund({
     this.id,
     this.name,
     this.icon,
-    this.value,
+    this.value = 0,
     this.allowNegative = 1,
+    this.start = 0,
   });
 
   Map<String, dynamic> toMap() {
@@ -32,6 +34,7 @@ class Fund {
       icon: json['icon'] != null ? json['icon'] as String : null,
       value: json['value'] != null ? json['value'] as int : 0,
       allowNegative: json['allowNegative'],
+      start: json["start"] ?? 0,
     );
   }
 

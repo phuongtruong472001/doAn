@@ -29,7 +29,7 @@ class CreateFundController extends BaseGetxController {
     if (formData.currentState!.validate()) {
       fund.value.name = fundNameController.text;
       fund.value.icon = "${typeWallet.value}.png";
-      fund.value.value = int.parse(valueController.text.replaceAll('.', ''));
+      fund.value.start = int.parse(valueController.text.replaceAll('.', ''));
       bool status = await dbHelper.addFund(fund.value);
       if (status) {
         FundController fundController = Get.find<FundController>();
